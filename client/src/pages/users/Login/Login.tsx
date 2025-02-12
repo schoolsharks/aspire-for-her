@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Checkbox,
   IconButton,
@@ -14,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 // import { useDispatch } from "react-redux";
 // import { AppDispatch } from "../../../store/store";
 // import { createUser } from "../../../store/user/userActions";
+import logos from "../../../assets/company-logos.webp"
 
 const Login = () => {
   const navigate = useNavigate();
@@ -267,6 +269,18 @@ const Login = () => {
           </Stack>
         </UpperTriangleBox>
       )} */}
+
+      <Box
+        component="img"
+        src={logos}
+        alt=""
+        sx={{
+          position: "absolute",
+          top: "10px",
+          right: "16px",
+          width: "218px",
+        }}
+      />
     </Stack>
   );
 };

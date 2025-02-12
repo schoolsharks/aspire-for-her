@@ -10,6 +10,7 @@ import {
 import OutlinedButton from "../../../components/OutlinedButton";
 import { useNavigate } from "react-router-dom";
 import { ArrowCircleDown } from "@mui/icons-material";
+import { useEffect } from "react";
 
 const mainPointers = [
   "11 City-Based Workshops (Delhi/NCR, Chandigarh, Kolkata , Mumbai, Pune, Ahmedabad, Surat, Indore, Bengaluru, Chennai, Coimbatore)",
@@ -281,6 +282,10 @@ const Page3 = () => {
   const handleNextPage = () => {
     navigate("/login");
   };
+
+  useEffect(()=>{
+    window.scrollTo({top:0,behavior:"smooth"})
+  },[])
   return (
     <Stack color={"#fff"} padding={"24px"} gap={"60px"}>
       <Box>
@@ -552,6 +557,7 @@ const Page3 = () => {
           Secure your spot!
         </OutlinedButton>
         <OutlinedButton
+        onClick={()=>navigate("/faqs")}
           sx={{
             color: theme.palette.tertiary.main,
             fontSize: "20px",

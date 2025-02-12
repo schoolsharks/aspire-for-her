@@ -6,6 +6,7 @@ import QuestionMain from "./Question/QuestionMain";
 import Review from "./Review/Review";
 import Benefits from "./Benefits/Benefits";
 import OnboardingMain from "./Onboarding/OnboardingMain";
+import FAQs from "./FAQs/FAQs";
 // import { useDispatch, 
   // useSelector
 //  } from "react-redux";
@@ -46,7 +47,7 @@ const UserMain = () => {
         <Route path="/review" element={<Review/> } />
         <Route path="/benefits" element={<Benefits/> } />
         <Route path="/onboarding/:page" element={<OnboardingMain/> } />
-        <Route path="/faqs" element={<OnboardingMain/> } />
+        <Route path="/faqs" element={<FAQs/> } />
 
         <Route path="/*" element={<Navigate to="/onboarding/1" />} />
       </Routes>
