@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, Stack, Typography } from "@mui/material";
+import { Button, IconButton, Stack, Typography } from "@mui/material";
 import { benefitsData } from "../../../data/benefitsData";
 import BenefitCard from "./BenefitCard";
 import { ArrowBack } from "@mui/icons-material";

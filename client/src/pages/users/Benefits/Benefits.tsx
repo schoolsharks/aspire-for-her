@@ -1,4 +1,4 @@
-import { Box, Stack, Typography, useTheme } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { benefitsData } from "../../../data/benefitsData";
 import { useState, useEffect, useCallback } from "react";
 import OutlinedButton from "../../../components/OutlinedButton";
