@@ -114,7 +114,7 @@ const Review = () => {
       >
         <IconButton 
           onClick={() => navigate("/benefits")} 
-          sx={{ padding: "0" }}
+          sx={{ padding: "0",marginTop:"24px" }}
         >
           <ArrowBack
             sx={{
@@ -130,6 +130,7 @@ const Review = () => {
           variant="outlined"
           onClick={() => navigate("/summary")}
           sx={{
+            marginTop:"24px",
             width: "max-content",
             textTransform: "none",
             borderRadius: "48px",
