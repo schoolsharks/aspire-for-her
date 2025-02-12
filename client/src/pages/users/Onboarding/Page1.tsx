@@ -118,7 +118,7 @@ const Page1 = () => {
           }}
           onClick={handleNextPage}
         >
-          Secure your spot!
+          Secure your spot
         </OutlinedButton>
       </Box>
     </Stack>

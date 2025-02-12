@@ -40,7 +40,14 @@ const Login = () => {
   const handleSubmit = () => {
     if (formValues.name.trim() === "") {
       setError("Name is required");
-    } else if (!tncAccepted) {
+    } 
+    else if (formValues.email.trim() === "") {
+      setError("Email is required");
+    } 
+    else if (formValues.contact.trim() === "") {
+      setError("Contact is required");
+    } 
+    else if (!tncAccepted) {
       setError("Accept terms and conditions to continue");
     } else {
       navigate("/questions");
@@ -56,11 +63,6 @@ const Login = () => {
   return (
     <Stack
       minHeight={window.innerHeight}
-      sx={{
-        background: tncModalOpen
-          ? "linear-gradient(360deg, #520D7D 24%, #8331B6 67.5%, #9A45CF 100%)"
-          : "linear-gradient(360deg, #ffffff 24%, #ffffff 67.5%, #ffffff 100%)",
-      }}
     >
       {/* {!tncModalOpen ? ( */}
       <UpperTriangleBox
@@ -91,7 +93,7 @@ const Login = () => {
               />
               <TextField
                 id="email"
-                label="Email"
+                label="Email *"
                 className="not-mandate"
                 variant="standard"
                 placeholder="eg. vanessa.jenson@example.com"
@@ -100,7 +102,7 @@ const Login = () => {
               />
               <TextField
                 id="contact"
-                label="Contact"
+                label="Contact *"
                 variant="standard"
                 className="not-mandate"
                 placeholder="eg. +91 XXXXX XXXXX"
@@ -169,7 +171,7 @@ const Login = () => {
                   }}
                 />
               </IconButton>
-              <Button
+             {formValues.name && formValues.email && formValues.contact && tncAccepted && <Button
                 variant="outlined"
                 onClick={handleSubmit}
                 sx={{
@@ -183,8 +185,8 @@ const Login = () => {
                   color: "#fff",
                 }}
               >
-                Secure your spot!
-              </Button>
+                Secure your spot
+              </Button>}
             </Stack>
           </Stack>
         ) : (

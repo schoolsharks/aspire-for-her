@@ -3,10 +3,12 @@ import Login from "./Login/Login";
 import { Stack } from "@mui/system";
 import { useEffect, useState } from "react";
 import QuestionMain from "./Question/QuestionMain";
-import Review from "./Review/Review";
 import Benefits from "./Benefits/Benefits";
 import OnboardingMain from "./Onboarding/OnboardingMain";
 import FAQs from "./FAQs/FAQs";
+import Summary from "./Summary/Summary";
+import ThankYou from "./ThankYou/ThankYou";
+import Review from "./Benefits/Review";
 // import { useDispatch, 
   // useSelector
 //  } from "react-redux";
@@ -44,10 +46,12 @@ const UserMain = () => {
         {/* <Route path="/login" element={status==="LOGGED_IN"? <Navigate to="/questions"/>:<Login/> } /> */}
         <Route path="/login" element={<Login/> } />
         <Route path="/questions" element={<QuestionMain/> } />
-        <Route path="/review" element={<Review/> } />
+        <Route path="/thank-you" element={<ThankYou/> } />
         <Route path="/benefits" element={<Benefits/> } />
         <Route path="/onboarding/:page" element={<OnboardingMain/> } />
         <Route path="/faqs" element={<FAQs/> } />
+        <Route path="/summary" element={<Summary/> } />
+        <Route path="/review" element={<Review/> } />
 
         <Route path="/*" element={<Navigate to="/onboarding/1" />} />
       </Routes>

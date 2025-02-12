@@ -1,10 +1,12 @@
 import { Box, Stack, Typography, useTheme } from "@mui/material";
 import { benefitsData } from "../../../data/benefitsData";
-import { ArrowBackIos } from "@mui/icons-material";
 import { useState, useEffect, useCallback } from "react";
+import OutlinedButton from "../../../components/OutlinedButton";
+import { useNavigate } from "react-router-dom";
+import BenefitCard from "./BenefitCard";
 
 const Benefits = () => {
-  const theme = useTheme();
+  const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(3);
   const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
@@ -180,6 +182,20 @@ const Benefits = () => {
     (_, index) => !selectedCards.includes(index)
   );
 
+
+  useEffect(()=>{
+    if(visibleCards.length===0){
+      navigate("/review")
+    }
+  },[selectedCards])
+
+  const handleNext = () => {
+    if (selectedCards.length) {
+      navigate("/review");
+    } else {
+      navigate("/summary");
+    }
+  };
   return (
     <Stack
       justifyContent="center"
@@ -188,9 +204,19 @@ const Benefits = () => {
         bgcolor: "#000",
         overflow: "hidden",
         touchAction: "none",
+        color: "#fff",
       }}
     >
-      <Box height="320px" position="relative">
+      <Typography
+        position={"absolute"}
+        top="24px"
+        left={"16px"}
+        fontSize={"24px"}
+        fontWeight={"600"}
+      >
+        How can we help?
+      </Typography>
+      <Box height="320px" position="relative" marginTop={"90px"}>
         {visibleCards.map((benefit) => {
           const originalIndex = benefitsData.findIndex((b) => b === benefit);
           return (
@@ -206,49 +232,36 @@ const Benefits = () => {
               sx={{
                 position: "absolute",
                 marginLeft: "13px",
-                borderRadius: "20px",
-                maxWidth: "360px",
                 right: "0",
-                padding: "18px",
-                bgcolor: theme.palette.secondary.main,
-                color: "#fff",
+                maxWidth: "360px",
                 transition: isDragging ? "none" : "all 0.6s ease",
                 cursor: originalIndex === activeIndex ? "grab" : "default",
                 userSelect: "none",
+                borderRadius: "20px",
                 ...getCardStyle(originalIndex),
               }}
             >
-              <Box padding="22px">
-                <Typography fontSize="24px" fontWeight="700">
-                  {benefit.title}
-                </Typography>
-                <Typography
-                  marginTop="8px"
-                  fontSize="12px"
-                  fontWeight="600"
-                  color="#F2DDFFAD"
-                >
-                  {benefit.description}
-                </Typography>
-              </Box>
-              <Stack
-                alignItems="center"
-                direction="row"
-                sx={{
-                  border: "2px solid #fff",
-                  borderRadius: "28px",
-                  padding: "10px 28px",
-                }}
-              >
-                <ArrowBackIos sx={{ fontSize: "16px", position: "absolute" }} />
-                <Typography margin="auto" fontWeight="600">
-                  Drag To Select
-                </Typography>
-              </Stack>
+              <BenefitCard
+                title={benefit.title}
+                description={benefit.description}
+              />
             </Stack>
           );
         })}
       </Box>
+
+      <OutlinedButton
+        sx={{
+          color: "#fff",
+          fontSize: "20px",
+          position: "absolute",
+          bottom: "24px",
+          left: "16px",
+        }}
+        onClick={handleNext}
+      >
+        {selectedCards.length ? "Next" : "Skip"}
+      </OutlinedButton>
     </Stack>
   );
 };

@@ -300,6 +300,7 @@ const Page3 = () => {
           width={"max-content"}
           marginTop={"12px"}
           bgcolor={theme.palette.primary.main}
+          borderRadius={"2px"}
         >
           <Typography>Launch Date - 14th February</Typography>
         </Box>
@@ -339,6 +340,7 @@ const Page3 = () => {
               padding={"5px 8px"}
               width={"198px"}
               bgcolor={theme.palette.primary.main}
+              borderRadius={"2px"}
             >
               <Typography>Applications closes</Typography>
             </Box>
@@ -355,6 +357,7 @@ const Page3 = () => {
               padding={"5px 8px"}
               width={"198px"}
               bgcolor={theme.palette.primary.main}
+              borderRadius={"2px"}
             >
               <Typography>Orientation & networking</Typography>
             </Box>
@@ -392,7 +395,7 @@ const Page3 = () => {
           }}
           onClick={handleNextPage}
         >
-          Secure your spot!
+          Secure your spot
         </OutlinedButton>
       </Box>
 
@@ -428,7 +431,7 @@ const Page3 = () => {
           }}
           onClick={handleNextPage}
         >
-          Secure your spot!
+          Secure your spot
         </OutlinedButton>
       </Box>
 
@@ -456,7 +459,7 @@ const Page3 = () => {
                   fontSize="20px"
                   fontWeight={"700"}
                 >
-                  {item.month}s
+                  {item.month}
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
@@ -526,17 +529,18 @@ const Page3 = () => {
               fontWeight={"700"}
             >
               {item.point}
-              <ul>
+              <Stack component={"ul"} gap={"8px"}>
                 {item.subpoints?.map((subPoint, index) => (
                   <Typography
                     component={"li"}
                     key={index}
+                    fontSize={"15px"}
                     sx={{ listStyleType: "disc" }}
                   >
                     {subPoint}
                   </Typography>
                 ))}
-              </ul>
+              </Stack>
             </Typography>
           ))}
         </Stack>
@@ -554,7 +558,7 @@ const Page3 = () => {
           }}
           onClick={handleNextPage}
         >
-          Secure your spot!
+          Secure your spot
         </OutlinedButton>
         <OutlinedButton
         onClick={()=>navigate("/faqs")}

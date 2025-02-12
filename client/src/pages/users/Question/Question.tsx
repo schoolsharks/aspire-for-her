@@ -1,16 +1,19 @@
 import {
   Box,
-//   FormControlLabel,
+  //   FormControlLabel,
   Radio,
   RadioGroup,
   Stack,
   TextField,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { Question, questionTypes } from "../../../data/cardsData";
 import React from "react";
 
 const QuestionInput = React.memo(({ question }: { question: Question }) => {
+  const theme = useTheme();
+
   if (question.type === questionTypes.TEXT_INPUT) {
     return (
       <Box>
@@ -21,8 +24,18 @@ const QuestionInput = React.memo(({ question }: { question: Question }) => {
         )}
         <TextField
           id="standard-basic"
-          label={question.placeholder}
+          label={question.label}
+          placeholder={question.placeholder}
           variant="standard"
+          sx={{
+            input: {
+              "&::placeholder": {
+                color: theme.palette.primary.main,
+                padding:"0 !important",
+              },
+            },
+            "&::before":{bottom:"12px"}
+          }}
         />
       </Box>
     );
@@ -39,7 +52,7 @@ const QuestionInput = React.memo(({ question }: { question: Question }) => {
           defaultValue="female"
           name="radio-buttons-group"
         >
-          <Stack gap={"16px"} marginTop={"24px"}>
+          <Stack gap={question.options.length>8?"5px":"16px"} marginTop={"24px"}>
             {question.options.map((option, index) => (
               <Stack
                 key={index}
@@ -57,12 +70,28 @@ const QuestionInput = React.memo(({ question }: { question: Question }) => {
                     },
                   }}
                 />
-                <Box>
+                <Stack flex={"1"} >
                   <Typography>{option.text}</Typography>
                   {option.subtext && (
                     <Typography fontSize={"10px"}>{option.subtext}</Typography>
                   )}
-                </Box>
+                  {option.other && (
+                    <TextField
+                      id="standard-basic"
+                      placeholder={"Please Specify"}
+                      variant="standard"
+                      sx={{
+                        input: {
+                          fontSize:"12px !important",
+                          width:"100%",
+                          "&::placeholder": {
+                            color: theme.palette.primary.main,
+                          },
+                        },
+                      }}
+                    />
+                  )}
+                </Stack>
               </Stack>
             ))}
           </Stack>

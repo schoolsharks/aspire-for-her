@@ -29,7 +29,7 @@ const QuestionMain = () => {
       setActiveIndex(activeIndex + 1);
     }
     else{
-      navigate("/review")
+      navigate("/thank-you")
     }
   };
 
@@ -78,7 +78,7 @@ const QuestionMain = () => {
   return (
     <Stack sx={{ bgcolor: "#000", minHeight: window.innerHeight }} padding={"48px 0 10px"}>
       <Typography
-        color={theme.palette.primary.main}
+        color={theme.palette.tertiary.main}
         fontSize={"24px"}
         fontWeight={"600"}
         margin={"0px 24px"}

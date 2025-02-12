@@ -3,7 +3,7 @@ import { IconButton, Stack, Typography } from "@mui/material";
 import OutlinedButton from "../../../components/OutlinedButton";
 import { useNavigate } from "react-router-dom";
 
-const Review = () => {
+const ThankYou = () => {
   const navigate=useNavigate()
   return (
     <Stack
@@ -11,7 +11,7 @@ const Review = () => {
       padding={"60px 16px"}
     >
       <Stack direction={"row"} color={"#fff"} alignItems={"center"} gap="5px">
-        <IconButton>
+        <IconButton onClick={()=>navigate("/questions")}>
           <ArrowBackIos
             sx={{
               color: "#fff",
@@ -42,4 +42,4 @@ const Review = () => {
   );
 };
 
-export default Review;
+export default ThankYou;

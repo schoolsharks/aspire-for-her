@@ -125,7 +125,7 @@ const FAQs = () => {
         }}
         onClick={() => navigate("/login")}
       >
-        Secure your spot!
+        Secure your spot
       </OutlinedButton>
 
       <Typography marginTop={"60px"} fontWeight={"600"}>
