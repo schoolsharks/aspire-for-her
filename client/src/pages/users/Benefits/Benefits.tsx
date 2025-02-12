@@ -2,20 +2,145 @@ import { Box, Stack, Typography } from "@mui/material";
 import { benefitsData } from "../../../data/benefitsData";
 import { useState, useEffect, useCallback } from "react";
 import OutlinedButton from "../../../components/OutlinedButton";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import BenefitCard from "./BenefitCard";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../store/store";
+import { updateSelectedBenefits } from "../../../store/user/userActions";
+import OtherCard from "./OtherCard";
 
 const Benefits = () => {
   const navigate = useNavigate();
-  const [activeIndex, setActiveIndex] = useState(3);
+  const dispatch = useDispatch<AppDispatch>();
   const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
+  const { selectedBenefits } = useSelector((state: RootState) => state.user);
   const [selectedCards, setSelectedCards] = useState<number[]>([]);
   const [swipingCard, setSwipingCard] = useState<number | null>(null);
   const [swipePosition, setSwipePosition] = useState({ x: 0, y: 0 });
+  const [exitingCard, setExitingCard] = useState<{
+    id: number;
+    direction: "left" | "right";
+  } | null>(null);
 
-  const getCardStyle = (index: number) => {
-    if (swipingCard === index) {
+  const availableBenefits = benefitsData.filter(
+    (benefit) =>
+      !selectedBenefits.some((b) => b.benefitId === benefit.id.toString())
+  );
+
+  const [activeIndex, setActiveIndex] = useState(
+    Math.min(Math.floor(availableBenefits.length / 2), 3)
+  );
+
+  const handleIndexChange = useCallback(
+    (direction: "up" | "down") => {
+      if (exitingCard) return; // Prevent index changes during exit animation
+      setActiveIndex((prev) => {
+        if (direction === "up") {
+          return Math.max(prev - 1, 0);
+        } else {
+          return Math.min(prev + 1, availableBenefits.length - 1);
+        }
+      });
+    },
+    [availableBenefits.length, exitingCard]
+  );
+
+  const handleCardSelect = (id: number, swipeDirection: number) => {
+    if (!selectedCards.includes(id)) {
+      // Set the exiting card with direction based on swipe
+      setExitingCard({
+        id,
+        direction: swipeDirection > 0 ? "right" : "left",
+      });
+
+      // After animation completes, update Redux and remove card
+      setTimeout(() => {
+        setSelectedCards([...selectedCards, id]);
+        dispatch(
+          updateSelectedBenefits({
+            benefits: [...selectedBenefits, { benefitId: id.toString() }],
+          })
+        );
+        setExitingCard(null);
+
+        // Adjust active index if needed
+        setActiveIndex((prev) => Math.min(prev, availableBenefits.length - 2));
+      }, 500); // Match this with animation duration
+    }
+  };
+
+  const handleDragStart = (
+    e: React.TouchEvent | React.MouseEvent,
+    index: number,
+    id: number
+  ) => {
+    if (index === activeIndex && !exitingCard) {
+      const position = {
+        x: "touches" in e ? e.touches[0].clientX : e.clientX,
+        y: "touches" in e ? e.touches[0].clientY : e.clientY,
+      };
+      setStartPosition(position);
+      setIsDragging(true);
+      setSwipingCard(id);
+      setSwipePosition({ x: 0, y: 0 });
+    }
+  };
+
+  const handleDragMove = (e: React.TouchEvent | React.MouseEvent) => {
+    if (!isDragging || exitingCard) return;
+
+    const currentPosition = {
+      x: "touches" in e ? e.touches[0].clientX : e.clientX,
+      y: "touches" in e ? e.touches[0].clientY : e.clientY,
+    };
+
+    const deltaX = currentPosition.x - startPosition.x;
+    const deltaY = currentPosition.y - startPosition.y;
+
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      setSwipePosition({ x: deltaX, y: 0 });
+    } else {
+      if (Math.abs(deltaY) > 50) {
+        if (deltaY > 0) {
+          handleIndexChange("up");
+        } else {
+          handleIndexChange("down");
+        }
+        setIsDragging(false);
+        setSwipingCard(null);
+      }
+    }
+  };
+
+  const handleDragEnd = () => {
+    if (isDragging && swipingCard !== null) {
+      if (Math.abs(swipePosition.x) > 50) {
+        handleCardSelect(swipingCard, swipePosition.x);
+      } else {
+        setSwipePosition({ x: 0, y: 0 });
+      }
+    }
+    setIsDragging(false);
+    setSwipingCard(null);
+  };
+
+  const getCardStyle = (index: number, benefit: any) => {
+    // Handle exiting card animation
+    if (exitingCard && benefit.id === exitingCard.id) {
+      const exitX = exitingCard.direction === "right" ? 1000 : -1000;
+      return {
+        transform: `translate(${exitX}px, 0) rotate(${
+          exitingCard.direction === "right" ? 30 : -30
+        }deg)`,
+        opacity: 0,
+        transition: "all 0.5s ease-out",
+        zIndex: 5,
+      };
+    }
+
+    // Handle dragging card
+    if (swipingCard === benefit.id) {
       return {
         transform: `translate(${swipePosition.x}px, ${swipePosition.y}px)`,
         opacity: Math.max(0, 1 - Math.abs(swipePosition.x) / 500),
@@ -74,85 +199,6 @@ const Benefits = () => {
     };
   };
 
-  const handleIndexChange = useCallback((direction: "up" | "down") => {
-    setActiveIndex((prev) => {
-      if (direction === "up") {
-        return Math.max(prev - 1, 0);
-      } else {
-        return Math.min(prev + 1, benefitsData.length - 1);
-      }
-    });
-  }, []);
-
-  const handleCardSelect = (index: number) => {
-    if (!selectedCards.includes(index)) {
-      setSelectedCards([...selectedCards, index]);
-    }
-
-    if (index === activeIndex) {
-      handleIndexChange("down");
-    } else if (index < activeIndex) {
-      setActiveIndex((prev) => prev - 1);
-    }
-  };
-
-  // Combined start handler for both touch and mouse
-  const handleDragStart = (
-    e: React.TouchEvent | React.MouseEvent,
-    index: number
-  ) => {
-    if (index === activeIndex) {
-      const position = {
-        x: "touches" in e ? e.touches[0].clientX : e.clientX,
-        y: "touches" in e ? e.touches[0].clientY : e.clientY,
-      };
-      setStartPosition(position);
-      setIsDragging(true);
-      setSwipingCard(index);
-      setSwipePosition({ x: 0, y: 0 });
-    }
-  };
-
-  // Combined move handler for both touch and mouse
-  const handleDragMove = (e: React.TouchEvent | React.MouseEvent) => {
-    if (!isDragging) return;
-
-    const currentPosition = {
-      x: "touches" in e ? e.touches[0].clientX : e.clientX,
-      y: "touches" in e ? e.touches[0].clientY : e.clientY,
-    };
-
-    const deltaX = currentPosition.x - startPosition.x;
-    const deltaY = currentPosition.y - startPosition.y;
-
-    if (Math.abs(deltaX) > Math.abs(deltaY)) {
-      setSwipePosition({ x: deltaX, y: 0 });
-    } else {
-      if (Math.abs(deltaY) > 50) {
-        if (deltaY > 0) {
-          handleIndexChange("up");
-        } else {
-          handleIndexChange("down");
-        }
-        setIsDragging(false);
-        setSwipingCard(null);
-      }
-    }
-  };
-
-  // Combined end handler for both touch and mouse
-  const handleDragEnd = () => {
-    if (isDragging && swipingCard !== null) {
-      if (Math.abs(swipePosition.x) > 50) {
-        handleCardSelect(swipingCard);
-      } else {
-        setSwipePosition({ x: 0, y: 0 });
-      }
-    }
-    setIsDragging(false);
-    setSwipingCard(null);
-  };
-
   useEffect(() => {
     let lastScrollTime = Date.now();
     const scrollThreshold = 400;
@@ -177,25 +223,18 @@ const Benefits = () => {
     return () => window.removeEventListener("wheel", handleWheel);
   }, [handleIndexChange, isDragging]);
 
-  // Filter out selected cards from display
-  const visibleCards = benefitsData.filter(
-    (_, index) => !selectedCards.includes(index)
-  );
-
-
-  useEffect(()=>{
-    if(visibleCards.length===0){
-      navigate("/review")
-    }
-  },[selectedCards])
-
   const handleNext = () => {
-    if (selectedCards.length) {
+    if (selectedBenefits.length) {
       navigate("/review");
     } else {
       navigate("/summary");
     }
   };
+
+  if (selectedBenefits.length === benefitsData.length) {
+    return <Navigate to={"/review"} />;
+  }
+
   return (
     <Stack
       justifyContent="center"
@@ -205,6 +244,7 @@ const Benefits = () => {
         overflow: "hidden",
         touchAction: "none",
         color: "#fff",
+        position: "relative",
       }}
     >
       <Typography
@@ -217,15 +257,15 @@ const Benefits = () => {
         How can we help?
       </Typography>
       <Box height="320px" position="relative" marginTop={"90px"}>
-        {visibleCards.map((benefit) => {
+        {availableBenefits.map((benefit, index) => {
           const originalIndex = benefitsData.findIndex((b) => b === benefit);
           return (
             <Stack
               key={originalIndex}
-              onTouchStart={(e) => handleDragStart(e, originalIndex)}
+              onTouchStart={(e) => handleDragStart(e, index, benefit.id)}
               onTouchMove={handleDragMove}
               onTouchEnd={handleDragEnd}
-              onMouseDown={(e) => handleDragStart(e, originalIndex)}
+              onMouseDown={(e) => handleDragStart(e, index, benefit.id)}
               onMouseMove={handleDragMove}
               onMouseUp={handleDragEnd}
               onMouseLeave={handleDragEnd}
@@ -234,20 +274,23 @@ const Benefits = () => {
                 marginLeft: "13px",
                 right: "0",
                 maxWidth: "360px",
+                width:"100%",
                 transition: isDragging ? "none" : "all 0.6s ease",
-                cursor: originalIndex === activeIndex ? "grab" : "default",
+                cursor: index === activeIndex ? "grab" : "default",
                 userSelect: "none",
                 borderRadius: "20px",
-                ...getCardStyle(originalIndex),
+                ...getCardStyle(index, benefit),
               }}
             >
-              <BenefitCard
+              {benefit.other?<OtherCard />: <BenefitCard
                 title={benefit.title}
                 description={benefit.description}
-              />
+              />}
+             
             </Stack>
           );
         })}
+
       </Box>
 
       <OutlinedButton
@@ -260,7 +303,7 @@ const Benefits = () => {
         }}
         onClick={handleNext}
       >
-        {selectedCards.length ? "Next" : "Skip"}
+        {selectedBenefits.length ? "Next" : "Skip"}
       </OutlinedButton>
     </Stack>
   );

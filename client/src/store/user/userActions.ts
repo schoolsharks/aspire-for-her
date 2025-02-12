@@ -1,19 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { userApi } from "../../api/userApi";
+import { Response, updateSelectedBenefitsLocally } from "./userSlice";
 
 export const createUser = createAsyncThunk(
   "user/createUser",
   async (
-    {
-      name,
-      email,
-      contact,
-      employeeId,
-    }: { name: string; email?: string; contact?: string; employeeId?: string },
+    { name, email, contact }: { name: string; email: string; contact: string },
     { rejectWithValue }
   ) => {
     try {
-      await userApi.post("/users/create", { name, email, contact, employeeId });
+      await userApi.post("/users/create", { name, email, contact });
       return { name };
     } catch (error: any) {
       return rejectWithValue(
@@ -41,8 +37,8 @@ export const reset = createAsyncThunk(
   "user/reset",
   async (_, { rejectWithValue }) => {
     try {
-      const response=await userApi.get("/users/reset");
-      return {name:response.data.name}
+      const response = await userApi.get("/users/reset");
+      return { name: response.data.name };
     } catch (error: any) {
       return rejectWithValue(
         error.response?.data?.message || "Failed to Fetch User"
@@ -51,38 +47,34 @@ export const reset = createAsyncThunk(
   }
 );
 
-// export const getUser = createAsyncThunk(
-//   "user/getUser",
-//   async (_, { rejectWithValue }) => {
-//     try {
-//       const response = await userApi.get("/get-user");
+export const respondToQuestions = createAsyncThunk(
+  "user/respond",
+  async ({ responses }: { responses: Response[] }, { rejectWithValue }) => {
+    try {
+      const response = await userApi.post("/users/question", { responses });
+      return { name: response.data.name };
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to Respond"
+      );
+    }
+  }
+);
 
-//       const {
-//         name,
-//         score,
-//         state,
-//         branch,
-//         department,
-//         unreadNotifications,
-//         isNewJoiner,
-//         joinWeek,
-//         day,
-//       } = response.data;
-//       return {
-//         name,
-//         score,
-//         state,
-//         branch,
-//         department,
-//         unreadNotifications,
-//         isNewJoiner,
-//         joinWeek,
-//         day,
-//       };
-//     } catch (error: any) {
-//       return rejectWithValue(
-//         error.response?.data?.message || "Failed to fetch user"
-//       );
-//     }
-//   }
-// );
+export const updateSelectedBenefits = createAsyncThunk(
+  "user/respond",
+  async (
+    { benefits }: { benefits: { benefitId: string }[] },
+    { dispatch, rejectWithValue }
+  ) => {
+    try {
+      dispatch(updateSelectedBenefitsLocally(benefits));
+
+      await userApi.post("/users/benefits", { benefits });
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to Update Benefits"
+      );
+    }
+  }
+);

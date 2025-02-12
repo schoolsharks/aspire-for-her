@@ -1,22 +1,28 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { createUser, fetchUser, reset } from "./userActions";
+import { createUser, fetchUser, reset, respondToQuestions } from "./userActions";
+import { AppDispatch, RootState } from "../store";
+import {throttle} from "lodash";
 
+export interface Response {
+  questionId: number;
+  answer: string[];
+}
 export interface User {
   name: string;
   loading: boolean;
-  trustScore:number;
-  timeInHand:number;
-  status:"LOGGED_IN"|"IDLE";
+  responses: Response[];
+  status: "LOGGED_IN" | "IDLE";
   error: string | null;
+  selectedBenefits:{benefitId:string}[]
 }
 
 const initialState: User = {
   name: "",
   loading: true,
-  trustScore:0,
-  timeInHand:0,
+  responses:[],
   error: null,
-  status:"IDLE"
+  status: "IDLE",
+  selectedBenefits:[]
 };
 
 const userSlice = createSlice({
@@ -25,14 +31,32 @@ const userSlice = createSlice({
   reducers: {
     setUser: (state, action) => {
       state.name = action.payload.name ?? state.name;
-      state.loading=action.payload.loading??state.loading;
-      state.trustScore=action.payload.trustScore??state.trustScore;
-      state.timeInHand=action.payload.timeInHand??state.timeInHand;
-      state.status=action.payload.status??state.status
+      state.loading = action.payload.loading ?? state.loading;
+      state.responses = action.payload.responses ?? state.responses;
+      state.status = action.payload.status ?? state.status;
     },
-    setError:(state,action)=>{
-      state.error=action.payload
-    }
+    setError: (state, action) => {
+      state.error = action.payload;
+    },
+    updateResponse: (
+      state,
+      action: PayloadAction<{ questionId: number; answer: string[] }>
+    ) => {
+      const index = state.responses.findIndex(
+        (res) => res.questionId === action.payload.questionId
+      );
+      if (index !== -1) {
+        state.responses[index].answer = action.payload.answer;
+      } else {
+        state.responses.push(action.payload);
+      }
+    },
+    updateSelectedBenefitsLocally: (
+      state,
+      action: PayloadAction<{ benefitId: string }[]>
+    ) => {
+      state.selectedBenefits=action.payload
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -48,17 +72,16 @@ const userSlice = createSlice({
             name: string;
           }>
         ) => {
-          state.loading=false,
-          state.error=null,
-          state.name = action.payload.name ?? state.name;
-          state.status="LOGGED_IN"
+          (state.loading = false),
+            (state.error = null),
+            (state.name = action.payload.name ?? state.name);
+          state.status = "LOGGED_IN";
         }
       )
       .addCase(createUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string | null;
-        state.status="IDLE"
-
+        state.status = "IDLE";
       })
       .addCase(reset.pending, (state) => {
         state.loading = true;
@@ -72,17 +95,16 @@ const userSlice = createSlice({
             name: string;
           }>
         ) => {
-          state.loading=false,
-          state.error=null,
-          state.name = action.payload.name ?? state.name;
-          state.status="IDLE"
+          (state.loading = false),
+            (state.error = null),
+            (state.name = action.payload.name ?? state.name);
+          state.status = "IDLE";
         }
       )
       .addCase(reset.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string | null;
-        state.status="IDLE"
-
+        state.status = "IDLE";
       })
       .addCase(fetchUser.pending, (state) => {
         state.loading = true;
@@ -94,27 +116,55 @@ const userSlice = createSlice({
           state,
           action: PayloadAction<{
             name: string;
-            trustScore: number;
-            timeInHand: number;
+            responses: Response[];
+            selectedBenefits:{benefitId:string}[]
           }>
         ) => {
-          state.loading=false,
-          state.error=null,
-          state.name = action.payload.name ?? state.name;
-          state.trustScore=action.payload.trustScore??state.trustScore
-          state.timeInHand=action.payload.timeInHand??state.timeInHand
-          state.status="LOGGED_IN"
+          (state.loading = false),
+            (state.error = null),
+            (state.name = action.payload.name ?? state.name);
+          state.responses = action.payload.responses ?? state.responses;
+          state.selectedBenefits = action.payload.selectedBenefits ?? state.selectedBenefits;
+          state.status = "LOGGED_IN";
         }
       )
       .addCase(fetchUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string | null;
-        state.status="IDLE"
-
-      })
+        state.status = "IDLE";
+      });
   },
 });
 
-export const { setUser,setError } = userSlice.actions;
+
+const throttledRespondToQuestions = throttle(
+  (dispatch: AppDispatch, responses) => {
+    dispatch(respondToQuestions({ responses }));
+  },
+  2000, // 2 seconds
+  { leading: false, trailing: true }
+);
+
+export const syncResponses = (response:Response) => (dispatch:AppDispatch, getState:()=>RootState) => {
+  dispatch(updateResponse(response));
+  const { responses } = getState().user;
+  throttledRespondToQuestions(dispatch, responses);
+};
+
+export const syncFinalResponses = () => (dispatch:AppDispatch, getState:()=>RootState) => {
+  const { responses } = getState().user;
+  if (responses.length > 0) {
+    dispatch(respondToQuestions({ responses }))
+      .unwrap()
+      .then(() => {
+        // dispatch(clearResponses());
+      })
+      .catch((error) => console.error("Final sync failed:", error));
+  }
+};
+
+
+
+export const { setUser, setError,updateResponse,updateSelectedBenefitsLocally } = userSlice.actions;
 
 export default userSlice.reducer;

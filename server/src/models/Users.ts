@@ -2,83 +2,50 @@ import mongoose, { Schema, Document } from "mongoose";
 
 export interface IUser extends Document {
   _id: Schema.Types.ObjectId;
-  name: String;
-  email: String;
-  contact: String;
-  employeeId: String;
+  name: string;
+  email: string;
+  contact: string;
   session: Schema.Types.ObjectId;
-  answered: number;
-  trustScore: number;
-  timeInHand: number;
-  colleaguesTime: number;
-  choicesDistribution: {
-    optimal: number;
-    subOptimal: number;
-    acceptable: number;
-  };
-  responses: { quesId: String; option: String }[];
-  quickOmniaResponses:{quesId:String,option:String}[];
+  responses: { questionId: number; answer: string[] }[];
+  selectedBenefits: { benefitId: string }[];
 }
-
 
 const UserSchema: Schema = new Schema(
   {
     name: {
       type: String,
+      required: true,
     },
     email: {
       type: String,
       default: "_",
+      trim: true,
     },
     contact: {
       type: String,
-      default: "_",
-    },
-    employeeId: {
-      type: String,
-      default: "_",
+      required: true,
     },
     session: {
       type: Schema.Types.ObjectId,
-      ref: "Sessions",
+      ref: "Session",
     },
-    answered: {
-      type: Number,
-      default: 0,
-    },
-    trustScore: {
-      type: Number,
-      default: 50,
-    },
-    timeInHand: {
-      type: Number,
-      default: 200,
-    },
-    colleaguesTime: {
-      type: Number,
-      default: 0,
-    },
-    choicesDistribution: {
-      optimal: { type: Number, default: 0 },
-      subOptimal: { type: Number, default: 0 },
-      acceptable: { type: Number, default: 0 },
-    },
-    responses: {
-      type: [
-        {
-          quesId: String,
-          option: String,
+    responses: [
+      {
+        questionId: {
+          type: Number,
+          required: true,
         },
-      ],
-    },
-    quickOmniaResponses: {
-      type: [
-        {
-          quesId: String,
-          option: String,
+        answer: {
+          type: [String],
+          required: true,
         },
-      ],
-    },
+      },
+    ],
+    selectedBenefits: [
+      {
+        benefitId: String,
+      },
+    ],
   },
   { timestamps: true }
 );

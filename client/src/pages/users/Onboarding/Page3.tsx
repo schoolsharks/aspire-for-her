@@ -279,9 +279,6 @@ const workshopDetails = [
 const Page3 = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const handleNextPage = () => {
-    navigate("/login");
-  };
 
   useEffect(()=>{
     window.scrollTo({top:0,behavior:"smooth"})
@@ -393,7 +390,7 @@ const Page3 = () => {
             marginTop: "42px",
             borderColor: theme.palette.tertiary.main,
           }}
-          onClick={handleNextPage}
+          onClick={()=>navigate("/login")}
         >
           Secure your spot
         </OutlinedButton>
@@ -429,7 +426,7 @@ const Page3 = () => {
             marginTop: "42px",
             borderColor: theme.palette.tertiary.main,
           }}
-          onClick={handleNextPage}
+          onClick={()=>navigate("/login")}
         >
           Secure your spot
         </OutlinedButton>
@@ -520,7 +517,7 @@ const Page3 = () => {
         <Typography fontSize="18px" fontWeight={"500"} color="#DA9DFF">
           Offline
         </Typography>
-        <Stack component={"ol"} marginTop={"5px"} gap={"5px"}>
+        <Stack component={"ol"} marginTop={"5px"} gap={"12px"}>
           {workshopDetails.map((item, index) => (
             <Typography
               marginLeft={"18px"}
@@ -529,7 +526,7 @@ const Page3 = () => {
               fontWeight={"700"}
             >
               {item.point}
-              <Stack component={"ul"} gap={"8px"}>
+              <Stack component={"ul"} marginLeft={"14px"}>
                 {item.subpoints?.map((subPoint, index) => (
                   <Typography
                     component={"li"}
@@ -556,7 +553,7 @@ const Page3 = () => {
             minWidth: "max-content",
             borderColor: theme.palette.tertiary.main,
           }}
-          onClick={handleNextPage}
+          onClick={()=>navigate("/login")}
         >
           Secure your spot
         </OutlinedButton>

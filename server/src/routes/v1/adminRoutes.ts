@@ -1,12 +1,12 @@
-import express from "express"
-import asyncHandler from "../../utils/asyncHandler"
-import * as adminControllers from "../../controllers/admin"
+// import express from "express"
+// import asyncHandler from "../../utils/asyncHandler"
+// import * as adminControllers from "../../controllers/admin"
 
-const router=express.Router()
+// const router=express.Router()
 
-router.get("/current-session",asyncHandler(adminControllers.fetchCurrentSessionInfo))
-router.post("/reset-session",asyncHandler(adminControllers.resetSession))
+// router.get("/current-session",asyncHandler(adminControllers.fetchCurrentSessionInfo))
+// router.post("/reset-session",asyncHandler(adminControllers.resetSession))
 
 
 
-export default router
+// export default router

@@ -11,7 +11,7 @@ const ThankYou = () => {
       padding={"60px 16px"}
     >
       <Stack direction={"row"} color={"#fff"} alignItems={"center"} gap="5px">
-        <IconButton onClick={()=>navigate("/questions")}>
+        <IconButton onClick={()=>navigate("/questions?page=11")}>
           <ArrowBackIos
             sx={{
               color: "#fff",

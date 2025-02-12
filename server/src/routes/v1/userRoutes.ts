@@ -14,10 +14,8 @@ router.post("/create",asyncHandler(userControllers.handleCreateUser))
 router.get("/getUser",authenticate,asyncHandler(userControllers.handleFetchUser))
 router.get("/reset",authenticate,asyncHandler(userControllers.handleReset))
 
-router.post("/question",authenticate,asyncHandler(questionsControllers.handleFetchNextQuestion))
-router.get("/completed",authenticate,asyncHandler(questionsControllers.handleGameCompleted))
+router.post("/question",authenticate,asyncHandler(questionsControllers.respondToQuestions))
+router.post("/benefits",authenticate,asyncHandler(questionsControllers.updateSelectedBenefits))
 
-router.get("/quick-omnia",authenticate,asyncHandler(questionsControllers.handleFetchQuickOmnia))
-router.post("/quick-omnia",authenticate,asyncHandler(questionsControllers.handleRespondQuickOmnia))
 
 export default router

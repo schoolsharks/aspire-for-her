@@ -77,7 +77,7 @@ const Page2 = () => {
         <Typography fontSize={"30px"} fontWeight={"700"}>
           Season 1 at a glance
         </Typography>
-        <Stack gap={"12px"} marginTop={"36px"}>
+        <Stack gap={"20px"} marginTop={"36px"}>
           {numberData.map((data, index) => (
             <Box key={index}>
               <Typography
@@ -90,14 +90,14 @@ const Page2 = () => {
               <Typography
                 fontSize={"18px"}
                 fontWeight={"300"}
-                marginTop={"5px"}
+                marginTop={"2px"}
               >
                 {data.name}
               </Typography>
             </Box>
           ))}
         </Stack>
-        <ArrowButton onClick={handleNextPage} sx={{ marginTop: "22px" }} />
+        <ArrowButton onClick={handleNextPage} sx={{ marginTop: "30px" }} />
       </Box>
 
       {/* Testimonials */}
@@ -116,7 +116,7 @@ const Page2 = () => {
             marginTop: "40px",
             borderColor: theme.palette.tertiary.main,
           }}
-          onClick={handleNextPage}
+          onClick={()=>navigate("/login")}
         >
           Secure your spot
         </OutlinedButton>

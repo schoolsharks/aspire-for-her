@@ -11,16 +11,16 @@ import { useState } from "react";
 import UpperTriangleBox from "../../../components/UpperTriangleBox";
 import "./Login.css";
 import { ArrowBack, Close } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
-// import { useDispatch } from "react-redux";
-// import { AppDispatch } from "../../../store/store";
-// import { createUser } from "../../../store/user/userActions";
-import logos from "../../../assets/company-logos.webp"
+import {useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../store/store";
+import { createUser } from "../../../store/user/userActions";
+import logos from "../../../assets/company-logos.webp";
 
 const Login = () => {
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
-  // const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch<AppDispatch>();
   const [tncModalOpen, setTncModalOpen] = useState<boolean>(false);
   const [tncAccepted, setTncAccepted] = useState<boolean>(false);
   const [formValues, setFormValues] = useState({
@@ -40,30 +40,27 @@ const Login = () => {
   const handleSubmit = () => {
     if (formValues.name.trim() === "") {
       setError("Name is required");
-    } 
-    else if (formValues.email.trim() === "") {
+    } else if (formValues.email.trim() === "") {
       setError("Email is required");
-    } 
-    else if (formValues.contact.trim() === "") {
+    } else if (formValues.contact.trim() === "") {
       setError("Contact is required");
-    } 
-    else if (!tncAccepted) {
+    } else if (!tncAccepted) {
       setError("Accept terms and conditions to continue");
     } else {
-      navigate("/questions");
-
-      // dispatch(createUser(formValues));
+      // navigate("/questions");
+      dispatch(createUser(formValues)).then((response) => {
+        if (createUser.rejected.match(response)) {
+          console.error("API error:", response.error);
+          return;
+        }
+        navigate("/questions");
+      });
     }
   };
 
-  // useEffect(()=>{
-  //   window.location.reload()
-  // },[])
 
   return (
-    <Stack
-      minHeight={window.innerHeight}
-    >
+    <Stack minHeight={window.innerHeight}>
       {/* {!tncModalOpen ? ( */}
       <UpperTriangleBox
         sx={{
@@ -94,7 +91,7 @@ const Login = () => {
               <TextField
                 id="email"
                 label="Email *"
-                className="not-mandate"
+                // className="not-mandate"
                 variant="standard"
                 placeholder="eg. vanessa.jenson@example.com"
                 value={formValues.email}
@@ -104,7 +101,7 @@ const Login = () => {
                 id="contact"
                 label="Contact *"
                 variant="standard"
-                className="not-mandate"
+                // className="not-mandate"
                 placeholder="eg. +91 XXXXX XXXXX"
                 value={formValues.contact}
                 onChange={handleChange("contact")}
@@ -171,7 +168,8 @@ const Login = () => {
                   }}
                 />
               </IconButton>
-             {formValues.name && formValues.email && formValues.contact && tncAccepted && <Button
+
+              <Button
                 variant="outlined"
                 onClick={handleSubmit}
                 sx={{
@@ -186,7 +184,7 @@ const Login = () => {
                 }}
               >
                 Secure your spot
-              </Button>}
+              </Button>
             </Stack>
           </Stack>
         ) : (

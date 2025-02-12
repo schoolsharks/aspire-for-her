@@ -13,9 +13,9 @@ interface TextQuestion {
 interface ChoicesQuestion {
   id: number;
   type: questionTypes.CHOICES;
+  textInput?: { placeholder: string };
   question?: string;
   options: { text: string; subtext?: string; other?: boolean }[];
-  textInput?: { placeholder: string };
 }
 
 export type Question = TextQuestion | ChoicesQuestion;
@@ -303,7 +303,7 @@ export const cardsData: Card[] = [
     title: "International Presence",
     questions: [
       {
-        id: 21,
+        id: 24,
         type: questionTypes.CHOICES,
         question:
           "Does your business have a physical presence (office, branch, etc. ) in the following countries?",
@@ -326,7 +326,7 @@ export const cardsData: Card[] = [
     title: "Select your preferred city for the workshop",
     questions: [
       {
-        id: 21,
+        id: 25,
         type: questionTypes.CHOICES,
         options: [
           { text: "Delhi/NCR" },
@@ -342,7 +342,6 @@ export const cardsData: Card[] = [
           { text: "Coimbatore" },
           { text: "Can not travel" },
         ],
-        textInput: { placeholder: "(Please specify)" },
       },
     ],
   },

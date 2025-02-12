@@ -5,10 +5,12 @@ const BenefitCard = ({
   title,
   description,
   dragSlider = true,
+  onClose,
 }: {
   title: string;
   description: string;
   dragSlider?: boolean;
+  onClose?:()=>void
 }) => {
   const theme = useTheme();
   return (
@@ -23,7 +25,7 @@ const BenefitCard = ({
         position:"relative"
       }}
     >
-      <IconButton sx={{position:"absolute",top:"4px",right:"4px"}}><Close sx={{color:"#fff"}}/></IconButton>
+     {!dragSlider && <IconButton onClick={onClose} sx={{position:"absolute",top:"4px",right:"4px"}}><Close sx={{color:"#fff"}}/></IconButton>}
       <Box padding="22px">
         <Typography fontSize="24px" fontWeight="700">
           {title}

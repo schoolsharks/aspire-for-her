@@ -116,7 +116,7 @@ const Page1 = () => {
             marginTop:"22px",
             borderColor: theme.palette.tertiary.main,
           }}
-          onClick={handleNextPage}
+          onClick={()=>navigate("/login")}
         >
           Secure your spot
         </OutlinedButton>

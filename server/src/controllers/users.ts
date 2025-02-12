@@ -11,7 +11,7 @@ const handleCreateUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { name, email, contact, employeeId } = req.body;
+  const { name, email, contact } = req.body;
 
   const activeSession = await ActiveSessionModel.findOne();
 
@@ -23,11 +23,9 @@ const handleCreateUser = async (
     return next(new AppError("No session is active", 400));
   }
 
-  console.log("Active Session",activeSession.activeSession)
-
   await SessionModel.findByIdAndUpdate(
     activeSession.activeSession,
-    { $inc: { players: 1 , "overallStats.trustScore":BASE_TRUST_SCORE,"overallStats.timeInHand":BASE_TIME} },
+    { $inc: { responses: 1 } },
     { new: true }
   );
 
@@ -35,7 +33,6 @@ const handleCreateUser = async (
     name,
     email,
     contact,
-    employeeId,
     session: activeSession.activeSession,
   });
   const accessToken = generateAccessToken({ id: newUser._id.toString() });
@@ -50,6 +47,7 @@ const handleCreateUser = async (
   return res.status(200).json({ success: true });
 };
 
+
 const handleFetchUser = async (
   req: Request,
   res: Response,
@@ -57,7 +55,7 @@ const handleFetchUser = async (
 ) => {
   const userId = req.user;
   const user = await UserModel.findById(userId).select(
-    "name trustScore timeInHand"
+    "name responses selectedBenefits"
   );
 
   if (!user) {
@@ -68,12 +66,10 @@ const handleFetchUser = async (
 };
 
 
-
 const handleReset = async (req: Request, res: Response) => {
   res.clearCookie("accessToken");
   return res.status(200).json({ success: true });
 };
-
 
 // const handleReset=async(req:Request,res:Response,next:NextFunction)=>{
 
@@ -95,15 +91,11 @@ const handleReset = async (req: Request, res: Response) => {
 //     return next(new AppError("No session is active", 400));
 //   }
 
-
-
 //   await SessionModel.findByIdAndUpdate(
 //     activeSession.activeSession,
 //     { $inc: { players: 1 , "overallStats.trustScore":BASE_TRUST_SCORE,"overallStats.timeInHand":BASE_TIME} },
 //     { new: true }
 //   );
-
-
 
 //   const newUser = await UserModel.create({
 //     name:user.name,
@@ -124,5 +116,4 @@ const handleReset = async (req: Request, res: Response) => {
 //   return res.status(200).json({ success: true });
 // }
 
-
-export { handleCreateUser, handleFetchUser ,handleReset};
+export { handleCreateUser, handleFetchUser, handleReset };

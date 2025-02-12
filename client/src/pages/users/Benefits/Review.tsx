@@ -2,10 +2,76 @@ import { Button, IconButton, Stack, Typography } from "@mui/material";
 import { benefitsData } from "../../../data/benefitsData";
 import BenefitCard from "./BenefitCard";
 import { ArrowBack } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../store/store";
+import { updateSelectedBenefits } from "../../../store/user/userActions";
+import { useState } from "react";
 
 const Review = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const { selectedBenefits } = useSelector((state: RootState) => state.user);
+  const [removingCard, setRemovingCard] = useState<string | null>(null);
+
+  
+  const selectedBenefitsData = benefitsData.filter(benefit => 
+    selectedBenefits.some(selected => selected.benefitId === benefit.id.toString())
+  );
+
+  const handleRemoveCard = (benefitId: string) => {
+    
+    setRemovingCard(benefitId);
+
+    
+    setTimeout(() => {
+      const updatedBenefits = selectedBenefits.filter(
+        benefit => benefit.benefitId !== benefitId
+      );
+      
+      
+      dispatch(updateSelectedBenefits({ benefits: updatedBenefits }));
+      setRemovingCard(null);
+    }, 600); 
+  };
+
+  const getCardStyle = (benefitId: string, index: number) => {
+    const baseStyle = {
+      position: "absolute",
+      top: `${index * 120 + 100}px`,
+      left: "16px",
+      right: "16px",
+      height: "250px",
+      transition: "all 0.5s ease-out",
+    };
+
+    if (removingCard === benefitId) {
+      return {
+        ...baseStyle,
+        transform: "translateX(-100%)",
+        opacity: 0,
+      };
+    }
+
+    if (removingCard) {
+      const removingIndex = selectedBenefitsData.findIndex(
+        benefit => benefit.id.toString() === removingCard
+      );
+      if (index > removingIndex) {
+        return {
+          ...baseStyle,
+          top: `${(index - 1) * 120 + 100}px`,
+        };
+      }
+    }
+
+    return baseStyle;
+  };
+
+
+  if(selectedBenefits.length===0){
+    return <Navigate to="/benefits"/>
+  }
   return (
     <Stack
       sx={{
@@ -13,7 +79,7 @@ const Review = () => {
         color: "#fff",
         minHeight: Math.max(
           window.innerHeight,
-          benefitsData.length * 140 + 220
+          selectedBenefitsData.length * 140 + 220
         ),
         position: "relative",
       }}
@@ -23,23 +89,18 @@ const Review = () => {
         Review
       </Typography>
       <Stack marginTop={"44px"}>
-        {benefitsData.map((benefit, index) => (
+        {selectedBenefitsData.map((benefit, index) => (
           <Stack
+            key={benefit.id}
             boxShadow={"0 0 100px #ffffff5d"}
             borderRadius={"20px"}
-            sx={{
-              position: "absolute",
-              top: `${index * 120 + 100}px`,
-              left: "16px",
-              right: "16px",
-              height: "200px",
-            }}
+            sx={getCardStyle(benefit.id.toString(), index)}
           >
             <BenefitCard
-              key={index}
               title={benefit.title}
               description={benefit.description}
               dragSlider={false}
+              onClose={() => handleRemoveCard(benefit.id.toString())}
             />
           </Stack>
         ))}
@@ -51,7 +112,10 @@ const Review = () => {
         alignItems={"center"}
         gap={"16px"}
       >
-        <IconButton onClick={() => navigate("/benefits")} sx={{ padding: "0" }}>
+        <IconButton 
+          onClick={() => navigate("/benefits")} 
+          sx={{ padding: "0" }}
+        >
           <ArrowBack
             sx={{
               border: "2px solid white",
@@ -76,7 +140,7 @@ const Review = () => {
             color: "#fff",
           }}
         >
-          Secure your spot
+          Confirm
         </Button>
       </Stack>
     </Stack>

@@ -9,49 +9,88 @@ import FAQs from "./FAQs/FAQs";
 import Summary from "./Summary/Summary";
 import ThankYou from "./ThankYou/ThankYou";
 import Review from "./Benefits/Review";
-// import { useDispatch, 
-  // useSelector
-//  } from "react-redux";
-// import { AppDispatch, 
-  // RootState 
-// } from "../../store/store";
-// import { fetchUser } from "../../store/user/userActions";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store";
+import { fetchUser } from "../../store/user/userActions";
+import { CircularProgress } from "@mui/material";
 // import { CircularProgress } from "@mui/material";
 // import { AnimatePresence } from "framer-motion";
 // import AnimatedPage from "../../utils/AnimatedPage";
 
 const UserMain = () => {
-  // const dispatch=useDispatch<AppDispatch>()
-  // const {status,loading}=useSelector((state:RootState)=>state.user)
+  const dispatch = useDispatch<AppDispatch>();
+  const { status, loading } = useSelector((state: RootState) => state.user);
   const location = useLocation();
-  const [windowHeight,setWindowHeight]=useState(window.innerHeight)
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
 
-  // useEffect(()=>{
-  //   dispatch(fetchUser())
-  // },[])
+  useEffect(() => {
+    dispatch(fetchUser());
+  }, []);
 
-  useEffect(()=>{
-    setWindowHeight(window.innerHeight)
-  },[window.innerHeight])
+  useEffect(() => {
+    setWindowHeight(window.innerHeight);
+  }, [window.innerHeight]);
 
-
-  // if(loading){
-  //   return <CircularProgress/>
-  // }
+  if (loading) {
+    return (
+      <Stack
+        minHeight={window.innerHeight}
+        alignItems={"center"}
+        justifyContent={"center"}
+      >
+        <CircularProgress sx={{ color: "#000" }} />
+      </Stack>
+    );
+  }
 
   return (
-    <Stack sx={{ minHeight: windowHeight, height: "100%",maxWidth:"480px",margin:"auto"}}>
-
-      <Routes  location={location}>
-        {/* <Route path="/login" element={status==="LOGGED_IN"? <Navigate to="/questions"/>:<Login/> } /> */}
-        <Route path="/login" element={<Login/> } />
-        <Route path="/questions" element={<QuestionMain/> } />
-        <Route path="/thank-you" element={<ThankYou/> } />
-        <Route path="/benefits" element={<Benefits/> } />
-        <Route path="/onboarding/:page" element={<OnboardingMain/> } />
-        <Route path="/faqs" element={<FAQs/> } />
-        <Route path="/summary" element={<Summary/> } />
-        <Route path="/review" element={<Review/> } />
+    <Stack
+      sx={{
+        minHeight: windowHeight,
+        height: "100%",
+        maxWidth: "480px",
+        margin: "auto",
+      }}
+    >
+      <Routes location={location}>
+        <Route path="/onboarding/:page" element={<OnboardingMain />} />
+        <Route path="/faqs" element={<FAQs />} />
+        <Route
+          path="/login"
+          element={
+            status === "LOGGED_IN" ? <Navigate to="/questions" /> : <Login />
+          }
+        />
+        <Route
+          path="/questions"
+          element={
+            status != "LOGGED_IN" ? <Navigate to="/login" /> : <QuestionMain />
+          }
+        />
+        <Route
+          path="/thank-you"
+          element={
+            status != "LOGGED_IN" ? <Navigate to="/login" /> : <ThankYou />
+          }
+        />
+        <Route
+          path="/benefits"
+          element={
+            status != "LOGGED_IN" ? <Navigate to="/login" /> : <Benefits />
+          }
+        />
+        <Route
+          path="/review"
+          element={
+            status != "LOGGED_IN" ? <Navigate to="/login" /> : <Review />
+          }
+        />
+        <Route
+          path="/summary"
+          element={
+            status != "LOGGED_IN" ? <Navigate to="/login" /> : <Summary />
+          }
+        />
 
         <Route path="/*" element={<Navigate to="/onboarding/1" />} />
       </Routes>

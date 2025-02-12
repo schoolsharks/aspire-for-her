@@ -11,12 +11,24 @@ import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import { cardsData } from "../../../data/cardsData";
 import Question from "./Question";
 import StepperPoints from "../../../components/StepperPoints";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../store/store";
+import { syncFinalResponses } from "../../../store/user/userSlice";
 
 const QuestionMain = () => {
   const theme = useTheme();
-  const [activeIndex, setActiveIndex] = useState(0);
-  const navigate=useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = parseInt(searchParams.get("page") || "0");
+
+  const dispatch = useDispatch<AppDispatch>();
+  const [activeIndex, setActiveIndex] = useState(page);
+  const responses = useSelector((state: RootState) => state.user.responses);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setSearchParams({ page: activeIndex.toString() }); 
+  }, [activeIndex, setSearchParams]);
 
   const handlePrevious = () => {
     if (activeIndex > 0) {
@@ -27,9 +39,9 @@ const QuestionMain = () => {
   const handleNext = () => {
     if (activeIndex < cardsData.length - 1) {
       setActiveIndex(activeIndex + 1);
-    }
-    else{
-      navigate("/thank-you")
+    } else {
+      dispatch(syncFinalResponses());
+      navigate("/thank-you");
     }
   };
 
@@ -75,8 +87,16 @@ const QuestionMain = () => {
     }, 100);
   }, []);
 
+  const allAnswered = cardsData[activeIndex].questions.every(
+    (q) => (responses.find((res) => res.questionId === q.id)?.answer?.length ?? 0) > 0
+  );
+  
+
   return (
-    <Stack sx={{ bgcolor: "#000", minHeight: window.innerHeight }} padding={"48px 0 10px"}>
+    <Stack
+      sx={{ bgcolor: "#000", minHeight: window.innerHeight }}
+      padding={"48px 0 10px"}
+    >
       <Typography
         color={theme.palette.tertiary.main}
         fontSize={"24px"}
@@ -157,13 +177,11 @@ const QuestionMain = () => {
                     }}
                   />
                 </IconButton>
-                <IconButton
-                  onClick={handleNext}
-                >
+                <IconButton disabled={!allAnswered} onClick={handleNext}>
                   <ArrowForward
                     sx={{
-                      color: "#fff",
-                      border: "2px solid #ffffff",
+                      color: !allAnswered ? "#ffffff88" :"#fff",
+                      border: !allAnswered? "2px solid #ffffff88":"2px solid #ffffff",
                       borderRadius: "50%",
                       fontSize: "36px",
                       padding: "5px",
