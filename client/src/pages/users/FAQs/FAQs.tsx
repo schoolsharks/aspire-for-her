@@ -2,6 +2,7 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Box,
   Stack,
   Typography,
   useTheme,
@@ -9,6 +10,8 @@ import {
 import { useEffect, useState } from "react";
 import OutlinedButton from "../../../components/OutlinedButton";
 import { useNavigate } from "react-router-dom";
+import ArrowButton from "../../../components/ArrowButton";
+import HamburgerMenu from "../../../components/HamburgerMenu";
 
 const faqs = [
   {
@@ -86,14 +89,17 @@ const FAQs = () => {
 
   return (
     <Stack bgcolor="#000" color={"#fff"} padding={"34px"}>
+      <Stack direction={"row"} justifyContent={"space-between"}>
       <Typography fontSize={"30px"} fontWeight={"700"}>
         FAQs
       </Typography>
+      <Box><HamburgerMenu/></Box>
+      </Stack>
       <Stack marginTop={"40px"} gap={"6px"}>
         {faqs.map((faq, index) => (
           <Accordion
             expanded={index === expanded}
-            onClick={() => setExpanded(index)}
+            onClick={() => index===expanded?setExpanded(-1):setExpanded(index)}
             key={index}
             sx={{
               borderRadius: "5px !important",
@@ -104,29 +110,34 @@ const FAQs = () => {
             }}
           >
             <AccordionSummary>
-              <Typography fontSize={"15px"} fontWeight="400">
+              <Typography fontSize={"18px"} fontWeight="400">
                 {faq.question}
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <Typography fontSize={"12px"} fontWeight={"400"}>
+              <Typography marginTop={"-20px"} fontSize={"16px"} fontWeight={"400"}>
                 {faq.answer}
               </Typography>
             </AccordionDetails>
           </Accordion>
         ))}
       </Stack>
-      <OutlinedButton
-        sx={{
-          color: theme.palette.tertiary.main,
-          fontSize: "20px",
-          marginTop: "100px",
-          borderColor: theme.palette.tertiary.main,
-        }}
-        onClick={() => navigate("/login")}
-      >
-        Secure your spot
-      </OutlinedButton>
+      <Stack direction={"row"} alignItems={"center"} marginTop={"40px"} gap={"8px"}>
+          <ArrowButton
+            direction="LEFT"
+            onClick={()=>navigate(-1)}
+          />
+          <OutlinedButton
+            sx={{
+              color: theme.palette.tertiary.main,
+              fontSize: "20px",
+              borderColor: theme.palette.tertiary.main,
+            }}
+            onClick={() => navigate("/login")}
+          >
+            Secure your spot
+          </OutlinedButton>
+        </Stack>
 
       <Typography marginTop={"60px"} fontWeight={"600"}>
         For any questions in the interim, please contact <br />

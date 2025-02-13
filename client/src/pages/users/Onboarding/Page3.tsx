@@ -11,6 +11,8 @@ import OutlinedButton from "../../../components/OutlinedButton";
 import { useNavigate } from "react-router-dom";
 import { ArrowCircleDown } from "@mui/icons-material";
 import { useEffect } from "react";
+import HamburgerMenu from "../../../components/HamburgerMenu";
+import ArrowButton from "../../../components/ArrowButton";
 
 const mainPointers = [
   "11 City-Based Workshops (Delhi/NCR, Chandigarh, Kolkata , Mumbai, Pune, Ahmedabad, Surat, Indore, Bengaluru, Chennai, Coimbatore)",
@@ -280,15 +282,20 @@ const Page3 = () => {
   const theme = useTheme();
   const navigate = useNavigate();
 
-  useEffect(()=>{
-    window.scrollTo({top:0,behavior:"smooth"})
-  },[])
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   return (
     <Stack color={"#fff"} padding={"24px"} gap={"60px"}>
-      <Box>
-        <Typography fontSize={"30px"} fontWeight={"700"}>
-          SheExports
-        </Typography>
+      <Box marginTop={"-36px"}>
+        <Stack direction={"row"} justifyContent={"space-between"}>
+          <Typography fontSize={"30px"} fontWeight={"700"}>
+            SheExports
+          </Typography>
+          <Box>
+            <HamburgerMenu />
+          </Box>
+        </Stack>
         <Typography fontSize={"20px"} fontWeight={"600"}>
           Season 2
         </Typography>
@@ -383,17 +390,27 @@ const Page3 = () => {
             />
           </Stack>
         </Stack>
-        <OutlinedButton
-          sx={{
-            color: theme.palette.tertiary.main,
-            fontSize: "20px",
-            marginTop: "42px",
-            borderColor: theme.palette.tertiary.main,
-          }}
-          onClick={()=>navigate("/login")}
+        <Stack
+          direction={"row"}
+          alignItems={"center"}
+          marginTop={"42px"}
+          gap={"8px"}
         >
-          Secure your spot
-        </OutlinedButton>
+          <ArrowButton
+            direction="LEFT"
+            onClick={() => navigate("/onboarding/2")}
+          />
+          <OutlinedButton
+            sx={{
+              color: theme.palette.tertiary.main,
+              fontSize: "20px",
+              borderColor: theme.palette.tertiary.main,
+            }}
+            onClick={() => navigate("/login")}
+          >
+            Secure your spot
+          </OutlinedButton>
+        </Stack>
       </Box>
 
       {/* Why SheExports */}
@@ -419,17 +436,27 @@ const Page3 = () => {
             </Box>
           ))}
         </Stack>
-        <OutlinedButton
-          sx={{
-            color: theme.palette.tertiary.main,
-            fontSize: "20px",
-            marginTop: "42px",
-            borderColor: theme.palette.tertiary.main,
-          }}
-          onClick={()=>navigate("/login")}
+        <Stack
+          direction={"row"}
+          alignItems={"center"}
+          marginTop={"42px"}
+          gap={"8px"}
         >
-          Secure your spot
-        </OutlinedButton>
+          <ArrowButton
+            direction="LEFT"
+            onClick={() => navigate("/onboarding/2")}
+          />
+          <OutlinedButton
+            sx={{
+              color: theme.palette.tertiary.main,
+              fontSize: "20px",
+              borderColor: theme.palette.tertiary.main,
+            }}
+            onClick={() => navigate("/login")}
+          >
+            Secure your spot
+          </OutlinedButton>
+        </Stack>
       </Box>
 
       {/* Program Overview */}
@@ -469,7 +496,7 @@ const Page3 = () => {
                         alignItems={"center"}
                         justifyContent={"center"}
                         sx={{
-                          border: `0.5px solid ${theme.palette.tertiary.main}`,
+                          // border: `0.5px solid ${theme.palette.tertiary.main}`,
                           borderRadius: "5px",
                         }}
                       >
@@ -553,12 +580,12 @@ const Page3 = () => {
             minWidth: "max-content",
             borderColor: theme.palette.tertiary.main,
           }}
-          onClick={()=>navigate("/login")}
+          onClick={() => navigate("/login")}
         >
           Secure your spot
         </OutlinedButton>
         <OutlinedButton
-        onClick={()=>navigate("/faqs")}
+          onClick={() => navigate("/faqs")}
           sx={{
             color: theme.palette.tertiary.main,
             fontSize: "20px",

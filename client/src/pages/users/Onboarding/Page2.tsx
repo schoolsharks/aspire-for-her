@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import theme from "../../../theme";
 import OutlinedButton from "../../../components/OutlinedButton";
 import AnimatedTestimonials from "./AnimatedTestimonials";
+import HamburgerMenu from "../../../components/HamburgerMenu";
 
 const numberData = [
   {
@@ -73,10 +74,16 @@ const Page2 = () => {
   };
   return (
     <Stack color={"#fff"} padding={"24px"} gap={"46px"}>
-      <Box>
-        <Typography fontSize={"30px"} fontWeight={"700"}>
-          Season 1 at a glance
-        </Typography>
+      <Box marginTop={"-36px"}>
+        <Stack direction={"row"} justifyContent={"space-between"}>
+          <Typography fontSize={"30px"} fontWeight={"700"}>
+            Season 1 at a glance
+          </Typography>
+          <Box>
+            <HamburgerMenu />
+          </Box>
+        </Stack>
+
         <Stack gap={"20px"} marginTop={"36px"}>
           {numberData.map((data, index) => (
             <Box key={index}>
@@ -109,17 +116,22 @@ const Page2 = () => {
 
         <AnimatedTestimonials testimonials={testimonialsData} />
 
-        <OutlinedButton
-          sx={{
-            color: theme.palette.tertiary.main,
-            fontSize: "20px",
-            marginTop: "40px",
-            borderColor: theme.palette.tertiary.main,
-          }}
-          onClick={()=>navigate("/login")}
-        >
-          Secure your spot
-        </OutlinedButton>
+        <Stack direction={"row"} alignItems={"center"} marginTop={"40px"} gap={"8px"}>
+          <ArrowButton
+            direction="LEFT"
+            onClick={()=>navigate("/onboarding/1")}
+          />
+          <OutlinedButton
+            sx={{
+              color: theme.palette.tertiary.main,
+              fontSize: "20px",
+              borderColor: theme.palette.tertiary.main,
+            }}
+            onClick={() => navigate("/login")}
+          >
+            Secure your spot
+          </OutlinedButton>
+        </Stack>
       </Box>
     </Stack>
   );

@@ -315,7 +315,10 @@ export const cardsData: Card[] = [
             text: "UAE",
           },
           {
-            text: "Other",
+            text: "Not at this point",
+          },
+          {
+            text: "Others",
           },
         ],
         textInput: { placeholder: "(Please specify)" },

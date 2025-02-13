@@ -21,7 +21,7 @@ const ArrowButton = ({
           borderRadius: "50%",
           fontSize: "36px",
           padding: "5px",
-          transform:direction==="LEFT"?"rotage(180deg)":"",
+          transform:direction==="LEFT"?"rotate(180deg)":"",
           ...sx
           
         }}

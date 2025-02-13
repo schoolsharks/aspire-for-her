@@ -47,6 +47,7 @@ const QuestionInput = React.memo(({ question }: { question: Question }) => {
           sx={{
             width: "100%",
             input: {
+              fontSize:"1rem !important",
               "&::placeholder": {
                 color: theme.palette.primary.main,
                 padding: "0 !important",
@@ -108,7 +109,7 @@ const QuestionInput = React.memo(({ question }: { question: Question }) => {
                   )}
                   {option.other && (
                     <TextField
-                      id="standard-basic"
+                      id="standard- basic"
                       placeholder={"Please Specify"}
                       variant="standard"
                       value={
@@ -157,7 +158,7 @@ const QuestionInput = React.memo(({ question }: { question: Question }) => {
                 }
                 sx={{
                   input: {
-                    fontSize: "12px !important",
+                    fontSize: "1rem !important",
                     width: "100%",
                     "&::placeholder": {
                       color: theme.palette.tertiary.main,

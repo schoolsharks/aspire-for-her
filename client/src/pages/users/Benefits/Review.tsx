@@ -86,7 +86,7 @@ const Review = () => {
       padding={"24px 16px"}
     >
       <Typography fontSize={"24px"} fontWeight={"600"}>
-        Review
+        Ask from the program
       </Typography>
       <Stack marginTop={"44px"}>
         {selectedBenefitsData.map((benefit, index) => (

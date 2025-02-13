@@ -1,24 +1,28 @@
 import {
   Box,
-  Button,
   Checkbox,
   IconButton,
   Stack,
   TextField,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { useState } from "react";
 import UpperTriangleBox from "../../../components/UpperTriangleBox";
 import "./Login.css";
-import { ArrowBack, Close } from "@mui/icons-material";
-import {useNavigate } from "react-router-dom";
+import { Close } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
 import { createUser } from "../../../store/user/userActions";
 import logos from "../../../assets/company-logos.webp";
+import HamburgerMenu from "../../../components/HamburgerMenu";
+import ArrowButton from "../../../components/ArrowButton";
+import OutlinedButton from "../../../components/OutlinedButton";
 
 const Login = () => {
   const navigate = useNavigate();
+  const theme = useTheme();
   const [error, setError] = useState<string | null>(null);
   const dispatch = useDispatch<AppDispatch>();
   const [tncModalOpen, setTncModalOpen] = useState<boolean>(false);
@@ -58,7 +62,6 @@ const Login = () => {
     }
   };
 
-
   return (
     <Stack minHeight={window.innerHeight}>
       {/* {!tncModalOpen ? ( */}
@@ -72,13 +75,21 @@ const Login = () => {
         }}
       >
         {!tncModalOpen ? (
-          <Stack padding="16px" flex={"1"} marginTop={"-36px"}>
-            <Typography color="#fff" fontSize={"30px"} fontWeight={"700"}>
-              SheExports
-            </Typography>
-            <Typography color="#fff" fontSize={"20px"} fontWeight={"600"}>
-              Season 2
-            </Typography>
+          <Stack padding="24px" flex={"1"} marginTop={"-36px"}>
+            <Stack direction={"row"} justifyContent={"space-between"}>
+              <Box>
+                <Typography color="#fff" fontSize={"30px"} fontWeight={"700"}>
+                  SheExports
+                </Typography>
+                <Typography color="#fff" fontSize={"20px"} fontWeight={"600"}>
+                  Season 2
+                </Typography>
+              </Box>
+              <Box>
+                <HamburgerMenu />
+              </Box>
+            </Stack>
+
             <Stack spacing={3} marginTop={"32px"}>
               <TextField
                 id="name"
@@ -147,13 +158,29 @@ const Login = () => {
                 </Typography>
               </Stack>
             </Stack>
+
             <Stack
-              direction={"row"}
               margin={"auto 0 16px"}
-              padding="8px"
               alignItems={"center"}
-              gap={"16px"}
+              gap={"8px"}
+              direction={"row"}
             >
+              <ArrowButton
+                direction="LEFT"
+                onClick={() => navigate("/onboarding/3")}
+              />
+              <OutlinedButton
+                sx={{
+                  color: theme.palette.tertiary.main,
+                  fontSize: "20px",
+                  borderColor: theme.palette.tertiary.main,
+                }}
+                onClick={handleSubmit}
+              >
+                Secure your spot
+              </OutlinedButton>
+            </Stack>
+            {/* <Stack direction={"row"}>
               <IconButton
                 onClick={() => navigate("/onboarding/1")}
                 sx={{ padding: "0" }}
@@ -171,7 +198,6 @@ const Login = () => {
 
               <Button
                 variant="outlined"
-                onClick={handleSubmit}
                 sx={{
                   width: "max-content",
                   textTransform: "none",
@@ -185,7 +211,7 @@ const Login = () => {
               >
                 Secure your spot
               </Button>
-            </Stack>
+            </Stack> */}
           </Stack>
         ) : (
           <Stack
@@ -205,10 +231,10 @@ const Login = () => {
               textAlign={"center"}
               marginTop={"16px"}
             >
-              TERMS & CONDITIONS
+              DISCLAIMER
             </Typography>
             <Typography marginTop={"24px"} fontSize={"12px"} fontWeight={"700"}>
-              <b>Participation Disclaimer:</b> By submitting your application,
+              By submitting your application,
               you give consent for the information provided to be used for
               evaluation purposes and to be shared with mentors and program
               partners for guidance and networking opportunities. You agree to
@@ -222,7 +248,6 @@ const Login = () => {
               responsible for selection decisions.
               <br />
               <br />
-              <b>Travel & Logistics Disclaimer:</b>
               Please note that travel and accommodation expenses must be covered
               by participants. Session dates and venues will be communicated
               well in advance. The management reserves the right to modify or

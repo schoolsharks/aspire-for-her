@@ -8,7 +8,7 @@ const Summary = () => {
   return (
     <Stack minHeight={window.innerHeight} bgcolor={"#000"} color={"#fff"} padding={"40px"}>
       <Typography fontSize={"32px"} fontWeight={"700"} marginTop={"60px"}>
-        Thank You! Your response has been recorded.{" "}
+        Thank You! <br/>Your response has been recorded.{" "}
       </Typography>
       <Typography marginTop={"26px"} fontWeight={"600"}>
         For any questions in the interim, please contact <br />

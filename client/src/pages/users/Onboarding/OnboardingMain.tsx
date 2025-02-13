@@ -13,7 +13,7 @@ const OnboardingMain = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [page]);
   return (
-    <Stack>
+    <Stack position={"relative"}>
       <UpperTriangleBox sx={{ minHeight: window.innerHeight }}>
         {page === "1" && <Page1 />}
         {page === "2" && <Page2 />}

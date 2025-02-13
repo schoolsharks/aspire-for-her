@@ -7,7 +7,6 @@ import BenefitCard from "./BenefitCard";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
 import { updateSelectedBenefits } from "../../../store/user/userActions";
-import OtherCard from "./OtherCard";
 
 const Benefits = () => {
   const navigate = useNavigate();
@@ -274,7 +273,7 @@ const Benefits = () => {
                 marginLeft: "13px",
                 right: "0",
                 maxWidth: "360px",
-                width:"100%",
+                width: "100%",
                 transition: isDragging ? "none" : "all 0.6s ease",
                 cursor: index === activeIndex ? "grab" : "default",
                 userSelect: "none",
@@ -282,15 +281,13 @@ const Benefits = () => {
                 ...getCardStyle(index, benefit),
               }}
             >
-              {benefit.other?<OtherCard />: <BenefitCard
+              <BenefitCard
                 title={benefit.title}
                 description={benefit.description}
-              />}
-             
+              />
             </Stack>
           );
         })}
-
       </Box>
 
       <OutlinedButton
