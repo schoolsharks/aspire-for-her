@@ -3,7 +3,7 @@ import ArrowButton from "../../../components/ArrowButton";
 import { useNavigate } from "react-router-dom";
 import OutlinedButton from "../../../components/OutlinedButton";
 import HamburgerMenu from "../../../components/HamburgerMenu";
-import partnersLogos from "../../../assets/partners-.webp"
+import partnersLogos from "../../../assets/partners.webp"
 
 const Page1 = () => {
   const theme = useTheme();

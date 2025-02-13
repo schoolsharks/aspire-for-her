@@ -1,6 +1,6 @@
 import { AccountCircleOutlined, ArticleOutlined, HomeOutlined, LiveHelpOutlined, Menu } from "@mui/icons-material";
 import {
-  Box,
+
   IconButton,
   Stack,
   SxProps,
@@ -72,7 +72,8 @@ const HamburgerMenu = () => {
         onClick={(e) => e.stopPropagation()}
       >
         {navigations.map((item, index) => (
-          <Box
+          <Stack
+            alignItems={"center"}
             key={index}
             sx={{
               cursor: "pointer",
@@ -86,7 +87,7 @@ const HamburgerMenu = () => {
             <Typography textAlign="center" color="#fff" fontSize="10px">
               {item.name}
             </Typography>
-          </Box>
+          </Stack>
         ))}
       </Stack>
     </>
