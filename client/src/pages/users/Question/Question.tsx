@@ -248,7 +248,7 @@ const QuestionInput = React.memo(({ question,onValidationError, }: { question: Q
                       ]
                   )
                 }
-                onBlur={(e) => handleBlur(e.target.value)}
+                // onBlur={(e) => handleBlur(e.target.value)}
                 error={!!error}
                 helperText={error}
                 sx={{
