@@ -3,12 +3,23 @@ export const enum questionTypes {
   CHOICES = "CHOICES",
 }
 
+interface ValidationRules {
+  required?: boolean;
+  minLength?: number;
+  maxLength?: number;
+  pattern?: RegExp;
+  min?: number;
+  max?: number;
+  type?: "number" | "text";
+}
+
 interface TextQuestion {
   id: number;
   question?: string;
   type: questionTypes.TEXT_INPUT;
   label?: string;
   placeholder?: string;
+  validation?: ValidationRules;
 }
 interface ChoicesQuestion {
   id: number;
@@ -16,6 +27,7 @@ interface ChoicesQuestion {
   textInput?: { placeholder: string };
   question?: string;
   options: { text: string; subtext?: string; other?: boolean }[];
+  validation?: ValidationRules;
 }
 
 export type Question = TextQuestion | ChoicesQuestion;
@@ -33,21 +45,25 @@ export const cardsData: Card[] = [
         id: 1,
         type: questionTypes.TEXT_INPUT,
         label: "Founder’s Name*",
+        validation: { required: true },
       },
       {
         id: 2,
         type: questionTypes.TEXT_INPUT,
         label: "Designation",
+        validation: { required: true },
       },
       {
         id: 3,
         type: questionTypes.TEXT_INPUT,
         label: "Business email address",
+        validation: { required: true, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ },
       },
       {
         id: 4,
         type: questionTypes.TEXT_INPUT,
         label: "Contact number",
+        validation: { required: true, maxLength: 10, type: "number" },
       },
     ],
   },
@@ -58,21 +74,25 @@ export const cardsData: Card[] = [
         id: 5,
         type: questionTypes.TEXT_INPUT,
         label: "Registered entity name",
+        validation: { required: true },
       },
       {
         id: 6,
         type: questionTypes.TEXT_INPUT,
         label: "Brand name",
+        validation: { required: true },
       },
       {
         id: 7,
         type: questionTypes.TEXT_INPUT,
         label: "Year of establishment",
+        validation: { required: true, maxLength: 4, type: "number" },
       },
       {
         id: 8,
         type: questionTypes.TEXT_INPUT,
         label: "City of registeration",
+        validation: { required: true },
       },
     ],
   },
@@ -83,16 +103,28 @@ export const cardsData: Card[] = [
         id: 9,
         type: questionTypes.TEXT_INPUT,
         label: "Website URL",
+        validation: {
+          pattern:
+            /^(https?:\/\/([\w-]+(\.[\w-]+)+)(\/[\w-.~:?#[\]@!$&'()*+,;=]*)?|^$)$/,
+        },
       },
       {
         id: 10,
         type: questionTypes.TEXT_INPUT,
         label: "LinkedIn Profile",
+        validation: {
+          pattern:
+            /^(https?:\/\/([\w-]+(\.[\w-]+)+)(\/[\w-.~:?#[\]@!$&'()*+,;=]*)?|^$)$/,
+        },
       },
       {
         id: 11,
         type: questionTypes.TEXT_INPUT,
         label: "Other social media profile",
+        validation: {
+          pattern:
+            /^(https?:\/\/([\w-]+(\.[\w-]+)+)(\/[\w-.~:?#[\]@!$&'()*+,;=]*)?|^$)$/,
+        },
       },
     ],
   },
@@ -120,12 +152,14 @@ export const cardsData: Card[] = [
             text: "Not Yet Registered",
           },
         ],
+        validation: { required: true },
       },
       {
         id: 13,
         type: questionTypes.TEXT_INPUT,
         question: "What percentage of your business do women founders own?",
         placeholder: "In percentage",
+        validation: { required: true, type: "number", max: 100, min: 0 },
       },
     ],
   },
@@ -149,6 +183,7 @@ export const cardsData: Card[] = [
             text: "Over 500 employees",
           },
         ],
+        validation: { required: true },
       },
     ],
   },
@@ -187,6 +222,7 @@ export const cardsData: Card[] = [
             other: true,
           },
         ],
+        validation: { required: true },
       },
     ],
   },
@@ -204,18 +240,21 @@ export const cardsData: Card[] = [
             text: "Revenue generating",
           },
         ],
+        validation: { required: true },
       },
       {
         id: 17,
         type: questionTypes.TEXT_INPUT,
         question: "What was the topline revenue last year (2023/24) INR Lacs",
         placeholder: "In INR Lacs",
+        validation: { type: "number" },
       },
       {
         id: 18,
         type: questionTypes.TEXT_INPUT,
         question: "Growth you targeting for this year?",
         placeholder: "In percentage",
+        validation: { type: "number", min: 0, max: 100 },
       },
     ],
   },
@@ -237,12 +276,14 @@ export const cardsData: Card[] = [
             text: "Business to Business to customer (B2B2C)",
           },
         ],
+        validation: { required: true },
       },
       {
         id: 20,
         type: questionTypes.TEXT_INPUT,
         question: "Number of monthly paying customers (estimated)",
         placeholder: "In numbers",
+        validation: { required: true,type:"number" },
       },
     ],
   },
@@ -262,12 +303,14 @@ export const cardsData: Card[] = [
           },
         ],
         textInput: { placeholder: "If Yes, to which countries?" },
+        validation:{required:true}
       },
       {
         id: 22,
         type: questionTypes.TEXT_INPUT,
         question: "What percentage of your overall revenue comes from exports?",
         placeholder: "In numbers",
+        validation: { type:"number",min:0,max:100 },
       },
     ],
   },
@@ -296,6 +339,7 @@ export const cardsData: Card[] = [
             text: "Over $50k per month",
           },
         ],
+        validation: { required:true },
       },
     ],
   },
@@ -322,6 +366,7 @@ export const cardsData: Card[] = [
           },
         ],
         textInput: { placeholder: "(Please specify)" },
+        validation: { required:true },
       },
     ],
   },
@@ -345,6 +390,7 @@ export const cardsData: Card[] = [
           { text: "Coimbatore" },
           { text: "Can not travel" },
         ],
+        validation: { required:true },
       },
     ],
   },

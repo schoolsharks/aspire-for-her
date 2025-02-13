@@ -21,7 +21,8 @@ const QuestionMain = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "0");
 
-  const [windowHeight,setWindowHeight]=useState(window.innerHeight)
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+  const [invalidFields, setInvalidFields] = useState<Set<number>>(new Set()); // Track invalid fields
 
   const dispatch = useDispatch<AppDispatch>();
   const [activeIndex, setActiveIndex] = useState(page);
@@ -29,7 +30,7 @@ const QuestionMain = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setSearchParams({ page: activeIndex.toString() }); 
+    setSearchParams({ page: activeIndex.toString() });
   }, [activeIndex, setSearchParams]);
 
   const handlePrevious = () => {
@@ -89,10 +90,16 @@ const QuestionMain = () => {
     }, 100);
   }, []);
 
-  const allAnswered = cardsData[activeIndex].questions.every(
-    (q) => (responses.find((res) => res.questionId === q.id)?.answer?.length ?? 0) > 0
+  // Check if all mandatory questions are answered
+  const allMandatoryAnswered = cardsData[activeIndex].questions.every(
+    (q) => !q.validation?.required || (responses.find((res) => res.questionId === q.id)?.answer?.length ?? 0) > 0
   );
-  
+
+  // Check if there are any invalid fields in the current card
+  const hasInvalidFields = invalidFields.size > 0;
+
+  // Disable next button if mandatory questions are unanswered or there are invalid fields
+  const isNextDisabled = !allMandatoryAnswered || hasInvalidFields;
 
   useEffect(() => {
     const handleResize = () => {
@@ -102,7 +109,6 @@ const QuestionMain = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
 
   return (
     <Stack
@@ -165,7 +171,21 @@ const QuestionMain = () => {
             >
               <Stack gap={"24px"} flex={"1"}>
                 {card.questions.map((question, index) => (
-                  <Question key={index} question={question} />
+                  <Question
+                    key={index}
+                    question={question}
+                    onValidationError={(isInvalid) => {
+                      setInvalidFields((prev) => {
+                        const newSet = new Set(prev);
+                        if (isInvalid) {
+                          newSet.add(question.id);
+                        } else {
+                          newSet.delete(question.id);
+                        }
+                        return newSet;
+                      });
+                    }}
+                  />
                 ))}
               </Stack>
 
@@ -189,11 +209,11 @@ const QuestionMain = () => {
                     }}
                   />
                 </IconButton>
-                <IconButton disabled={!allAnswered} onClick={handleNext}>
+                <IconButton disabled={isNextDisabled} onClick={handleNext}>
                   <ArrowForward
                     sx={{
-                      color: !allAnswered ? "#ffffff88" :"#fff",
-                      border: !allAnswered? "2px solid #ffffff88":"2px solid #ffffff",
+                      color: isNextDisabled ? "#ffffff88" : "#fff",
+                      border: isNextDisabled ? "2px solid #ffffff88" : "2px solid #ffffff",
                       borderRadius: "50%",
                       fontSize: "36px",
                       padding: "5px",
