@@ -3,6 +3,7 @@ import ArrowButton from "../../../components/ArrowButton";
 import { useNavigate } from "react-router-dom";
 import OutlinedButton from "../../../components/OutlinedButton";
 import HamburgerMenu from "../../../components/HamburgerMenu";
+import partnersLogos from "../../../assets/partners-.webp"
 
 const Page1 = () => {
   const theme = useTheme();
@@ -62,6 +63,7 @@ const Page1 = () => {
         <Typography fontSize={"30px"} fontWeight={"700"}>
           Partners
         </Typography>
+        <Box component={"img"} marginTop={"20px"} src={partnersLogos} alt="" width={"100%"}  />
         {/* images here */}
         <ArrowButton onClick={handleNextPage} sx={{ marginTop: "22px" }} />
       </Box>
