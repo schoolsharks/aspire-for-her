@@ -1,44 +1,14 @@
-export const enum questionTypes {
+import { Card } from "../store/cards/cardsSlice";
+
+export enum questionTypes {
   TEXT_INPUT = "TEXT_INPUT",
   CHOICES = "CHOICES",
 }
 
-interface ValidationRules {
-  required?: boolean;
-  minLength?: number;
-  maxLength?: number;
-  pattern?: RegExp;
-  min?: number;
-  max?: number;
-  type?: "number" | "text";
-}
-
-interface TextQuestion {
-  id: number;
-  question?: string;
-  type: questionTypes.TEXT_INPUT;
-  label?: string;
-  placeholder?: string;
-  validation?: ValidationRules;
-}
-interface ChoicesQuestion {
-  id: number;
-  type: questionTypes.CHOICES;
-  textInput?: { placeholder: string };
-  question?: string;
-  options: { text: string; subtext?: string; other?: boolean }[];
-  validation?: ValidationRules;
-}
-
-export type Question = TextQuestion | ChoicesQuestion;
-
-export interface Card {
-  title: string;
-  questions: Question[];
-}
 
 export const cardsData: Card[] = [
   {
+    id:1,
     title: "Enter Your Details",
     questions: [
       {
@@ -50,53 +20,55 @@ export const cardsData: Card[] = [
       {
         id: 2,
         type: questionTypes.TEXT_INPUT,
-        label: "Designation",
+        label: "Designation*",
         validation: { required: true },
       },
       {
         id: 3,
         type: questionTypes.TEXT_INPUT,
-        label: "Business email address",
+        label: "Business email address*",
         validation: { required: true, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ },
       },
       {
         id: 4,
         type: questionTypes.TEXT_INPUT,
-        label: "Contact number",
+        label: "Contact number*",
         validation: { required: true, maxLength: 10, type: "number" },
       },
     ],
   },
   {
+    id:2,
     title: "Business information",
     questions: [
       {
         id: 5,
         type: questionTypes.TEXT_INPUT,
-        label: "Registered entity name",
+        label: "Registered entity name*",
         validation: { required: true },
       },
       {
         id: 6,
         type: questionTypes.TEXT_INPUT,
-        label: "Brand name",
+        label: "Brand name*",
         validation: { required: true },
       },
       {
         id: 7,
         type: questionTypes.TEXT_INPUT,
-        label: "Year of establishment",
+        label: "Year of establishment*",
         validation: { required: true, maxLength: 4, type: "number" },
       },
       {
         id: 8,
         type: questionTypes.TEXT_INPUT,
-        label: "City of registeration",
+        label: "City of registeration*",
         validation: { required: true },
       },
     ],
   },
   {
+    id:3,
     title: "Socials",
     questions: [
       {
@@ -129,12 +101,13 @@ export const cardsData: Card[] = [
     ],
   },
   {
+    id:4,
     title: "Business information",
     questions: [
       {
         id: 12,
         type: questionTypes.CHOICES,
-        question: "What is your Legal structure",
+        question: "What is your Legal structure*",
         options: [
           {
             text: "Private limited",
@@ -157,13 +130,14 @@ export const cardsData: Card[] = [
       {
         id: 13,
         type: questionTypes.TEXT_INPUT,
-        question: "What percentage of your business do women founders own?",
+        question: "What percentage of your business do women founders own?*",
         placeholder: "In percentage",
         validation: { required: true, type: "number", max: 100, min: 0 },
       },
     ],
   },
   {
+    id:5,
     title: "Organisation size",
     questions: [
       {
@@ -188,6 +162,7 @@ export const cardsData: Card[] = [
     ],
   },
   {
+    id:6,
     title: "What best describes your business? ",
     questions: [
       {
@@ -227,6 +202,7 @@ export const cardsData: Card[] = [
     ],
   },
   {
+    id:7,
     title: "Business stage",
     questions: [
       {
@@ -241,6 +217,10 @@ export const cardsData: Card[] = [
           },
         ],
         validation: { required: true },
+        condition:{
+          if:"Pre - revenue",
+          removeQuestions:[17,18]
+        }
       },
       {
         id: 17,
@@ -259,12 +239,13 @@ export const cardsData: Card[] = [
     ],
   },
   {
+    id:8,
     title: "Business operations",
     questions: [
       {
         id: 19,
         type: questionTypes.CHOICES,
-        question: "Your customers are",
+        question: "Your customers are*",
         options: [
           {
             text: "Business to business (B2B)",
@@ -281,19 +262,20 @@ export const cardsData: Card[] = [
       {
         id: 20,
         type: questionTypes.TEXT_INPUT,
-        question: "Number of monthly paying customers (estimated)",
+        question: "Number of monthly paying customers (estimated)*",
         placeholder: "In numbers",
         validation: { required: true,type:"number" },
       },
     ],
   },
   {
+    id:9,
     title: "Export activity",
     questions: [
       {
         id: 21,
         type: questionTypes.CHOICES,
-        question: "Does your business currently exports products/ services?",
+        question: "Does your business currently exports products/ services?*",
         options: [
           {
             text: "Yes, Definately",
@@ -303,7 +285,12 @@ export const cardsData: Card[] = [
           },
         ],
         textInput: { placeholder: "If Yes, to which countries?" },
-        validation:{required:true}
+        validation:{required:true},
+        condition:{
+          if:"No, Not This Time",
+          removeCards:[10],
+          removeQuestions:[22]
+        }
       },
       {
         id: 22,
@@ -315,6 +302,7 @@ export const cardsData: Card[] = [
     ],
   },
   {
+    id:10,
     title: "Export activity",
     questions: [
       {
@@ -344,13 +332,14 @@ export const cardsData: Card[] = [
     ],
   },
   {
+    id:11,
     title: "International Presence",
     questions: [
       {
         id: 24,
         type: questionTypes.CHOICES,
         question:
-          "Does your business have a physical presence (office, branch, etc. ) in the following countries?",
+          "Does your business have a physical presence (office, branch, etc. ) in the following countries?*",
         options: [
           {
             text: "United States",
@@ -371,6 +360,7 @@ export const cardsData: Card[] = [
     ],
   },
   {
+    id:12,
     title: "Select your preferred city for the workshop",
     questions: [
       {

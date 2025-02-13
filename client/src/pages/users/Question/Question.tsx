@@ -7,19 +7,27 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { Question, questionTypes } from "../../../data/cardsData";
 import React, { useState } from "react";
 import { syncResponses } from "../../../store/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
+import { Question, setHiddenData } from "../../../store/cards/cardsSlice";
+import { questionTypes } from "../../../data/cardsData";
 
 const QuestionInput = React.memo(({ question,onValidationError, }: { question: Question,onValidationError:(isInvalid: boolean) => void; }) => {
   const theme = useTheme();
   const dispatch = useDispatch<AppDispatch>();
+  const {hiddenCards,hiddenQuestions}=useSelector((state:RootState)=>state.cards)
   const storedResponse = useSelector((state: RootState) =>
     state.user.responses.find((res) => res.questionId === question.id)
   );
   const [error, setError] = useState<string | null>(null);
+
+
+  if(hiddenQuestions.includes(question.id)){
+    return null
+  }
+
 
   const validateInput = (
     value: string,
@@ -64,7 +72,27 @@ const QuestionInput = React.memo(({ question,onValidationError, }: { question: Q
     if (question.validation?.type === "number" && isNaN(Number(answer))) {
       return; 
     }
-  
+
+    if (question.condition) {
+      let updatedHiddenCards, updatedHiddenQuestions;
+    
+      if (answer.split("$$$")[0] === question.condition.if) {
+        updatedHiddenCards = Array.from(
+          new Set([...hiddenCards, ...(question.condition.removeCards || [])])
+        );
+        updatedHiddenQuestions = Array.from(
+          new Set([...hiddenQuestions, ...(question.condition.removeQuestions || [])])
+        );
+      } else {
+        updatedHiddenCards = hiddenCards.filter((item) => !question.condition?.removeCards?.includes(item));
+        updatedHiddenQuestions = hiddenQuestions.filter((item) => !question.condition?.removeQuestions?.includes(item));
+      }
+      console.log("Ans",answer,question.condition.if)
+      console.log(updatedHiddenQuestions,question.condition.removeQuestions)
+      dispatch(setHiddenData({ hiddenCards: updatedHiddenCards, hiddenQuestions: updatedHiddenQuestions }));
+    }
+    
+
     const errorMessage = validateInput(answer, false); 
     setError(errorMessage);
     onValidationError(!!errorMessage);

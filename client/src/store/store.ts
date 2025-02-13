@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./user/userSlice";
 import adminReducer from "./admin/sessionInfoSlice";
+import cardsReducer from "./cards/cardsSlice";
 
 
 const store = configureStore({
   reducer: {
     user: userReducer,
+    cards: cardsReducer,
     admin: adminReducer,
   },
 });

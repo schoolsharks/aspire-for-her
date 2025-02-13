@@ -8,7 +8,6 @@ import {
   useTheme,
 } from "@mui/material";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
-import { cardsData } from "../../../data/cardsData";
 import Question from "./Question";
 import StepperPoints from "../../../components/StepperPoints";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -19,6 +18,7 @@ import { syncFinalResponses } from "../../../store/user/userSlice";
 const QuestionMain = () => {
   const theme = useTheme();
   const [searchParams, setSearchParams] = useSearchParams();
+  const {cardsData,hiddenCards}=useSelector((state:RootState)=>state.cards)
   const page = parseInt(searchParams.get("page") || "0");
 
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
@@ -127,7 +127,7 @@ const QuestionMain = () => {
 
       <Box margin={"24px auto"}>
         {" "}
-        <StepperPoints totalPoints={cardsData.length} active={activeIndex} />
+        <StepperPoints totalPoints={cardsData.filter((item)=>!hiddenCards.includes(item.id)).length} active={activeIndex} />
       </Box>
       <Box
         sx={{
@@ -147,7 +147,7 @@ const QuestionMain = () => {
             width: "90%",
           }}
         >
-          {cardsData.map((card, index) => (
+          {cardsData.filter((item)=>!hiddenCards.includes(item.id)).map((card, index) => (
             <Paper
               key={index}
               elevation={3}
