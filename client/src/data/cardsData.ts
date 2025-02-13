@@ -132,6 +132,7 @@ export const cardsData: Card[] = [
         type: questionTypes.TEXT_INPUT,
         question: "What percentage of your business do women founders own?*",
         placeholder: "In percentage",
+        unit:"%",
         validation: { required: true, type: "number", max: 100, min: 0 },
       },
     ],
@@ -228,6 +229,7 @@ export const cardsData: Card[] = [
         question: "What was the topline revenue last year (2023/24) INR Lacs",
         placeholder: "In INR Lacs",
         validation: { type: "number" },
+        unit:"Lacs"
       },
       {
         id: 18,
@@ -235,6 +237,8 @@ export const cardsData: Card[] = [
         question: "Growth you targeting for this year?",
         placeholder: "In percentage",
         validation: { type: "number", min: 0, max: 100 },
+        unit:"%"
+
       },
     ],
   },

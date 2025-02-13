@@ -118,7 +118,7 @@ const Page1 = () => {
 
       <Box marginBottom={"120px"}>
         <Typography fontSize={"30px"} fontWeight={"700"}>
-          Seed
+          SEED
         </Typography>
         <Typography fontSize={"18px"} fontWeight={"400"} marginTop={"12px"}>
           SEED has established itself as India’s premier integrated CSR & Social

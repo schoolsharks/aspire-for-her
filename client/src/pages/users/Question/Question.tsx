@@ -122,6 +122,8 @@ const QuestionInput = React.memo(({ question,onValidationError, }: { question: Q
             {question.question}
           </Typography>
         )}
+        <Box position="relative">
+          {question.unit && <Typography sx={{position:"absolute",right:"0",color:theme.palette.primary.main,top:"5px"}}>{question.unit}</Typography>}
         <TextField
           value={storedResponse?.answer[0] || ""}
           id="standard-basic"
@@ -144,6 +146,7 @@ const QuestionInput = React.memo(({ question,onValidationError, }: { question: Q
             "&::before": { bottom: "12px" },
           }}
         />
+        </Box>
       </Box>
     );
   } else if (question.type === questionTypes.CHOICES) {

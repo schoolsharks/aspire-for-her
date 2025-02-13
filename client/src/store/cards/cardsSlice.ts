@@ -19,6 +19,7 @@ interface TextQuestion {
   label?: string;
   placeholder?: string;
   validation?: ValidationRules;
+  unit?:string;
   condition?:{
     if:string,
     removeCards?:number[],
