@@ -41,7 +41,7 @@ const HamburgerMenu = () => {
 
   return (
     <>
-      <IconButton onClick={() => setMenuOpen(true)}>
+      <IconButton onClick={() => setMenuOpen(true)} >
         <Menu sx={{ color: "#fff" }} />
       </IconButton>
 

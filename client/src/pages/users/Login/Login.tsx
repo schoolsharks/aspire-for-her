@@ -7,7 +7,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UpperTriangleBox from "../../../components/UpperTriangleBox";
 import "./Login.css";
 import { Close } from "@mui/icons-material";
@@ -23,6 +23,7 @@ import OutlinedButton from "../../../components/OutlinedButton";
 const Login = () => {
   const navigate = useNavigate();
   const theme = useTheme();
+  const [windowHeight,setWindowHeight]=useState(window.innerHeight)
   const [error, setError] = useState<string | null>(null);
   const dispatch = useDispatch<AppDispatch>();
   const [tncModalOpen, setTncModalOpen] = useState<boolean>(false);
@@ -62,8 +63,17 @@ const Login = () => {
     }
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowHeight(window.innerHeight);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <Stack minHeight={window.innerHeight}>
+    <Stack minHeight={windowHeight}>
       {/* {!tncModalOpen ? ( */}
       <UpperTriangleBox
         sx={{

@@ -21,6 +21,8 @@ const QuestionMain = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "0");
 
+  const [windowHeight,setWindowHeight]=useState(window.innerHeight)
+
   const dispatch = useDispatch<AppDispatch>();
   const [activeIndex, setActiveIndex] = useState(page);
   const responses = useSelector((state: RootState) => state.user.responses);
@@ -92,9 +94,19 @@ const QuestionMain = () => {
   );
   
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowHeight(window.innerHeight);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+
   return (
     <Stack
-      sx={{ bgcolor: "#000", minHeight: window.innerHeight }}
+      sx={{ bgcolor: "#000", minHeight: windowHeight }}
       padding={"48px 0 10px"}
     >
       <Typography

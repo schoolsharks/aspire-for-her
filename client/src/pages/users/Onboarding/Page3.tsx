@@ -134,7 +134,7 @@ const programOverview = [
         week: "Week 4",
         content: [
           {
-            text: "Professional Indemnity &amp; Risk Management – Understanding insurance essentials and mitigating international risks.",
+            text: "Professional Indemnity & Risk Management – Understanding insurance essentials and mitigating international risks.",
             variant: "outlined",
           },
           {
@@ -310,8 +310,7 @@ const Page3 = () => {
         </Box>
 
         <Typography fontWeight={"300"} marginTop={"43px"}>
-          SheExports is a high-impact 5-month hybrid accelerator program created
-          to:
+        This uniquely designed 5-month hybrid program will feature:
         </Typography>
         <ul>
           {mainPointers.map((point, index) => (

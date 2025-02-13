@@ -75,7 +75,7 @@ const Page2 = () => {
   return (
     <Stack color={"#fff"} padding={"24px"} gap={"46px"}>
       <Box marginTop={"-36px"}>
-        <Stack direction={"row"} justifyContent={"space-between"}>
+        <Stack direction={"row"} alignItems={"center"} justifyContent={"space-between"}>
           <Typography fontSize={"30px"} fontWeight={"700"}>
             Season 1 at a glance
           </Typography>
