@@ -327,7 +327,6 @@ export const cardsData: Card[] = [
             text: "Over $50k per month",
           },
         ],
-        validation: { required:true },
       },
     ],
   },

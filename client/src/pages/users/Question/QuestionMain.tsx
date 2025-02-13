@@ -18,16 +18,23 @@ import { syncFinalResponses } from "../../../store/user/userSlice";
 const QuestionMain = () => {
   const theme = useTheme();
   const [searchParams, setSearchParams] = useSearchParams();
-  const {cardsData,hiddenCards}=useSelector((state:RootState)=>state.cards)
+  const { cardsData, hiddenCards } = useSelector((state: RootState) => state.cards);
   const page = parseInt(searchParams.get("page") || "0");
 
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
-  const [invalidFields, setInvalidFields] = useState<Set<number>>(new Set()); // Track invalid fields
+  const [invalidFields, setInvalidFields] = useState<Set<number>>(new Set()); 
 
   const dispatch = useDispatch<AppDispatch>();
-  const [activeIndex, setActiveIndex] = useState(page);
   const responses = useSelector((state: RootState) => state.user.responses);
   const navigate = useNavigate();
+
+
+  const filteredCards = cardsData.filter((item) => !hiddenCards.includes(item.id));
+
+
+  const [activeIndex, setActiveIndex] = useState(
+    Math.min(page, filteredCards.length - 1)
+  );
 
   useEffect(() => {
     setSearchParams({ page: activeIndex.toString() });
@@ -40,7 +47,7 @@ const QuestionMain = () => {
   };
 
   const handleNext = () => {
-    if (activeIndex < cardsData.length - 1) {
+    if (activeIndex < filteredCards.length - 1) {
       setActiveIndex(activeIndex + 1);
     } else {
       dispatch(syncFinalResponses());
@@ -90,8 +97,8 @@ const QuestionMain = () => {
     }, 100);
   }, []);
 
-  // Check if all mandatory questions are answered
-  const allMandatoryAnswered = cardsData[activeIndex].questions.every(
+  // Check if all mandatory questions are answered in the current card
+  const allMandatoryAnswered = filteredCards[activeIndex].questions.every(
     (q) => !q.validation?.required || (responses.find((res) => res.questionId === q.id)?.answer?.length ?? 0) > 0
   );
 
@@ -122,12 +129,14 @@ const QuestionMain = () => {
         margin={"0px 24px"}
         minHeight={"72px"}
       >
-        {cardsData[activeIndex].title}
+        {filteredCards[activeIndex].title}
       </Typography>
 
       <Box margin={"24px auto"}>
-        {" "}
-        <StepperPoints totalPoints={cardsData.filter((item)=>!hiddenCards.includes(item.id)).length} active={activeIndex} />
+        <StepperPoints
+          totalPoints={filteredCards.length}
+          active={activeIndex}
+        />
       </Box>
       <Box
         sx={{
@@ -147,7 +156,7 @@ const QuestionMain = () => {
             width: "90%",
           }}
         >
-          {cardsData.filter((item)=>!hiddenCards.includes(item.id)).map((card, index) => (
+          {filteredCards.map((card, index) => (
             <Paper
               key={index}
               elevation={3}
