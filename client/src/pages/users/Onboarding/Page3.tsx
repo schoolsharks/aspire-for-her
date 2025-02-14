@@ -239,7 +239,7 @@ const programOverview = [
         content: [
           {
             text: "Art of Pitching using Story Telling",
-            variant: "contained",
+            variant: "outlined",
           },
         ],
       },
@@ -248,7 +248,7 @@ const programOverview = [
         content: [
           {
             text: "Investors Interaction (Top 10)",
-            variant: "contained",
+            variant: "outlined",
           },
         ],
       },
