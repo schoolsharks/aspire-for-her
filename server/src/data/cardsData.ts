@@ -1,73 +1,77 @@
-
 export enum questionTypes {
   TEXT_INPUT = "TEXT_INPUT",
   CHOICES = "CHOICES",
 }
-
 interface Card {
   id: string;
   title: string;
   questions: string[];
 }
+
 export const cardsData: Card[] = [
   {
-    id: "1",
+    id: "c_1",
     title: "Enter Your Details",
     questions: ["q_1", "q_2", "q_3", "q_4"],
   },
   {
-    id: "2",
+    id: "c_2",
     title: "Business information",
     questions: ["q_5", "q_6", "q_7", "q_8"],
   },
   {
-    id: "3",
+    id: "c_3",
     title: "Socials",
     questions: ["q_9", "q_10", "q_11"],
   },
   {
-    id: "4",
+    id: "c_4",
     title: "Business information",
     questions: ["q_12", "q_13"],
   },
   {
-    id: "5",
-    title: "Organisation size",
+    id: "c_5",
+    title: "What business idea are you working on?",
     questions: ["q_14"],
   },
   {
-    id: "6",
-    title: "What best describes your business? ",
+    id: "c_6",
+    title: "Organisation size",
     questions: ["q_15"],
   },
   {
-    id: "7",
+    id: "c_7",
+    title: "What best describes your business? ",
+    questions: ["q_16"],
+  },
+  {
+    id: "c_8",
     title: "Business stage",
-    questions: ["q_16", "q_17", "q_18"],
+    questions: ["q_17", "q_18", "q_19"],
   },
   {
-    id: "8",
+    id: "c_9",
     title: "Business operations",
-    questions: ["q_19", "q_20"],
+    questions: ["q_20", "q_21"],
   },
   {
-    id: "9",
+    id: "c_10",
     title: "Export activity",
-    questions: ["q_21", "q_22"],
+    questions: ["q_22", "q_23", "q_24"],
   },
   {
-    id: "10",
+    id: "c_11",
     title: "Export activity",
-    questions: ["q_23"],
-  },
-  {
-    id: "11",
-    title: "International Presence",
-    questions: ["q_24"],
-  },
-  {
-    id: "12",
-    title: "Select your preferred city for the workshop",
     questions: ["q_25"],
+  },
+  {
+    id: "c_12",
+    title: "International Presence",
+    questions: ["q_26", "q_27"],
+  },
+  {
+    id: "c_13",
+    title: "Select your preferred city for the workshop",
+    questions: ["q_28"],
   },
 ];

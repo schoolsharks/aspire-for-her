@@ -2,6 +2,8 @@ import { NextFunction, Request, response, Response } from "express";
 
 import { UserModel } from "../models/Users";
 import AppError from "../utils/appError";
+import { cardsData } from "../data/cardsData";
+import { questions } from "../data/questions";
 
 export const respondToQuestions = async (
   req: Request,
@@ -64,4 +66,28 @@ export const updateSelectedBenefits = async (
     message: "Selected benefits updated successfully",
     selectedBenefits: user.selectedBenefits,
   });
+};
+
+
+
+export const fetchQuestions = (req: Request, res: Response,next:NextFunction) => {
+  try {
+    const populatedCardsData = cardsData.map(card => {
+      return {
+        ...card,
+        questions: card.questions.map(questionId => {
+          const question = questions.find(q => q.id === questionId);
+          if (!question) {
+            throw new Error(`Question with id ${questionId} not found`);
+          }
+          return question;
+        })
+      };
+    });
+
+    res.status(200).json(populatedCardsData);
+  } catch (error) {
+    console.error('Error populating cards data:', error);
+    return next(new AppError("Internal Server Error",500))
+  }
 };

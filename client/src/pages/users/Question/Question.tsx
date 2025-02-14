@@ -11,8 +11,7 @@ import React, { useEffect, useState } from "react";
 import { syncResponses } from "../../../store/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import  { AppDispatch, RootState } from "../../../store/store";
-import { Question, setHiddenData } from "../../../store/cards/cardsSlice";
-import { questionTypes } from "../../../data/cardsData";
+import { Question, questionTypes, setHiddenData } from "../../../store/cards/cardsSlice";
 
 const QuestionInput = React.memo(
   ({

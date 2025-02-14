@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   Box,
+  CircularProgress,
   IconButton,
   Paper,
   Stack,
@@ -14,11 +15,12 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
 import { syncFinalResponses } from "../../../store/user/userSlice";
+import { fetchCardsData } from "../../../store/cards/cardsActions";
 
 const QuestionMain = () => {
   const theme = useTheme();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { cardsData, hiddenCards, hiddenQuestions } = useSelector(
+  const { cardsData, hiddenCards, hiddenQuestions,loading } = useSelector(
     (state: RootState) => state.cards
   );
   const page = parseInt(searchParams.get("page") || "0");
@@ -30,16 +32,18 @@ const QuestionMain = () => {
   const responses = useSelector((state: RootState) => state.user.responses);
   const navigate = useNavigate();
 
-  const filteredCards = cardsData.filter(
+  const filteredCards = cardsData?.filter(
     (item) => !hiddenCards.includes(item.id)
   );
 
   const [activeIndex, setActiveIndex] = useState(
-    Math.min(page, filteredCards.length - 1)
+    (!filteredCards.length || page<=filteredCards.length)? page:filteredCards.length
   );
 
   useEffect(() => {
-    setSearchParams({ page: activeIndex.toString() });
+    if(activeIndex>=0){
+      setSearchParams({ page: activeIndex.toString() });
+    }
   }, [activeIndex, setSearchParams]);
 
   const handlePrevious = () => {
@@ -99,7 +103,14 @@ const QuestionMain = () => {
     }, 100);
   }, []);
 
-  const allMandatoryAnswered = filteredCards[activeIndex].questions
+  useEffect(()=>{
+    if(!cardsData.length){
+      dispatch(fetchCardsData())
+      // setActiveIndex(0)
+    }
+  },[])
+
+  const allMandatoryAnswered = filteredCards[activeIndex]?.questions
     .filter((item) => !hiddenQuestions.includes(item.id))
     .every(
       (q) =>
@@ -131,6 +142,20 @@ const QuestionMain = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+
+
+  if (loading) {
+    return (
+      <Stack
+        minHeight={window.innerHeight}
+        alignItems={"center"}
+        justifyContent={"center"}
+      >
+        <CircularProgress sx={{ color: "#000" }} />
+      </Stack>
+    );
+  }
+
   return (
     <Stack
       sx={{ bgcolor: "#000", minHeight: windowHeight }}
@@ -143,7 +168,7 @@ const QuestionMain = () => {
         margin={"0px 24px"}
         minHeight={"72px"}
       >
-        {filteredCards[activeIndex].title}
+        {filteredCards[activeIndex]?.title}
       </Typography>
 
       <Box margin={"24px auto"}>

@@ -9,6 +9,8 @@ import v1Routes from "./routes/v1/index";
 import errorHandlerMiddleware from "./middlewares/errorHandler";
 import notFoundMiddleware from "./middlewares/notFound";
 import cookieParser from "cookie-parser";
+import "./jobs/index";
+
 
 dotenv.config();
 

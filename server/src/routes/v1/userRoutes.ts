@@ -14,7 +14,9 @@ router.post("/create",asyncHandler(userControllers.handleCreateUser))
 router.get("/getUser",authenticate,asyncHandler(userControllers.handleFetchUser))
 router.get("/reset",authenticate,asyncHandler(userControllers.handleReset))
 
+router.get("/question",authenticate,questionsControllers.fetchQuestions)
 router.post("/question",authenticate,asyncHandler(questionsControllers.respondToQuestions))
+
 router.post("/benefits",authenticate,asyncHandler(questionsControllers.updateSelectedBenefits))
 
 
