@@ -56,7 +56,7 @@ export const cardsData: Card[] = [
         id: "q_7",
         type: questionTypes.TEXT_INPUT,
         label: "Year of establishment*",
-        validation: { required: true, maxLength: 4, type: "number" },
+        validation: { required: true, maxLength: 4, type: "number",pattern:/^\d{4}$/ },
       },
       {
         id: "q_8",
@@ -165,7 +165,7 @@ export const cardsData: Card[] = [
         type: questionTypes.TEXT_INPUT,
         multiline:true,
         question: "Describe in 100 words*",
-        validation:{ required:true,max:100}
+        validation:{ required:true,maxLength:100}
       },
     ],
   },

@@ -62,8 +62,8 @@ const testimonialsData = [
   },
   {
     testimonial:
-      "Kalia Cloth Store/ House Of Amritsar - Thank you Team AFH for such a detailed and strategically important session, it really helped ponder on some very crucial business decisions that we often take out guts feeling. Thank you @Zil and @Anuj AFH for putting this all together",
-    name: "Priyanka Surve ",
+      "Thank you Team AFH for such a detailed and strategically important session, it really helped ponder on some very crucial business decisions that we often take out guts feeling. Thank you @Zil and @Anuj AFH for putting this all together",
+    name: "Priyanka Surve - Kalia Cloth Store/ House Of Amritsar ",
   },
 ];
 

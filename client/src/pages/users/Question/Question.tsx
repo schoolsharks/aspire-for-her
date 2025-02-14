@@ -141,7 +141,7 @@ const QuestionInput = React.memo(
         onValidationError(!!errorMessage)
         return;
       }
-      
+
     };
 
     const handleBlur = (value: string) => {
@@ -188,9 +188,9 @@ const QuestionInput = React.memo(
               helperText={error}
               sx={{
                 width: "100%",
-                // "& *":{
-                //   color:"#fff !important"
-                // },
+                "& textarea":{
+                  color:"#fff !important"
+                },
                 input: {
                   fontSize: "1rem !important",
                   "&::placeholder": {
