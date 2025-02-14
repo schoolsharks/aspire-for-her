@@ -165,7 +165,7 @@ export const cardsData: Card[] = [
         type: questionTypes.TEXT_INPUT,
         multiline:true,
         question: "Describe in 100 words*",
-        validation:{ required:true,maxLength:100}
+        validation:{ required:true,maxLength:600}
       },
     ],
   },
@@ -253,7 +253,8 @@ export const cardsData: Card[] = [
         condition: [
           {
             if: ["Pre - revenue"],
-            removeQuestions: ["q_18", "q_19"],
+            removeQuestions: ["q_18", "q_19","q_21"],
+            removeCards: ["c_10", "c_11","c_12"],
           },
         ],
       },
