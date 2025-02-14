@@ -6,7 +6,7 @@ export interface IUser extends Document {
   email: string;
   contact: string;
   session: Schema.Types.ObjectId;
-  responses: { questionId: number; answer: string[] }[];
+  responses: { questionId: string; answer: string[] }[];
   selectedBenefits: { benefitId: string }[];
 }
 
@@ -32,7 +32,7 @@ const UserSchema: Schema = new Schema(
     responses: [
       {
         questionId: {
-          type: Number,
+          type: String,
           required: true,
         },
         answer: {
