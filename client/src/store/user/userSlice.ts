@@ -4,7 +4,7 @@ import { AppDispatch, RootState } from "../store";
 import {throttle} from "lodash";
 
 export interface Response {
-  questionId: number;
+  questionId: string;
   answer: string[];
 }
 export interface User {
@@ -40,7 +40,7 @@ const userSlice = createSlice({
     },
     updateResponse: (
       state,
-      action: PayloadAction<{ questionId: number; answer: string[] }>
+      action: PayloadAction<{ questionId: string; answer: string[] }>
     ) => {
       const index = state.responses.findIndex(
         (res) => res.questionId === action.payload.questionId

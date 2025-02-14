@@ -33,5 +33,10 @@ export const benefitsData=[
         id:6,
         title:"Mentorship & Expert Guidance ",
         description:"(One-on-One Mentorship, Industry-Specific Advice, Business Growth Strategies)"
+    },
+    {
+        id:7,
+        title:"Hiring & Talent Acquisition",
+        description:"(Building strong skilled teams by providing end-to-end hiring solutions from entry-level to senior leadership)"
     }
 ]

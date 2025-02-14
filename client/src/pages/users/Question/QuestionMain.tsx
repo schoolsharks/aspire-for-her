@@ -18,19 +18,21 @@ import { syncFinalResponses } from "../../../store/user/userSlice";
 const QuestionMain = () => {
   const theme = useTheme();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { cardsData, hiddenCards } = useSelector((state: RootState) => state.cards);
+  const { cardsData, hiddenCards, hiddenQuestions } = useSelector(
+    (state: RootState) => state.cards
+  );
   const page = parseInt(searchParams.get("page") || "0");
 
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
-  const [invalidFields, setInvalidFields] = useState<Set<number>>(new Set()); 
+  const [invalidFields, setInvalidFields] = useState<Set<string>>(new Set());
 
   const dispatch = useDispatch<AppDispatch>();
   const responses = useSelector((state: RootState) => state.user.responses);
   const navigate = useNavigate();
 
-
-  const filteredCards = cardsData.filter((item) => !hiddenCards.includes(item.id));
-
+  const filteredCards = cardsData.filter(
+    (item) => !hiddenCards.includes(item.id)
+  );
 
   const [activeIndex, setActiveIndex] = useState(
     Math.min(page, filteredCards.length - 1)
@@ -97,15 +99,27 @@ const QuestionMain = () => {
     }, 100);
   }, []);
 
-  // Check if all mandatory questions are answered in the current card
-  const allMandatoryAnswered = filteredCards[activeIndex].questions.every(
-    (q) => !q.validation?.required || (responses.find((res) => res.questionId === q.id)?.answer?.length ?? 0) > 0
+  const allMandatoryAnswered = filteredCards[activeIndex].questions
+    .filter((item) => !hiddenQuestions.includes(item.id))
+    .every(
+      (q) =>
+        !q.validation?.required ||
+        (responses
+          .find((res) => res.questionId === q.id)
+          ?.answer?.some((ans) => ans.trim() !== "") ??
+          false)
+    );
+
+  const hasInvalidFields = [...invalidFields].some(
+    (item) => !hiddenQuestions.includes(item)
   );
 
-  // Check if there are any invalid fields in the current card
-  const hasInvalidFields = invalidFields.size > 0;
+  useEffect(() => {
+    console.log("invalid", invalidFields);
 
-  // Disable next button if mandatory questions are unanswered or there are invalid fields
+    console.log("Has Invalid fields", hasInvalidFields);
+  }, [invalidFields]);
+
   const isNextDisabled = !allMandatoryAnswered || hasInvalidFields;
 
   useEffect(() => {
@@ -188,6 +202,7 @@ const QuestionMain = () => {
                         const newSet = new Set(prev);
                         if (isInvalid) {
                           newSet.add(question.id);
+                          console.log("Adding", question.id);
                         } else {
                           newSet.delete(question.id);
                         }
@@ -222,7 +237,9 @@ const QuestionMain = () => {
                   <ArrowForward
                     sx={{
                       color: isNextDisabled ? "#ffffff88" : "#fff",
-                      border: isNextDisabled ? "2px solid #ffffff88" : "2px solid #ffffff",
+                      border: isNextDisabled
+                        ? "2px solid #ffffff88"
+                        : "2px solid #ffffff",
                       borderRadius: "50%",
                       fontSize: "36px",
                       padding: "5px",

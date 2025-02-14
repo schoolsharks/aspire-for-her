@@ -13,45 +13,48 @@ interface ValidationRules {
 }
 
 interface TextQuestion {
-  id: number;
+  id: string;
   question?: string;
   type: questionTypes.TEXT_INPUT;
   label?: string;
   placeholder?: string;
   validation?: ValidationRules;
   unit?:string;
+  defaultHidden?:boolean;
+  multiline?:boolean;
   condition?:{
-    if:string,
-    removeCards?:number[],
-    removeQuestions?:number[]
-  }
+    if:string[],
+    removeCards?:string[],
+    removeQuestions?:string[]
+  }[]
 }
 interface ChoicesQuestion {
-  id: number;
+  id: string;
   type: questionTypes.CHOICES;
   textInput?: { placeholder: string };
   question?: string;
   options: { text: string; subtext?: string; other?: boolean }[];
   validation?: ValidationRules;
+  defaultHidden?:boolean;
   condition?:{
-    if:string,
-    removeCards?:number[],
-    removeQuestions?:number[]
-  }
+    if:string[],
+    removeCards?:string[],
+    removeQuestions?:string[]
+  }[]
 }
 
 export type Question = TextQuestion | ChoicesQuestion;
 
 export interface Card {
-  id:number;
+  id:string;
   title: string;
   questions: Question[];
 }
 
 interface CardsData {
   cardsData: Card[];
-  hiddenCards: number[];
-  hiddenQuestions: number[];
+  hiddenCards: string[];
+  hiddenQuestions: string[];
 }
 
 const initialState: CardsData = {
