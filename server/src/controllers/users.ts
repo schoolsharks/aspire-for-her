@@ -4,7 +4,6 @@ import AppError from "../utils/appError";
 import { UserModel } from "../models/Users";
 import { generateAccessToken } from "../utils/jwtUtils";
 import { SessionModel } from "../models/Sessions";
-import { BASE_TIME, BASE_TRUST_SCORE } from "../data/questions";
 
 const handleCreateUser = async (
   req: Request,
