@@ -8,7 +8,8 @@ import { benefitsData } from "../../data/benefitsMapping";
 
 const managementEmails = [
   emails.MANISH_BULCHANDANI,
-  // emails.MANISH_CREATIVE
+  emails.ANUJ_KANWAR,
+  emails.VIBHA_MANOHAR
 ];
 
 const getQuestionText = (questionId: string): string => {

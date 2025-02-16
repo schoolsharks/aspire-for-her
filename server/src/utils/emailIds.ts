@@ -1,6 +1,5 @@
+const MANISH_BULCHANDANI = "manishbulchandani4@gmail.com";
+const ANUJ_KANWAR = "anuj.kanwar@aspireforher.com";
+const VIBHA_MANOHAR = "vibha.manohara@aspireforher.com";
 
-const MANISH_BULCHANDANI="manishbulchandani4@gmail.com"
-const MANISH_CREATIVE="manish@creativeupaay.com"
-
-
-export {MANISH_BULCHANDANI,MANISH_CREATIVE}
+export { MANISH_BULCHANDANI, ANUJ_KANWAR, VIBHA_MANOHAR };
