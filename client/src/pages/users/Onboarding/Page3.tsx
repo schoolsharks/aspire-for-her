@@ -334,7 +334,7 @@ const Page3 = () => {
         >
           <Stack direction={"row"} alignItems={"center"} gap={"60px"}>
             <Box width={"60px"}>
-              <Typography fontWeight={"400"}>21st</Typography>
+              <Typography fontWeight={"400"}>23rd</Typography>
               <Typography fontSize={"12px"} fontWeight={"400"}>
                 Mar
               </Typography>
@@ -538,7 +538,7 @@ const Page3 = () => {
         bgcolor={theme.palette.primary.main}
       >
         <Typography fontSize="20px" fontWeight={"700"}>
-          Workshop Detals
+          Workshop Details
         </Typography>
         <Typography fontSize="18px" fontWeight={"500"} color="#DA9DFF">
           Offline
