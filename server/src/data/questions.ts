@@ -383,7 +383,7 @@ export const questions: Question[] = [
         text: "UAE",
       },
       {
-        text: "UAE",
+        text: "Both United States & UAE",
       },
       {
         text: "Not at this point",
