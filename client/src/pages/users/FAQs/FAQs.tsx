@@ -43,6 +43,11 @@ const faqs = [
       "Ans: No. The program is designed for both beginners and experienced entrepreneurs looking to expand internationally.",
   },
   {
+    question: "What industries are eligible for the program?",
+    answer:
+      "Ans: The program is open to all service-based businesses, including IT, consulting, education, cwellness, financial services, and creative industries.",
+  },
+  {
     question: "How will the one-on-one mentorship be structured?",
     answer:
       "Ans: Each participant will receive three personalized mentoring sessions with industry experts tailored to their business needs.",
@@ -65,6 +70,10 @@ const faqs = [
   {
     question: "Can MSME/SME join the program?",
     answer: "Ans. Yes, as long as it is service-focused.",
+  },
+  {
+    question: "Does filling this application guarantee spot?",
+    answer: "Ans. We wish, if we can have you all. But the application selection will happen via an independent jury members based on various criteria and one important one is revenue making and not at ideation stage.",
   },
   {
     question: "What monthly commitment is needed from my end?",
