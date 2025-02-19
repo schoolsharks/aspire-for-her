@@ -271,7 +271,7 @@ export const questions: Question[] = [
     type: questionTypes.TEXT_INPUT,
     question: "What was the topline revenue last year (2023/24) INR Lacs*",
     placeholder: "In INR Lacs",
-    validation: { type: "number", required: true, max: 1000 },
+    validation: { type: "number", required: true, max: 100000 },
     unit: "Lacs",
   },
   {
