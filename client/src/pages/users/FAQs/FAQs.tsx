@@ -45,7 +45,7 @@ const faqs = [
   {
     question: "What industries are eligible for the program?",
     answer:
-      "Ans: The program is open to all service-based businesses, including IT, consulting, education, cwellness, financial services, and creative industries.",
+      "Ans: The program is open to all service-based businesses, including IT, consulting, education, wellness, financial services, and creative industries.",
   },
   {
     question: "How will the one-on-one mentorship be structured?",
