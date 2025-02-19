@@ -314,7 +314,7 @@ export const questions: Question[] = [
     question: "Does your business currently exports products/ services?*",
     options: [
       {
-        text: "Yes, Definately",
+        text: "Yes, Definitely",
       },
       {
         text: "No, Not This Time",
@@ -378,6 +378,9 @@ export const questions: Question[] = [
     options: [
       {
         text: "United States",
+      },
+      {
+        text: "UAE",
       },
       {
         text: "UAE",
