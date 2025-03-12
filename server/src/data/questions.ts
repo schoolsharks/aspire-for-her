@@ -428,4 +428,18 @@ export const questions: Question[] = [
     ],
     validation: { required: true },
   },
+  {
+    id: "q_29",
+    type: questionTypes.CHOICES,
+    options: [
+      { text: "AFH Newsletter" },
+      { text: "AFH Social Media" },
+      { text: "AFH WhatsApp Group" },
+      {
+        text: "Other",
+        other: true,
+      },
+    ],
+    validation: { required: true },
+  },
 ];
