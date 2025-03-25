@@ -54,47 +54,235 @@ const whySheExports = [
   },
 ];
 
+// const programOverview = [
+//   {
+//     month: "April",
+//     weeks: [
+//       {
+//         week: "Week 1",
+//         content: [
+//           {
+//             text: "Indore Workshop",
+//             variant: "contained",
+//           },
+//         ],
+//       },
+//       {
+//         week: "Week 2",
+//         content: [
+//           {
+//             text: "Chandigarh Workshop",
+//             variant: "contained",
+//           },
+//         ],
+//       },
+//       {
+//         week: "Week 3",
+//         content: [
+//           {
+//             text: "Pune Workshop",
+//             variant: "contained",
+//           },
+//         ],
+//       },
+//       {
+//         week: "Week 4",
+//         content: [
+//           {
+//             text: "Win Global Customers: UI/UX, Branding, Content, Email",
+//             variant: "outlined",
+//           },
+//           {
+//             text: "Leveraging LinkedIn Marketing (Tools)",
+//             variant: "outlined",
+//           },
+//         ],
+//       },
+//     ],
+//   },
+//   {
+//     month: "May",
+//     weeks: [
+//       {
+//         week: "Week 1",
+//         content: [
+//           {
+//             text: "Ahmedabad Workshop",
+//             variant: "contained",
+//           },
+//         ],
+//       },
+//       {
+//         week: "Week 1",
+//         content: [
+//           {
+//             text: "Surat Workshop",
+//             variant: "contained",
+//           },
+//         ],
+//       },
+//       {
+//         week: "Week 4",
+//         content: [
+//           {
+//             text: "Mumbai Workshop",
+//             variant: "contained",
+//           },
+//         ],
+//       },
+//       {
+//         week: "Week 4",
+//         content: [
+//           {
+//             text: "Professional Indemnity & Risk Management – Understanding insurance essentials and mitigating international risks.",
+//             variant: "outlined",
+//           },
+//           {
+//             text: "Navigating global data protection laws and compliance.",
+//             variant: "outlined",
+//           },
+//         ],
+//       },
+//     ],
+//   },
+//   {
+//     month: "June",
+//     weeks: [
+//       {
+//         week: "Week 3",
+//         content: [
+//           {
+//             text: "Bengaluru Workshop",
+//             variant: "contained",
+//           },
+//         ],
+//       },
+//       {
+//         week: "Week 3",
+//         content: [
+//           {
+//             text: "Chennai Workshop",
+//             variant: "contained",
+//           },
+//         ],
+//       },
+//       {
+//         week: "Week 4",
+//         content: [
+//           {
+//             text: "Coimbatore Workshop",
+//             variant: "contained",
+//           },
+//         ],
+//       },
+//       {
+//         week: "Week 4",
+//         content: [
+//           {
+//             text: "Leveraging International Social Media/Influencer Marketing &  User- Generated Content.",
+//             variant: "outlined",
+//           },
+//         ],
+//       },
+//     ],
+//   },
+  // {
+  //   month: "July",
+  //   weeks: [
+  //     {
+  //       week: "Week 2",
+  //       content: [
+  //         {
+  //           text: "Delhi & NCR Workshop",
+  //           variant: "contained",
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       week: "Week 2",
+  //       content: [
+  //         {
+  //           text: "Kolkata Workshop",
+  //           variant: "contained",
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       week: "Week 3",
+  //       content: [
+  //         {
+  //           text: "Scaling SaaS & Transitioning from Service to Product",
+  //           variant: "outlined",
+  //         },
+  //         {
+  //           text: "Service Exports Founder. Case Study",
+  //           variant: "outlined",
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       week: "Week 4",
+  //       content: [
+  //         {
+  //           text: "Scaling your Service Businesses with AI",
+  //           variant: "outlined",
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
+  // {
+  //   month: "August",
+  //   weeks: [
+  //     {
+  //       week: "Week 1",
+  //       content: [
+  //         {
+  //           text: "Art of Pitching using Story Telling",
+  //           variant: "outlined",
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       week: "Week 2",
+  //       content: [
+  //         {
+  //           text: "Investors Interaction (Top 10)",
+  //           variant: "outlined",
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       week: "Week 4",
+  //       content: [
+  //         {
+  //           text: "Podcast Launch & Finale",
+  //           variant: "outlined",
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
+// ];
 const programOverview = [
   {
     month: "April",
     weeks: [
       {
-        week: "Week 1",
+        week: "12th",
         content: [
           {
-            text: "Indore Workshop",
+            text: "Mumbai Workshop",
             variant: "contained",
           },
         ],
       },
       {
-        week: "Week 2",
-        content: [
-          {
-            text: "Chandigarh Workshop",
-            variant: "contained",
-          },
-        ],
-      },
-      {
-        week: "Week 3",
+        week: "26th",
         content: [
           {
             text: "Pune Workshop",
             variant: "contained",
-          },
-        ],
-      },
-      {
-        week: "Week 4",
-        content: [
-          {
-            text: "Win Global Customers: UI/UX, Branding, Content, Email",
-            variant: "outlined",
-          },
-          {
-            text: "Leveraging LinkedIn Marketing (Tools)",
-            variant: "outlined",
           },
         ],
       },
@@ -104,42 +292,20 @@ const programOverview = [
     month: "May",
     weeks: [
       {
-        week: "Week 1",
+        week: "10th",
         content: [
           {
-            text: "Ahmedabad Workshop",
+            text: "Chandigarh Workshop",
             variant: "contained",
           },
         ],
       },
       {
-        week: "Week 1",
+        week: "17th",
         content: [
           {
-            text: "Surat Workshop",
+            text: "Delhi Workshop",
             variant: "contained",
-          },
-        ],
-      },
-      {
-        week: "Week 4",
-        content: [
-          {
-            text: "Mumbai Workshop",
-            variant: "contained",
-          },
-        ],
-      },
-      {
-        week: "Week 4",
-        content: [
-          {
-            text: "Professional Indemnity & Risk Management – Understanding insurance essentials and mitigating international risks.",
-            variant: "outlined",
-          },
-          {
-            text: "Navigating global data protection laws and compliance.",
-            variant: "outlined",
           },
         ],
       },
@@ -149,38 +315,11 @@ const programOverview = [
     month: "June",
     weeks: [
       {
-        week: "Week 3",
+        week: "17th",
         content: [
           {
-            text: "Bengaluru Workshop",
+            text: "Bangalore Workshop",
             variant: "contained",
-          },
-        ],
-      },
-      {
-        week: "Week 3",
-        content: [
-          {
-            text: "Chennai Workshop",
-            variant: "contained",
-          },
-        ],
-      },
-      {
-        week: "Week 4",
-        content: [
-          {
-            text: "Coimbatore Workshop",
-            variant: "contained",
-          },
-        ],
-      },
-      {
-        week: "Week 4",
-        content: [
-          {
-            text: "Leveraging International Social Media/Influencer Marketing &  User- Generated Content.",
-            variant: "outlined",
           },
         ],
       },
@@ -310,7 +449,7 @@ const Page3 = () => {
         </Box>
 
         <Typography fontWeight={"300"} marginTop={"43px"}>
-        This uniquely designed 5-month hybrid program will feature:
+          This uniquely designed 5-month hybrid program will feature:
         </Typography>
         <ul>
           {mainPointers.map((point, index) => (
@@ -334,9 +473,9 @@ const Page3 = () => {
         >
           <Stack direction={"row"} alignItems={"center"} gap={"60px"}>
             <Box width={"60px"}>
-              <Typography fontWeight={"400"}>23rd</Typography>
+              <Typography fontWeight={"400"}>4th</Typography>
               <Typography fontSize={"12px"} fontWeight={"400"}>
-                Mar
+                Apr
               </Typography>
             </Box>
             <Box
@@ -351,9 +490,9 @@ const Page3 = () => {
 
           <Stack direction={"row"} alignItems={"center"} gap={"60px"}>
             <Box width={"60px"}>
-              <Typography fontWeight={"400"}>28th</Typography>
+              <Typography fontWeight={"400"}>7th</Typography>
               <Typography fontSize={"12px"} fontWeight={"400"}>
-                Mar
+                Apr
               </Typography>
             </Box>
             <Box
