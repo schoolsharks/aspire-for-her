@@ -19,5 +19,6 @@ router.post("/question",authenticate,asyncHandler(questionsControllers.respondTo
 
 router.post("/benefits",authenticate,asyncHandler(questionsControllers.updateSelectedBenefits))
 
+router.post("/login",asyncHandler(userControllers.handleUserLogin))
 
 export default router
