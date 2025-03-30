@@ -1,8 +1,8 @@
 import express from "express"
 import asyncHandler from "../../utils/asyncHandler"
 import { authenticate } from "../../middlewares/authenticate"
-import * as userControllers from "../../controllers/users"
-import * as questionsControllers from "../../controllers/questions"
+import * as userControllers from "../../controllers/users/users"
+import * as questionsControllers from "../../controllers/users/questions"
 
 const router=express.Router()
 
@@ -19,5 +19,6 @@ router.post("/question",authenticate,asyncHandler(questionsControllers.respondTo
 
 router.post("/benefits",authenticate,asyncHandler(questionsControllers.updateSelectedBenefits))
 
+router.post("/login",asyncHandler(userControllers.handleUserLogin))
 
 export default router
