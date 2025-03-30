@@ -1,12 +1,13 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { ApplicationRoles } from "../types/enums";
 
 dotenv.config();
 
 // Define Token Payload Interface
 export interface TokenPayload {
   id: string; // User ID
-  role: "USER" | "APPLICANT"; // Role of the user
+  role: ApplicationRoles; 
 }
 
 // Ensure secret keys are provided
