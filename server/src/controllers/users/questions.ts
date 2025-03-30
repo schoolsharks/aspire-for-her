@@ -1,9 +1,9 @@
 import { NextFunction, Request, response, Response } from "express";
 
-import { UserModel } from "../models/Users";
-import AppError from "../utils/appError";
-import { cardsData } from "../data/cardsData";
-import { questions } from "../data/questions";
+import { UserModel } from "../../models/Users";
+import AppError from "../../utils/appError";
+import { cardsData } from "../../data/cardsData";
+import { questions } from "../../data/questions";
 
 export const respondToQuestions = async (
   req: Request,

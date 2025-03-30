@@ -1,10 +1,11 @@
 import { NextFunction, Request, Response } from "express";
-import { ActiveSessionModel } from "../models/ActiveSession";
-import AppError from "../utils/appError";
-import { ApprovedUserModel } from "../models/ApprovedUser";
-import {UserModel} from "../models/Users";
-import { generateAccessToken } from "../utils/jwtUtils";
-import { SessionModel } from "../models/Sessions";
+import { ActiveSessionModel } from "../../models/ActiveSession";
+import AppError from "../../utils/appError";
+import { ApprovedUserModel } from "../../models/ApprovedUser";
+import {UserModel} from "../../models/Users";
+import { generateAccessToken } from "../../utils/jwtUtils";
+import { SessionModel } from "../../models/Sessions";
+import { ApplicationRoles } from "../../types/enums";
 
 // const handleCreateUser = async (
 //   req: Request,
@@ -72,7 +73,7 @@ const handleCreateUser = async (
     //const accessToken = generateAccessToken({ id: newUser._id.toString() });
     const accessToken = generateAccessToken({
       id: newUser._id.toString(),
-      role: "APPLICANT",         // or "USER" if approved
+      role: ApplicationRoles.USER,         // or "USER" if approved
     });
     
     // Set the token in an HTTP-only cookie
@@ -188,7 +189,7 @@ const handleUserLogin = async (
   }
 
   // Generate access token
-  const accessToken = generateAccessToken({ id: user._id.toString(), role: "USER" });
+  const accessToken = generateAccessToken({ id: user._id.toString(), role: ApplicationRoles.USER });
 
   // Set the token in an HTTP-only cookie
   res.cookie("accessToken", accessToken, {
