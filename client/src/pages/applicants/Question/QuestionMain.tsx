@@ -14,7 +14,7 @@ import StepperPoints from "../../../components/StepperPoints";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
-import { syncFinalResponses } from "../../../store/user/userSlice";
+import { syncFinalResponses } from "../../../store/applicants/applicantsSlice";
 import { fetchCardsData } from "../../../store/cards/cardsActions";
 
 const QuestionMain = () => {

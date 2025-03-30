@@ -19,8 +19,8 @@ input {
   border-bottom: 2px solid #fff !important;
 }
 
-.not-mandate .MuiFormLabel-root {
-  color: #6f6f6f !important;
+.not-mandate .MuiFormLabel-root{
+  color:#6f6f6f !important;
 }
 
 .not-mandate .MuiInput-underline:before {

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { createUser, fetchUser, reset, respondToQuestions } from "./userActions";
+import { createApplicant, fetchApplicant, reset, respondToQuestions } from "./applicantsActions";
 import { AppDispatch, RootState } from "../store";
 import {throttle} from "lodash";
 
@@ -10,7 +10,7 @@ export interface Response {
 export interface User {
   name: string;
   loading: boolean;
-  responses: Response[];
+  responses: Response[]; 
   status: "LOGGED_IN" | "IDLE";
   error: string | null;
   selectedBenefits:{benefitId:string}[]
@@ -60,12 +60,12 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(createUser.pending, (state) => {
+      .addCase(createApplicant.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(
-        createUser.fulfilled,
+        createApplicant.fulfilled,
         (
           state,
           action: PayloadAction<{
@@ -78,7 +78,7 @@ const userSlice = createSlice({
           state.status = "LOGGED_IN";
         }
       )
-      .addCase(createUser.rejected, (state, action) => {
+      .addCase(createApplicant.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string | null;
         state.status = "IDLE";
@@ -106,12 +106,12 @@ const userSlice = createSlice({
         state.error = action.payload as string | null;
         state.status = "IDLE";
       })
-      .addCase(fetchUser.pending, (state) => {
+      .addCase(fetchApplicant.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(
-        fetchUser.fulfilled,
+        fetchApplicant.fulfilled,
         (
           state,
           action: PayloadAction<{
@@ -128,7 +128,7 @@ const userSlice = createSlice({
           state.status = "LOGGED_IN";
         }
       )
-      .addCase(fetchUser.rejected, (state, action) => {
+      .addCase(fetchApplicant.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string | null;
         state.status = "IDLE";

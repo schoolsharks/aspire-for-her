@@ -6,7 +6,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import BenefitCard from "./BenefitCard";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
-import { updateSelectedBenefits } from "../../../store/user/userActions";
+import { updateSelectedBenefits } from "../../../store/applicants/applicantsActions";
 
 const Benefits = () => {
   const navigate = useNavigate();

@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Login from "./Login/Login";
 import { Stack } from "@mui/system";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import QuestionMain from "./Question/QuestionMain";
 import Benefits from "./Benefits/Benefits";
 import OnboardingMain from "./Onboarding/OnboardingMain";
@@ -11,25 +11,22 @@ import ThankYou from "./ThankYou/ThankYou";
 import Review from "./Benefits/Review";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
-import { fetchUser } from "../../store/user/userActions";
+import { fetchApplicant } from "../../store/applicants/applicantsActions";
 import { CircularProgress } from "@mui/material";
+import useWindowHeight from "../../hooks/useWindowHeight";
 // import { CircularProgress } from "@mui/material";
 // import { AnimatePresence } from "framer-motion";
 // import AnimatedPage from "../../utils/AnimatedPage";
 
-const UserMain = () => {
+const ApplicantsMain = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { status, loading } = useSelector((state: RootState) => state.user);
   const location = useLocation();
-  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+  const {windowHeight} = useWindowHeight()
 
   useEffect(() => {
-    dispatch(fetchUser());
+    dispatch(fetchApplicant());
   }, []);
-
-  useEffect(() => {
-    setWindowHeight(window.innerHeight);
-  }, [window.innerHeight]);
 
   if (loading) {
     return (
@@ -98,4 +95,4 @@ const UserMain = () => {
   );
 };
 
-export default UserMain;
+export default ApplicantsMain;

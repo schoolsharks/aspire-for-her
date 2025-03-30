@@ -5,7 +5,7 @@ import { ArrowBack } from "@mui/icons-material";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
-import { updateSelectedBenefits } from "../../../store/user/userActions";
+import { updateSelectedBenefits } from "../../../store/applicants/applicantsActions";
 import { useState } from "react";
 
 const Review = () => {

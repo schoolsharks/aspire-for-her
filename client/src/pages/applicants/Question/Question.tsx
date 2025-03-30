@@ -8,7 +8,7 @@ import {
   // useTheme,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { syncResponses } from "../../../store/user/userSlice";
+import { syncResponses } from "../../../store/applicants/applicantsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import  { AppDispatch, RootState } from "../../../store/store";
 import { Question, questionTypes, setHiddenData } from "../../../store/cards/cardsSlice";

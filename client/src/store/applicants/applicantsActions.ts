@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { userApi } from "../../api/userApi";
-import { Response, updateSelectedBenefitsLocally } from "./userSlice";
+import { Response, updateSelectedBenefitsLocally } from "./applicantsSlice";
 
-export const createUser = createAsyncThunk(
+export const createApplicant = createAsyncThunk(
   "user/createUser",
   async (
     { name, email, contact }: { name: string; email: string; contact: string },
@@ -19,7 +19,7 @@ export const createUser = createAsyncThunk(
   }
 );
 
-export const fetchUser = createAsyncThunk(
+export const fetchApplicant = createAsyncThunk(
   "user/fetchUser",
   async (_, { rejectWithValue }) => {
     try {

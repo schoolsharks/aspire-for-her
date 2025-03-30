@@ -4,21 +4,26 @@ declare module '@mui/material/styles' {
   interface PaletteColor {
     accent?: string; 
     red?: string; 
-    grey?:string;
-
+    grey?: string;
+    greyDark?: string;
+    greyLight?: string;
   }
 
   interface SimplePaletteColorOptions {
     accent?: string; 
     red?: string; 
-    grey?:string;
+    grey?: string;
+    greyDark?: string;
+    greyLight?: string;
   }
 
   interface Palette {
+    lmsprimary: PaletteColor; 
     tertiary: PaletteColor; 
   }
 
   interface PaletteOptions {
+    lmsprimary?: SimplePaletteColorOptions; 
     tertiary?: SimplePaletteColorOptions; 
   }
 }
@@ -27,6 +32,11 @@ const theme: Theme = createTheme({
   palette: {
     primary: {
       main: '#A04AD4',
+    },
+    lmsprimary: {
+      main: "#96FF43", 
+      greyDark:"#252525",
+      greyLight:"#464646",
     },
     secondary: {
       main: "#691B99",
