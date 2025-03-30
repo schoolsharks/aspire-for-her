@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 
-export interface IUser extends Document {
+export interface IApprovedUser extends Document {
   _id: Schema.Types.ObjectId;
   name: string;
   email: string;
@@ -38,4 +38,4 @@ const ApprovedUserSchema: Schema = new Schema(
 );
 
 // ✅ Export the Model
-export const ApprovedUserModel = mongoose.model<IUser>("ApprovedUser", ApprovedUserSchema);
+export const ApprovedUserModel = mongoose.model<IApprovedUser>("ApprovedUser", ApprovedUserSchema);
