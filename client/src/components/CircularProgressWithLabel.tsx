@@ -2,27 +2,41 @@ import {
   Box,
   CircularProgress,
   CircularProgressProps,
-  Typography,
   useTheme,
 } from "@mui/material";
 
-export function CircularProgressWithLabel(
-  props: CircularProgressProps & { value: number }
-) {
+interface CustomCircularProgressProps extends CircularProgressProps {
+  size: number;
+  value: number;
+  background: string;
+  trackColor?: string;
+  thickness?: number;
+  labelComponent?: JSX.Element | string | number;
+}
+
+export const CircularProgressWithLabel: React.FC<CustomCircularProgressProps> = ({
+  size,
+  thickness=3,
+  labelComponent,
+  background,
+  trackColor,
+  ...props
+}) => {
   const theme = useTheme();
   return (
     <Box sx={{ position: "relative", display: "inline-flex" }}>
       <CircularProgress
         variant="determinate"
+        thickness={thickness}
         {...props}
-        size={61}
+        size={size ?? 61}
         sx={{
           color: theme.palette.lmsprimary.main,
           "& .MuiCircularProgress-circle": {
             strokeLinecap: "round",
           },
           "&.MuiCircularProgress-root": {
-            backgroundColor: "#07010B", 
+            backgroundColor: trackColor ?? "#07010B",
             borderRadius: "50%",
           },
         }}
@@ -38,18 +52,14 @@ export function CircularProgressWithLabel(
           alignItems: "center",
           justifyContent: "center",
           height: "100%",
-          width:"100%",
-          scale:0.85,
-          bgcolor:theme.palette.lmsprimary.greyDark,
-          borderRadius:"50%"
+          width: "100%",
+          scale: 1 - thickness * 0.05,
+          bgcolor: background,
+          borderRadius: "50%",
         }}
       >
-        <Typography
-          variant="caption"
-          component="div"
-          sx={{ fontSize: "1.2rem", color: "#ffffff" }}
-        >{`${Math.round(props.value)}%`}</Typography>
+        {labelComponent}
       </Box>
     </Box>
   );
-}
+};

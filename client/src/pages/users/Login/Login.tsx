@@ -11,13 +11,15 @@ import UpperTriangleBox from "../../../components/UpperTriangleBox";
 import "./Login.css";
 // import { Close } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-// import { useDispatch } from "react-redux";
-// import { AppDispatch } from "../../../store/store";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../store/store";
 import logos from "../../../assets/company-logos.webp";
 import HamburgerMenu from "../../../components/HamburgerMenu";
 import ArrowButton from "../../../components/ArrowButton";
 import OutlinedButton from "../../../components/OutlinedButton";
 import useWindowHeight from "../../../hooks/useWindowHeight";
+import { loginUser } from "../../../store/approvedUser/approvedUserActions";
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -25,37 +27,34 @@ const Login = () => {
   const { windowHeight } = useWindowHeight();
 
   const [error, setError] = useState<string | null>(null);
-//   const dispatch = useDispatch<AppDispatch>();
-//   const [tncModalOpen, setTncModalOpen] = useState<boolean>(false);
-  const [emailContact, setEmailContact] = useState<string>("");
+  const dispatch = useDispatch<AppDispatch>();
+  const [emailPhone, setEmailPhone] = useState<string>("");
 
-  const handleChange = () => (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    setEmailContact(value);
+    setEmailPhone(value);
     setError(null);
   };
 
   const handleSubmit = () => {
-    navigate("/users/dashboard")
-    //   dispatch(createApplicant(formValues)).then((response) => {
-    //     if (createApplicant.rejected.match(response)) {
-    //       console.error("API error:", response.error);
-    //       return;
-    //     }
-    //     navigate("/questions");
-    //   });
-    // }
+    dispatch(loginUser({ emailPhone }))
+    .then((response) => {
+      if (loginUser.rejected.match(response)) {
+        console.error("API error:", response.error);
+        return;
+      }
+      navigate("/users/dashboard");
+    });
   };
 
   return (
     <Stack minHeight={windowHeight} position="relative">
-      {/* {!tncModalOpen ? ( */}
       <UpperTriangleBox
         sx={{
           height: "100%",
           flex: "1",
-          borderRadius: "0" ,
-          margin:  "0",
+          borderRadius: "0",
+          margin: "0",
           transition: "all 0.3s ease",
         }}
       >
@@ -76,10 +75,10 @@ const Login = () => {
 
           <Stack spacing={3} marginTop={"32px"}>
             <TextField
+              value={emailPhone}
               id="email-contact"
               label="Email/Contact*"
               variant="standard"
-              value={emailContact}
               onChange={handleChange}
             />
             {error && (
@@ -133,38 +132,6 @@ const Login = () => {
               Secure your spot
             </OutlinedButton>
           </Stack>
-          {/* <Stack direction={"row"}>
-                <IconButton
-                  onClick={() => navigate("/onboarding/1")}
-                  sx={{ padding: "0" }}
-                >
-                  <ArrowBack
-                    sx={{
-                      border: "2px solid white",
-                      fontSize: "40px",
-                      padding: "4px",
-                      borderRadius: "50%",
-                      color: "#ffffff",
-                    }}
-                  />
-                </IconButton>
-  
-                <Button
-                  variant="outlined"
-                  sx={{
-                    width: "max-content",
-                    textTransform: "none",
-                    borderRadius: "48px",
-                    fontSize: "20px",
-                    padding: "0 28px",
-                    height: "40px",
-                    border: "2px solid #fff",
-                    color: "#fff",
-                  }}
-                >
-                  Secure your spot
-                </Button>
-              </Stack> */}
         </Stack>
       </UpperTriangleBox>
       <Box

@@ -40,3 +40,22 @@ export const handleLogin = async (
     accessToken,
   });
 };
+
+
+
+export const handleFetchUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const userId = req.user?.id;
+  const user = await ApprovedUserModel.findById(userId).select(
+    "name city engagement"
+  );
+
+  if (!user) {
+    return next(new AppError("User not found", 404));
+  }
+
+  return res.status(200).json({ success: true, user: user });
+};

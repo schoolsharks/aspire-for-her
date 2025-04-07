@@ -7,9 +7,9 @@ import { useTheme } from "@mui/material/styles";
 type Workshop = {
   date: string;
   mode: "Live" | "Recorded";
-  location: string;
+  title: string;
   details: string;
-  author: string;
+  author?: string;
   role?: string; // Make role optional
   time: string;
 };
@@ -19,130 +19,63 @@ const workshopsByMonth: { [key: string]: Workshop[] } = {
     {
       date: "12th April, Saturday",
       mode: "Live",
-      location: "Mumbai - SNDT",
-      details: "Win Global Customers: UI/UX, Branding, Content, Email",
-      role: "(Content Specialist)",
-      author: "By Manish Kalra",
-      time: "11am - 6:00pm",
-    },
-    {
-      date: "12th April, Saturday",
-      mode: "Live",
-      location: "Mumbai - SNDT",
-      details: "Win Global Customers: UI/UX, Branding, Content, Email",
-      role: "(Content Specialist)",
-      author: "By Manish Kalra",
+      title: "Mumbai - SNDT",
+      details: "Launch Event",
       time: "11am - 6:00pm",
     },
     {
       date: "26th April, Saturday",
       mode: "Live",
-      location: "Pune - Venue details",
-      details: "Win Global Customers: UI/UX, Branding, Content, Email",
-      role: "(Content Specialist)",
-      author: "By Astha Jain",
+      title: "Pune - Venue details",
+      details: "Launch Event",
       time: "7pm - 9pm",
     },
     {
-      date: "30th April, Tuesday",
+      date: "10th May, Friday",
       mode: "Live",
-      location: "Delhi - Tech Hub",
-      details: "Win Global Customers: UI/UX, Branding, Content, Email",
-      author: "By Rahul Sharma",
-      role: "(Content Specialist)",
-      time: "2pm - 5pm",
-    },
-    {
-      date: "12th April, Saturday",
-      mode: "Recorded",
-      location: "Mumbai - SNDT",
-      details: "Win Global Customers: UI/UX, Branding, Content, Email",
-      role: "(Content Specialist)",
-      author: "By Manish Kalra",
-      time: "11am - 6:00pm",
-    },
-    {
-      date: "12th April, Saturday",
-      mode: "Recorded",
-      location: "Mumbai - SNDT",
-      details: "Win Global Customers: UI/UX, Branding, Content, Email",
-      role: "(Content Specialist)",
-      author: "By Manish Kalra",
-      time: "11am - 6:00pm",
-    },
-    {
-      date: "26th April, Saturday",
-      mode: "Recorded",
-      location: "Pune - Venue details",
-      details: "Win Global Customers: UI/UX, Branding, Content, Email",
-      role: "(Content Specialist)",
-      author: "By Astha Jain",
+      title: "Ahmedabad - Venue details",
+      details: "Launch Event",
       time: "7pm - 9pm",
-    },
-    {
-      date: "30th April, Tuesday",
-      mode: "Recorded",
-      location: "Delhi - Tech Hub",
-      details: "Win Global Customers: UI/UX, Branding, Content, Email",
-      author: "By Rahul Sharma",
-      role: "(Content Specialist)",
-      time: "2pm - 5pm",
     },
   ],
   May: [
     {
       date: "10th May, Friday",
       mode: "Live",
-      location: "Bangalore - CoWorks",
-      details: "Growth Hacking for Startups",
-      author: "By Sneha Gupta",
-      role: "(Growth Strategist)",
-      time: "4pm - 7pm",
+      title: "Ahmedabad - Venue details",
+      details: "Win Global Customers: UI/UX, Branding, Content, Email",
+      author: "By Rahul Verma",
+      role: "(Content Writer)",
+      time: "7pm - 9pm",
     },
     {
-      date: "18th May, Saturday",
+      date: "16th May, Friday",
       mode: "Live",
-      location: "Hyderabad - Tech Park",
-      details: "Effective Copywriting for Businesses",
-      author: "By Anand Mehta",
-      role: "(Content Specialist)",
-      time: "11am - 3pm",
+      title: "Chandigarh - Venue details ",
+      details: "Win Global Customers: UI/UX, Branding, Content, Email",
+      author: "By Astha Jain",
+      role: "(Content Writer)",
+      time: "7pm - 9pm",
     },
     {
-      date: "25th May, Saturday",
+      date: "17th May, Saturday",
       mode: "Live",
-      location: "Chennai - Startup Hub",
-      details: "UI/UX Design Best Practices",
-      author: "By Kavita Rao",
-      role: "(UX Designer)",
-      time: "10am - 1pm",
+      title: "Delhi - Venue details",
+      details: "Win Global Customers: UI/UX, Branding, Content, Email",
+      author: "By Rahul Verma",
+      role: "(Content Writer)",
+      time: "7pm - 9pm",
     },
+  ],
+  June: [
     {
-      date: "10th May, Friday",
-      mode: "Recorded",
-      location: "Bangalore - CoWorks",
-      details: "Growth Hacking for Startups",
-      author: "By Sneha Gupta",
-      role: "(Growth Strategist)",
-      time: "4pm - 7pm",
-    },
-    {
-      date: "18th May, Saturday",
-      mode: "Recorded",
-      location: "Hyderabad - Tech Park",
-      details: "Effective Copywriting for Businesses",
-      author: "By Anand Mehta",
-      role: "(Content Specialist)",
-      time: "11am - 3pm",
-    },
-    {
-      date: "25th May, Saturday",
-      mode: "Recorded",
-      location: "Chennai - Startup Hub",
-      details: "UI/UX Design Best Practices",
-      author: "By Kavita Rao",
-      role: "(UX Designer)",
-      time: "10am - 1pm",
+      date: "7th June, Saturday",
+      mode: "Live",
+      title: "Bangalore - Venue details",
+      details: "Win Global Customers: UI/UX, Branding, Content, Email",
+      author: "By Rahul Verma",
+      role: "(Content Writer)",
+      time: "7pm - 9pm",
     },
   ],
 };
@@ -226,11 +159,12 @@ const WorkshopList: React.FC = () => {
             );
 
             return (
-              <Box padding="5px" sx={{ userSelect: "none", textAlign: "left" }}>
+              <Box key={month} padding="5px" sx={{ userSelect: "none", textAlign: "left",height:"100%" }} >
                 <Box
                   key={month}
                   sx={{
                     padding: "10px",
+                    // height:"100%",
                     border: "0.5px solid #fff",
                   }}
                 >
@@ -281,7 +215,7 @@ const WorkshopList: React.FC = () => {
                                   fontWeight: 700,
                                 }}
                               >
-                                {workshop.location}
+                                {workshop.title}
                               </Typography>
                               <Typography
                                 sx={{
@@ -302,7 +236,7 @@ const WorkshopList: React.FC = () => {
                                   // Add spacing between details and this row
                                 }}
                               >
-                                <Box>
+                                {workshop.author && <Box>
                                   <Typography
                                     sx={{
                                       fontWeight: 500,
@@ -321,7 +255,7 @@ const WorkshopList: React.FC = () => {
                                   >
                                     {workshop.role}
                                   </Typography>
-                                </Box>
+                                </Box>}
                                 <Typography
                                   variant="body2"
                                   sx={{

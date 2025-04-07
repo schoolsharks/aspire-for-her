@@ -9,10 +9,15 @@ import Concern from "./sections/Concern";
 import Community from "./sections/Community";
 import CityBox from "./sections/CityBox";
 import UpperTriangleBox from "../../../components/UpperTriangleBox";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
+import logos from "../../../assets/company-logos.webp"
+import HamburgerMenu from "../../../components/HamburgerMenu";
 
 const Dashboard: React.FC = () => {
+  const { name,city } = useSelector((state: RootState) => state.approvedUser);
   return (
-    <Stack>
+    <Stack position={"relative"}>
       <UpperTriangleBox
         sx={{
           color: "white",
@@ -32,14 +37,14 @@ const Dashboard: React.FC = () => {
                   fontWeight: "700",
                 }}
               >
-                Hi Manvi
+                Hi {name.split(" ")[0]} !  
               </Typography>
               <Typography
                 sx={{
                   fontWeigth: "300",
                 }}
               >
-                Preferred city - Indore
+                Preferred city - {city}
               </Typography>
             </Box>
 
@@ -65,6 +70,17 @@ const Dashboard: React.FC = () => {
           </Stack>
         </Stack>
       </UpperTriangleBox>
+      <Box
+              component="img"
+              src={logos}
+              alt=""
+              sx={{
+                position: "absolute",
+                top: "10px",
+                right: "16px",
+                width: "218px",
+              }}
+            />
     </Stack>
   );
 };

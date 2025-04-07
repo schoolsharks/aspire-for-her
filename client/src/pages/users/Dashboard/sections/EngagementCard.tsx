@@ -2,9 +2,11 @@ import React from "react";
 import { Box, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { CircularProgressWithLabel } from "../../../../components/CircularProgressWithLabel";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../store/store";
 const EngagementCard: React.FC = () => {
   const theme = useTheme();
-  const engagementPercentage: number = 84;
+  const { engagement } = useSelector((state: RootState) => state.approvedUser);
 
   return (
     <Box>
@@ -22,8 +24,17 @@ const EngagementCard: React.FC = () => {
       >
         {/* Circular Progress Bar */}
         <CircularProgressWithLabel
+        size={61}
           variant="determinate"
-          value={engagementPercentage}
+          background={theme.palette.lmsprimary.greyDark??""}
+          labelComponent={
+            <Typography
+              variant="caption"
+              component="div"
+              sx={{ fontSize: "1.2rem", color: "#ffffff" }}
+            >{`${Math.round(engagement)}%`}</Typography>
+          }
+          value={engagement}
         />
 
         {/* Text Content */}
@@ -46,7 +57,7 @@ const EngagementCard: React.FC = () => {
       </Stack>
       <Typography
         sx={{
-          marginTop:"10px",
+          marginTop: "10px",
           color: "#FFFFFF",
           fontWeight: "300",
         }}

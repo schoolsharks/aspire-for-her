@@ -51,7 +51,7 @@ const Onlineworkshop: React.FC = () => {
           {workshops.map((workshop, index) => (
             <Box
               padding={index === 0 ? "0 5px 0 0" : "0 5px"}
-              sx={{ textAlign: "center" }}
+              sx={{ textAlign: "center",userSelect:"none" }}
             >
               <Box
                 key={index}

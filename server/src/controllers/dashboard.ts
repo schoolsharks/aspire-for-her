@@ -36,4 +36,6 @@ import { ApprovedUserModel } from "../models/ApprovedUser";
     return next(new AppError("Something went wrong", 500));
   }
 };
+
+
 export { dashboardController };

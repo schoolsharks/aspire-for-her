@@ -105,7 +105,7 @@ const handleFetchUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  const userId = req.user;
+  const userId = req.user?.id;
   const user = await UserModel.findById(userId).select(
     "name responses selectedBenefits"
   );
