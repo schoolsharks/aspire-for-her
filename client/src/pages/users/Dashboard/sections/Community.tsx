@@ -46,7 +46,7 @@ const Community = () => {
         {/* Members List */}
         <Stack marginTop={"40px"} gap="10px">
           {membersData.map((member, index) => (
-            <Grid2 container>
+            <Grid2 key={index} container>
               {/* City Name */}
               <Grid2 size={4}>
                 <Typography fontSize={"12px"} fontWeight="400">

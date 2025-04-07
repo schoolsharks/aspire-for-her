@@ -1,7 +1,6 @@
 import {
   AccountCircleOutlined,
   CardGiftcard,
-  Edit,
   EditOutlined,
 } from "@mui/icons-material";
 import { Box, IconButton, Stack, Typography, useTheme } from "@mui/material";

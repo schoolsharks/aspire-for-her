@@ -12,7 +12,7 @@ import UpperTriangleBox from "../../../components/UpperTriangleBox";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import logos from "../../../assets/company-logos.webp"
-import HamburgerMenu from "../../../components/HamburgerMenu";
+// import HamburgerMenu from "../../../components/HamburgerMenu";
 
 const Dashboard: React.FC = () => {
   const { name,city } = useSelector((state: RootState) => state.approvedUser);
