@@ -12,10 +12,12 @@ import UpperTriangleBox from "../../../components/UpperTriangleBox";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import logos from "../../../assets/company-logos.webp"
+import { useNavigate } from "react-router-dom";
 // import HamburgerMenu from "../../../components/HamburgerMenu";
 
 const Dashboard: React.FC = () => {
   const { name,city } = useSelector((state: RootState) => state.approvedUser);
+  const navigate=useNavigate()
   return (
     <Stack position={"relative"}>
       <UpperTriangleBox
@@ -49,6 +51,7 @@ const Dashboard: React.FC = () => {
             </Box>
 
             <IconButton
+            onClick={()=>navigate("/users/profile")}
               sx={{
                 color: "white",
                 borderRadius: "8px",

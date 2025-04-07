@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Login from "./Login/Login";
 import { CircularProgress, Stack } from "@mui/material";
 import useWindowHeight from "../../hooks/useWindowHeight";
@@ -11,14 +11,17 @@ import Profile from "./Profile/Profile";
 
 const UsersMain = () => {
   const { windowHeight } = useWindowHeight();
-  const { status, loading } = useSelector(
+  const { status, loading,name } = useSelector(
     (state: RootState) => state.approvedUser
   );
   const dispatch = useDispatch<AppDispatch>();
+  const location=useLocation()
 
   useEffect(() => {
-    dispatch(fetchUser());
-  }, []);
+    if(!name){
+      dispatch(fetchUser());
+    }
+  }, [location.pathname, dispatch]);
 
   if (loading) {
     return (

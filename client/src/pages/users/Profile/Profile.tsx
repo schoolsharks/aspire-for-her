@@ -1,24 +1,33 @@
 import {
   AccountCircleOutlined,
+  ArrowBack,
   CardGiftcard,
-  EditOutlined,
+  // EditOutlined,
 } from "@mui/icons-material";
-import { Box, IconButton, Stack, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  // IconButton,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import UpperTriangleBox from "../../../components/UpperTriangleBox";
 import { CircularProgressWithLabel } from "../../../components/CircularProgressWithLabel";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
-import logos from "../../../assets/company-logos.webp"
+import logos from "../../../assets/company-logos.webp";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const theme = useTheme();
   const { name } = useSelector((state: RootState) => state.approvedUser);
-
+const navigate=useNavigate()
   const personalDetails = {
     Name: name,
-    Designation: "Deveoper",
-    "Email Address": "manishbulchandani4@gmail.com",
-    Contact: "9352005086",
+    Designation: "Designner",
+    "Email Address": "sk@gmail.com",
+    Contact: "9999999999",
   };
 
   return (
@@ -27,6 +36,7 @@ const Profile = () => {
         <Stack color={"#fff"} padding={"0 24px"}>
           <Stack direction="row" justifyContent={"space-between"}>
             <Stack direction={"row"} alignItems={"center"} gap={"5px"}>
+              <IconButton onClick={()=>navigate(-1)}><ArrowBack sx={{color:"#fff"}}/></IconButton>
               <Typography fontSize={"30px"} fontWeight={"700"}>
                 Profile
               </Typography>
@@ -87,9 +97,9 @@ const Profile = () => {
                 >
                   Personal details
                 </Typography>
-                <IconButton>
+                {/* <IconButton>
                   <EditOutlined sx={{ color: "#fff" }} />
-                </IconButton>
+                </IconButton> */}
               </Stack>
               <Stack gap={"5px"} marginTop={"12px"}>
                 {Object.entries(personalDetails).map(([key, value], index) => (
@@ -111,12 +121,12 @@ const Profile = () => {
           </Box>
 
           {/* Offers */}
-          <Box marginTop={"44px"}>
+          {/* <Box marginTop={"44px"}>
             <Typography fontSize={"1.25rem"} fontWeight={"600"}>
               Offers
-            </Typography>
-            <Box height={"50vh"}></Box>
-          </Box>
+            </Typography> 
+            </Box>*/}
+            <Box height={"20vh"}></Box>
         </Stack>
       </UpperTriangleBox>
       <Box
