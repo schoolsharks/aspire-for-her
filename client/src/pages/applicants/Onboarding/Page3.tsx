@@ -415,7 +415,7 @@ const workshopDetails = [
       "Valuation my business ",
     ],
   },
-  { point: "Networking Lunch" },
+  { point: "Networking with Experts" },
 ];
 const Page3 = () => {
   const theme = useTheme();
