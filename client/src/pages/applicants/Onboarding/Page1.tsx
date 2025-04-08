@@ -55,7 +55,18 @@ const Page1 = () => {
           structured learning, expert mentorship, and real growth opportunities
           to help women entrepreneurs succeed in international markets.
         </Typography>
-        <ArrowButton onClick={handleNextPage} sx={{ marginTop: "22px" }} />
+        <OutlinedButton
+          sx={{
+            color: theme.palette.tertiary.main,
+            fontSize: "20px",
+            marginTop: "22px",
+            borderColor: theme.palette.tertiary.main,
+          }}
+          onClick={() => navigate("/onboarding/3")}
+        >
+          Secure your spot
+        </OutlinedButton>
+        {/* <ArrowButton onClick={handleNextPage} sx={{ marginTop: "22px" }} /> */}
       </Box>
 
       {/* Partners */}

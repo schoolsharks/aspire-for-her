@@ -445,7 +445,7 @@ const Page3 = () => {
           bgcolor={theme.palette.primary.main}
           borderRadius={"2px"}
         >
-          <Typography>Launch Date - 14th February</Typography>
+          <Typography>Launch Date - 12th April, Saturday, Mumbai <br/> 2PM Onwards</Typography>
         </Box>
 
         <Typography fontWeight={"300"} marginTop={"43px"}>
@@ -465,7 +465,7 @@ const Page3 = () => {
           ))}
         </ul>
 
-        <Stack
+        {/* <Stack
           marginTop={"42px"}
           gap={"32px"}
           alignItems={"center"}
@@ -527,7 +527,9 @@ const Page3 = () => {
               bgcolor={theme.palette.primary.main}
             />
           </Stack>
-        </Stack>
+        </Stack> */}
+
+
         <Stack
           direction={"row"}
           alignItems={"center"}
@@ -546,7 +548,7 @@ const Page3 = () => {
             }}
             onClick={() => navigate("/login")}
           >
-            Secure your spot
+            Register
           </OutlinedButton>
         </Stack>
       </Box>
@@ -592,7 +594,7 @@ const Page3 = () => {
             }}
             onClick={() => navigate("/login")}
           >
-            Secure your spot
+            Register
           </OutlinedButton>
         </Stack>
       </Box>
@@ -718,9 +720,9 @@ const Page3 = () => {
             minWidth: "max-content",
             borderColor: theme.palette.tertiary.main,
           }}
-          onClick={() => navigate("/login")}
+          onClick={() => navigate("/onboarding/2")}
         >
-          Secure your spot
+          Season 1
         </OutlinedButton>
         <OutlinedButton
           onClick={() => navigate("/faqs")}
