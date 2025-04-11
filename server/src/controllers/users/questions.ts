@@ -10,7 +10,7 @@ export const respondToQuestions = async (
   res: Response,
   next: NextFunction
 ) => {
-  const userId = req.user;
+  const userId = req.user?.id;
   const { responses } = req.body;
 
   if (!Array.isArray(responses) || responses.length === 0) {

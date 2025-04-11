@@ -20,7 +20,7 @@ import { fetchCardsData } from "../../../store/cards/cardsActions";
 const QuestionMain = () => {
   const theme = useTheme();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { cardsData, hiddenCards, hiddenQuestions,loading } = useSelector(
+  const { cardsData, hiddenCards, hiddenQuestions, validationRequirements, loading } = useSelector(
     (state: RootState) => state.cards
   );
   const page = parseInt(searchParams.get("page") || "0");
@@ -37,11 +37,11 @@ const QuestionMain = () => {
   );
 
   const [activeIndex, setActiveIndex] = useState(
-    (!filteredCards.length || page<=filteredCards.length)? page:filteredCards.length
+    (!filteredCards.length || page <= filteredCards.length) ? page : filteredCards.length
   );
 
   useEffect(() => {
-    if(activeIndex>=0){
+    if (activeIndex >= 0) {
       setSearchParams({ page: activeIndex.toString() });
     }
   }, [activeIndex, setSearchParams]);
@@ -103,23 +103,28 @@ const QuestionMain = () => {
     }, 100);
   }, []);
 
-  useEffect(()=>{
-    if(!cardsData.length){
+  useEffect(() => {
+    if (!cardsData.length) {
       dispatch(fetchCardsData())
-      // setActiveIndex(0)
     }
-  },[])
+  }, [dispatch, cardsData.length]);
 
+  // Updated to check validationRequirements
   const allMandatoryAnswered = filteredCards[activeIndex]?.questions
     .filter((item) => !hiddenQuestions.includes(item.id))
-    .every(
-      (q) =>
-        !q.validation?.required ||
-        (responses
-          .find((res) => res.questionId === q.id)
-          ?.answer?.some((ans) => ans.trim() !== "") ??
-          false)
-    );
+    .every((q) => {
+      // Check if this question has a dynamic required state
+      const isRequired = validationRequirements[q.id] !== undefined 
+        ? validationRequirements[q.id] 
+        : q.validation?.required || false;
+
+      // If not required, return true (no need to check for answer)
+      if (!isRequired) return true;
+
+      // If required, check for a valid answer
+      const response = responses.find((res) => res.questionId === q.id);
+      return response?.answer?.some((ans) => ans && ans.trim() !== "") ?? false;
+    });
 
   const hasInvalidFields = [...invalidFields].some(
     (item) => !hiddenQuestions.includes(item)
@@ -127,7 +132,6 @@ const QuestionMain = () => {
 
   useEffect(() => {
     console.log("invalid", invalidFields);
-
     console.log("Has Invalid fields", hasInvalidFields);
   }, [invalidFields]);
 
@@ -141,8 +145,6 @@ const QuestionMain = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-
 
   if (loading) {
     return (

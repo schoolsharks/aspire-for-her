@@ -10,20 +10,19 @@ import {
 import { useEffect, useState } from "react";
 import UpperTriangleBox from "../../../components/UpperTriangleBox";
 import "./Login.css";
-import { Close } from "@mui/icons-material";
+import { Close, ShareOutlined } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
 import { createApplicant } from "../../../store/applicants/applicantsActions";
 import logos from "../../../assets/company-logos.webp";
-import HamburgerMenu from "../../../components/HamburgerMenu";
 import ArrowButton from "../../../components/ArrowButton";
 import OutlinedButton from "../../../components/OutlinedButton";
 
 const Login = () => {
   const navigate = useNavigate();
   const theme = useTheme();
-  const [windowHeight,setWindowHeight]=useState(window.innerHeight)
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
   const [error, setError] = useState<string | null>(null);
   const dispatch = useDispatch<AppDispatch>();
   const [tncModalOpen, setTncModalOpen] = useState<boolean>(false);
@@ -63,6 +62,13 @@ const Login = () => {
     }
   };
 
+  const handleShare = () => {
+    const waShareUrl =
+      "https://api.whatsapp.com/send?text=Join%20SheExports%20Season%202%20-%20A%20transformational%20initiative%20for%20women-led%20service%20businesses%20in%20India.%0ALaunch%20Date:%2012th%20April,%20Saturday,%20Mumbai.%0A2PM%20Onwards.%0Ahttps://sheexports.afh.wgab.world";
+
+    window.open(waShareUrl, "_blank");
+  };
+
   useEffect(() => {
     const handleResize = () => {
       setWindowHeight(window.innerHeight);
@@ -95,8 +101,15 @@ const Login = () => {
                   Season 2
                 </Typography>
               </Box>
-              <Box>
-                <HamburgerMenu />
+              <Box marginTop={"12px"}>
+                <IconButton onClick={handleShare}>
+                  <ShareOutlined
+                    sx={{
+                      color: theme.palette.tertiary.main,
+                    }}
+                  />
+                  {/* <HamburgerMenu /> */}
+                </IconButton>
               </Box>
             </Stack>
 
@@ -177,7 +190,7 @@ const Login = () => {
             >
               <ArrowButton
                 direction="LEFT"
-                onClick={() => navigate("/onboarding/3")}
+                onClick={() => navigate("/onboarding/1")}
               />
               <OutlinedButton
                 sx={{
@@ -244,18 +257,17 @@ const Login = () => {
               DISCLAIMER
             </Typography>
             <Typography marginTop={"24px"} fontSize={"12px"} fontWeight={"700"}>
-              By submitting your application,
-              you give consent for the information provided to be used for
-              evaluation purposes and to be shared with mentors and program
-              partners for guidance and networking opportunities. You agree to
-              join the Aspire For Her community and receive exclusive offers
-              from partners, event invitations, and program-related
-              communications. The information provided should be accurate and
-              factual; any misrepresentation may result in immediate
-              disqualification from the program. Aspire For Her reserves the
-              right of refusal, and submission of information does not guarantee
-              inclusion in the program. The organization may not be held
-              responsible for selection decisions.
+              By submitting your application, you give consent for the
+              information provided to be used for evaluation purposes and to be
+              shared with mentors and program partners for guidance and
+              networking opportunities. You agree to join the Aspire For Her
+              community and receive exclusive offers from partners, event
+              invitations, and program-related communications. The information
+              provided should be accurate and factual; any misrepresentation may
+              result in immediate disqualification from the program. Aspire For
+              Her reserves the right of refusal, and submission of information
+              does not guarantee inclusion in the program. The organization may
+              not be held responsible for selection decisions.
               <br />
               <br />
               Please note that travel and accommodation expenses must be covered

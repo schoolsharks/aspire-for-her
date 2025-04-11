@@ -1,8 +1,8 @@
 import express from "express"
 import asyncHandler from "../../utils/asyncHandler"
-import { authenticate } from "../../middlewares/authenticate"
 import * as userControllers from "../../controllers/users/users"
 import * as questionsControllers from "../../controllers/users/questions"
+import { authenticate } from "../../middlewares/authenticate"
 
 const router=express.Router()
 

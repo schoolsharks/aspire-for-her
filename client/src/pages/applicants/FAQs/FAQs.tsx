@@ -3,6 +3,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
+  IconButton,
   Stack,
   Typography,
   useTheme,
@@ -11,7 +12,8 @@ import { useEffect, useState } from "react";
 import OutlinedButton from "../../../components/OutlinedButton";
 import { useNavigate } from "react-router-dom";
 import ArrowButton from "../../../components/ArrowButton";
-import HamburgerMenu from "../../../components/HamburgerMenu";
+import { ShareOutlined } from "@mui/icons-material";
+// import HamburgerMenu from "../../../components/HamburgerMenu";
 
 const faqs = [
   {
@@ -96,13 +98,23 @@ const FAQs = () => {
     window.scrollTo({top:0,behavior:"smooth"})
   },[])
 
+  const handleShare = () => {
+    const waShareUrl =
+      "https://api.whatsapp.com/send?text=Join%20SheExports%20Season%202%20-%20A%20transformational%20initiative%20for%20women-led%20service%20businesses%20in%20India.%0ALaunch%20Date:%2012th%20April,%20Saturday,%20Mumbai.%0A2PM%20Onwards.%0Ahttps://sheexports.afh.wgab.world";
+
+    window.open(waShareUrl, "_blank");
+  };
   return (
     <Stack bgcolor="#000" color={"#fff"} padding={"34px"}>
       <Stack direction={"row"} justifyContent={"space-between"}>
       <Typography fontSize={"30px"} fontWeight={"700"}>
         FAQs
       </Typography>
-      <Box><HamburgerMenu/></Box>
+      <Box>
+        <IconButton onClick={handleShare}>
+          <ShareOutlined sx={{ color: theme.palette.tertiary.main }} />
+        </IconButton>
+        </Box>
       </Stack>
       <Stack marginTop={"40px"} gap={"6px"}>
         {faqs.map((faq, index) => (

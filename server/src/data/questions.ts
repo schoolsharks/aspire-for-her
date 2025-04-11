@@ -16,6 +16,7 @@ interface Condition {
   if: string[];
   removeCards?: string[];
   removeQuestions?: string[];
+  notRequiredQuestions?: string[];
 }
 
 interface BaseQuestion {
@@ -46,44 +47,44 @@ export const questions: Question[] = [
   {
     id: "q_1",
     type: questionTypes.TEXT_INPUT,
-    label: "Founder’s Name*",
+    label: "Founder’s Name",
     validation: { required: true },
   },
   {
     id: "q_2",
     type: questionTypes.TEXT_INPUT,
-    label: "Designation*",
+    label: "Designation",
     validation: { required: true },
   },
   {
     id: "q_3",
     type: questionTypes.TEXT_INPUT,
-    label: "Business email address*",
+    label: "Business email address",
     validation: { required: true, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ },
   },
   {
     id: "q_4",
     type: questionTypes.TEXT_INPUT,
-    label: "Contact number*",
+    label: "Contact number",
     validation: { required: true, maxLength: 10, type: "number" },
   },
 
   {
     id: "q_5",
     type: questionTypes.TEXT_INPUT,
-    label: "Registered entity name*",
+    label: "Registered entity name",
     validation: { required: true },
   },
   {
     id: "q_6",
     type: questionTypes.TEXT_INPUT,
-    label: "Brand name*",
+    label: "Brand name",
     validation: { required: true },
   },
   {
     id: "q_7",
     type: questionTypes.TEXT_INPUT,
-    label: "Year of establishment*",
+    label: "Year of establishment",
     validation: {
       required: true,
       maxLength: 4,
@@ -94,7 +95,7 @@ export const questions: Question[] = [
   {
     id: "q_8",
     type: questionTypes.TEXT_INPUT,
-    label: "City of registeration*",
+    label: "City of registeration",
     validation: { required: true },
   },
 
@@ -103,8 +104,9 @@ export const questions: Question[] = [
     type: questionTypes.TEXT_INPUT,
     label: "Website URL",
     validation: {
+      required: true,
       pattern:
-        /^(https?:\/\/([\w-]+(\.[\w-]+)+)(\/[\w-.~:?#[\]@!$&'()*+,;=%]*)?|^$)$/i,
+        /^(https?:\/\/([\w-]+(\.[\w-]+)+)(\/[\w-.~:?#[\]@!$&'()+,;=%])?|^$)$/i,
     },
   },
   {
@@ -112,24 +114,37 @@ export const questions: Question[] = [
     type: questionTypes.TEXT_INPUT,
     label: "LinkedIn Profile",
     validation: {
+      required: true,
       pattern:
-        /^(https?:\/\/([\w-]+(\.[\w-]+)+)(\/[\w-.~:?#[\]@!$&'()*+,;=%]*)*\/?)?$/,
+        /^(https?:\/\/([\w-]+(\.[\w-]+)+)(\/[\w-.~:?#[\]@!$&'()+,;=%])\/?)?$/,
     },
   },
+  // {
+  //   id: "q_11",
+  //   type: questionTypes.TEXT_INPUT,
+  //   label: "Other social media profile",
+  //   validation: {
+  //     pattern:
+  //       /^(https?:\/\/([\w-]+(\.[\w-]+)+)(\/[\w-.~:?#[\]@!$&'()+,;=%])?|^$)$/i,
+  //   },
+  // },
   {
     id: "q_11",
-    type: questionTypes.TEXT_INPUT,
-    label: "Other social media profile",
-    validation: {
-      pattern:
-        /^(https?:\/\/([\w-]+(\.[\w-]+)+)(\/[\w-.~:?#[\]@!$&'()*+,;=%]*)?|^$)$/i,
-    },
+    type: questionTypes.CHOICES,
+    options: [
+      {
+        text: "Not Applicable",
+      },
+    ],
+    condition: [
+      { if: ["Not Applicable"], notRequiredQuestions: ["q_9", "q_10"] },
+    ],
   },
 
   {
     id: "q_12",
     type: questionTypes.CHOICES,
-    question: "What is your Legal structure*",
+    question: "What is your Legal structure",
     options: [
       {
         text: "Private limited",
@@ -177,7 +192,7 @@ export const questions: Question[] = [
   {
     id: "q_13",
     type: questionTypes.TEXT_INPUT,
-    question: "What percentage of your business do women founders own?*",
+    question: "What percentage of your business do women founders own?",
     placeholder: "In percentage",
     unit: "%",
     validation: { required: true, type: "number", max: 100, min: 0 },
@@ -187,7 +202,7 @@ export const questions: Question[] = [
     id: "q_14",
     type: questionTypes.TEXT_INPUT,
     multiline: true,
-    question: "Describe in 100 words*",
+    question: "Describe in 100 words",
     validation: { required: true, maxLength: 600 },
   },
 
@@ -269,7 +284,7 @@ export const questions: Question[] = [
   {
     id: "q_18",
     type: questionTypes.TEXT_INPUT,
-    question: "What was the topline revenue last year (2023/24) INR Lacs*",
+    question: "What was the topline revenue last year (2023/24) INR Lacs",
     placeholder: "In INR Lacs",
     validation: { type: "number", required: true, max: 100000 },
     unit: "Lacs",
@@ -277,7 +292,7 @@ export const questions: Question[] = [
   {
     id: "q_19",
     type: questionTypes.TEXT_INPUT,
-    question: "Growth percentage you are targeting for this year?*",
+    question: "Growth percentage you are targeting for this year?",
     placeholder: "In percentage",
     validation: { type: "number", min: 0, max: 100, required: true },
     unit: "%",
@@ -286,7 +301,7 @@ export const questions: Question[] = [
   {
     id: "q_20",
     type: questionTypes.CHOICES,
-    question: "Your customers are*",
+    question: "Your customers are",
     options: [
       {
         text: "Business to business (B2B)",
@@ -303,7 +318,7 @@ export const questions: Question[] = [
   {
     id: "q_21",
     type: questionTypes.TEXT_INPUT,
-    question: "Number of monthly paying customers (estimated)*",
+    question: "Number of monthly paying customers (estimated)",
     placeholder: "In numbers",
     validation: { required: true, type: "number" },
   },
@@ -311,7 +326,7 @@ export const questions: Question[] = [
   {
     id: "q_22",
     type: questionTypes.CHOICES,
-    question: "Does your business currently exports products/ services?*",
+    question: "Does your business currently exports products/ services?",
     options: [
       {
         text: "Yes, Definitely",
@@ -333,13 +348,13 @@ export const questions: Question[] = [
   {
     id: "q_23",
     type: questionTypes.TEXT_INPUT,
-    question: "If Yes, to which countries?*",
+    question: "If Yes, to which countries?",
     validation: { required: true },
   },
   {
     id: "q_24",
     type: questionTypes.TEXT_INPUT,
-    question: "What percentage of your overall revenue comes from exports?*",
+    question: "What percentage of your overall revenue comes from exports?",
     placeholder: "In Percentage",
     unit: "%",
     validation: { type: "number", min: 0, max: 100, required: true },
@@ -349,7 +364,7 @@ export const questions: Question[] = [
     id: "q_25",
     type: questionTypes.CHOICES,
     question:
-      "What is your approximate monthly export sales volume? (select one)*",
+      "What is your approximate monthly export sales volume? (select one)",
     options: [
       {
         text: "Just starting",
@@ -374,7 +389,7 @@ export const questions: Question[] = [
     id: "q_26",
     type: questionTypes.CHOICES,
     question:
-      "Does your business have a physical presence (office, branch, etc. ) in the following countries?*",
+      "Does your business have a physical presence (office, branch, etc. ) in the following countries?",
     options: [
       {
         text: "United States",
@@ -404,7 +419,7 @@ export const questions: Question[] = [
   {
     id: "q_27",
     type: questionTypes.TEXT_INPUT,
-    question: "Please Specify*",
+    question: "Please Specify",
     defaultHidden: true,
     validation: { required: true },
   },

@@ -1,14 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-// import { cardsData } from "../../data/cardsData";
 import { fetchCardsData } from "./cardsActions";
-
-
 
 export enum questionTypes {
   TEXT_INPUT = "TEXT_INPUT",
   CHOICES = "CHOICES",
 }
-
 
 interface ValidationRules {
   required?: boolean;
@@ -24,6 +20,8 @@ interface Condition {
   if: string[];
   removeCards?: string[];
   removeQuestions?: string[];
+  requiredQuestions?: string[]; // New property to make questions required
+  notRequiredQuestions?: string[]; // New property to make questions not required
 }
 
 interface BaseQuestion {
@@ -60,14 +58,16 @@ interface CardsData {
   cardsData: Card[];
   hiddenCards: string[];
   hiddenQuestions: string[];
-  loading:boolean;
+  validationRequirements: Record<string, boolean>; // New state for dynamic validation requirements
+  loading: boolean;
 }
 
 const initialState: CardsData = {
   cardsData: [],
   hiddenCards: [],
   hiddenQuestions: [],
-  loading:false
+  validationRequirements: {}, // Initialize as empty object
+  loading: false
 };
 
 const cardsSlice = createSlice({
@@ -79,23 +79,27 @@ const cardsSlice = createSlice({
       state.hiddenQuestions =
         action.payload.hiddenQuestions ?? state.hiddenQuestions;
     },
+    // New reducer for setting validation requirements
+    setValidationRequirements: (state, action) => {
+      state.validationRequirements = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchCardsData.pending, (state) => {
-        state.loading=true
+        state.loading = true;
       })
       .addCase(fetchCardsData.fulfilled, (state, action) => {
         state.cardsData = action.payload;
-        state.loading=false
+        state.loading = false;
       })
       .addCase(fetchCardsData.rejected, (state, action) => {
-        state.loading=false
+        state.loading = false;
         console.error("Failed to fetch cards data:", action.payload);
       });
   },
 });
 
-export const { setHiddenData } = cardsSlice.actions;
+export const { setHiddenData, setValidationRequirements } = cardsSlice.actions;
 
 export default cardsSlice.reducer;

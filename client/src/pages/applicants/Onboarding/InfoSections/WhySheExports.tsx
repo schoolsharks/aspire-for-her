@@ -1,4 +1,6 @@
 import { Box, Stack, Typography, useTheme } from "@mui/material";
+import OutlinedButton from "../../../../components/OutlinedButton";
+import { useNavigate } from "react-router-dom";
 
 const whySheExports = [
   {
@@ -34,8 +36,10 @@ const whySheExports = [
 ];
 const WhySheExports = () => {
   const theme = useTheme();
+  const navigate=useNavigate()
   return (
     <Box color={"#fff"}>
+      <Typography fontSize={"30px"} fontWeight={"700"}>Why SheExports?</Typography>
       <Stack
         bgcolor={theme.palette.primary.main}
         marginTop={"20px"}
@@ -54,24 +58,33 @@ const WhySheExports = () => {
           </Box>
         ))}
       </Stack>
-      {/* <Stack
+      <Stack
         direction={"row"}
         alignItems={"center"}
         marginTop={"42px"}
         gap={"8px"}
       >
-        <ArrowButton direction="LEFT" onClick={handleNext} />
         <OutlinedButton
           sx={{
             color: theme.palette.tertiary.main,
             fontSize: "20px",
             borderColor: theme.palette.tertiary.main,
           }}
-          onClick={handleNext}
+          onClick={()=>navigate("/faqs")}
+        >
+          FAQs
+        </OutlinedButton>
+        <OutlinedButton
+          sx={{
+            color: theme.palette.tertiary.main,
+            fontSize: "20px",
+            borderColor: theme.palette.tertiary.main,
+          }}
+          onClick={()=>navigate("/login")}
         >
           Secure your spot
         </OutlinedButton>
-      </Stack> */}
+      </Stack>
     </Box>
   );
 };

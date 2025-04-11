@@ -22,23 +22,28 @@ export const cardsData: Card[] = [
   {
     id: "c_3",
     title: "Socials",
-    questions: ["q_9", "q_10", "q_11"],
+    questions: ["q_9", "q_10","q_11"], // q_11 is new question added for not applicable checkbox
   },
+  // {
+  //   id: "c_3",
+  //   title: "Socials",
+  //   questions: ["q_9", "q_10", "q_11"],
+  // },
   {
     id: "c_4",
     title: "Business information",
     questions: ["q_12", "q_13"],
   },
-  {
-    id: "c_5",
-    title: "What business idea are you working on?",
-    questions: ["q_14"],
-  },
-  {
-    id: "c_6",
-    title: "Organisation size",
-    questions: ["q_15"],
-  },
+  // {
+  //   id: "c_5",
+  //   title: "What business idea are you working on?",
+  //   questions: ["q_14"],
+  // },
+  // {
+  //   id: "c_6",
+  //   title: "Organisation size",
+  //   questions: ["q_15"],
+  // },
   {
     id: "c_7",
     title: "What best describes your business? ",
@@ -47,13 +52,18 @@ export const cardsData: Card[] = [
   {
     id: "c_8",
     title: "Business stage",
-    questions: ["q_17", "q_18", "q_19"],
+    questions: ["q_17", "q_18","q_20"],
   },
-  {
-    id: "c_9",
-    title: "Business operations",
-    questions: ["q_20", "q_21"],
-  },
+  // {
+  //   id: "c_8",
+  //   title: "Business stage",
+  //   questions: ["q_17", "q_18", "q_19"],
+  // },
+  // {
+  //   id: "c_9",
+  //   title: "Business operations",
+  //   questions: ["q_20", "q_21"],
+  // },
   {
     id: "c_10",
     title: "Export activity",

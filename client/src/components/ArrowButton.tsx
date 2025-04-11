@@ -8,7 +8,7 @@ const ArrowButton = ({
   sx
 }: {
   onClick: React.MouseEventHandler<HTMLButtonElement>;
-  direction?: "RIGHT" | "LEFT";
+  direction?: "RIGHT" | "LEFT" | "UP" | "DOWN";
   sx?:SxProps<Theme>;
 }) => {
   const theme = useTheme();
@@ -21,7 +21,8 @@ const ArrowButton = ({
           borderRadius: "50%",
           fontSize: "36px",
           padding: "5px",
-          transform:direction==="LEFT"?"rotate(180deg)":"",
+          transformOrigin: "center",
+          transform: direction === "LEFT" ? "rotate(180deg)" : direction === "UP" ? "rotate(-90deg)" : direction === "DOWN" ? "rotate(90deg)" : "",
           ...sx
           
         }}

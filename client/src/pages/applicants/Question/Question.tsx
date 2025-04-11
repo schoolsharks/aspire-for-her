@@ -5,13 +5,12 @@ import {
   Stack,
   TextField,
   Typography,
-  // useTheme,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { syncResponses } from "../../../store/applicants/applicantsSlice";
 import { useDispatch, useSelector } from "react-redux";
-import  { AppDispatch, RootState } from "../../../store/store";
-import { Question, questionTypes, setHiddenData } from "../../../store/cards/cardsSlice";
+import { AppDispatch, RootState } from "../../../store/store";
+import { Question, questionTypes, setHiddenData, setValidationRequirements } from "../../../store/cards/cardsSlice";
 
 const QuestionInput = React.memo(
   ({
@@ -22,37 +21,63 @@ const QuestionInput = React.memo(
     onValidationError: (isInvalid: boolean) => void;
   }) => {
     const dispatch = useDispatch<AppDispatch>();
-    const { hiddenQuestions } = useSelector((state: RootState) => state.cards);
+    const { hiddenQuestions, validationRequirements } = useSelector((state: RootState) => state.cards);
     const storedResponse = useSelector((state: RootState) =>
       state.user.responses.find((res) => res.questionId === question.id)
     );
     const [error, setError] = useState<string | null>(null);
 
+    // Get the actual required state (either from validationRequirements or from question's default)
+    const isRequired = validationRequirements && validationRequirements[question.id] !== undefined 
+      ? validationRequirements[question.id]
+      : question.validation?.required || false;
+
+    // Handle hidden questions and conditional logic
     useEffect(() => {
       dispatch((dispatch, getState) => {
-        const { hiddenCards, hiddenQuestions } = getState().cards;
+        const { hiddenCards, hiddenQuestions, validationRequirements } = getState().cards;
     
         let updatedHiddenCards = new Set(hiddenCards);
         let updatedHiddenQuestions = new Set(hiddenQuestions);
+        let updatedValidationRequirements = { ...validationRequirements };
     
         if (question.defaultHidden && !storedResponse) {
           updatedHiddenQuestions.add(question.id);
         } else if (storedResponse) {
-          let answer = Array.isArray(storedResponse?.answer)
+          const answer = Array.isArray(storedResponse?.answer)
             ? storedResponse.answer[0]
             : storedResponse?.answer;
-    
+          
+          const selectedOption = answer?.split("$$$")[0];
+          
+          // Process conditional logic
           question.condition?.forEach((cond) => {
-            if (cond.if.includes(answer?.split("$$$")[0])) {
+            if (cond.if.includes(selectedOption)) {
+              // Handle cards and questions to hide
               cond.removeCards?.forEach((card) => updatedHiddenCards.add(card));
               cond.removeQuestions?.forEach((q) => updatedHiddenQuestions.add(q));
-            }
-          });
-    
-          question.condition?.forEach((cond) => {
-            if (!cond.if.includes(answer?.split("$$$")[0])) {
+              
+              // Handle questions to make not required
+              cond.notRequiredQuestions?.forEach((q) => {
+                updatedValidationRequirements[q] = false;
+              });
+              
+              // Handle questions to make required
+              cond.requiredQuestions?.forEach((q) => {
+                updatedValidationRequirements[q] = true;
+              });
+            } else {
+              // Restore default state for cards and questions
               cond.removeCards?.forEach((card) => updatedHiddenCards.delete(card));
               cond.removeQuestions?.forEach((q) => updatedHiddenQuestions.delete(q));
+              
+              // Reset validation requirements for questions affected by this condition
+              if (cond.notRequiredQuestions?.length || cond.requiredQuestions?.length) {
+                // Only reset validation requirements for questions affected by this condition
+                [...(cond.notRequiredQuestions || []), ...(cond.requiredQuestions || [])].forEach(q => {
+                  delete updatedValidationRequirements[q];
+                });
+              }
             }
           });
         }
@@ -60,10 +85,14 @@ const QuestionInput = React.memo(
         const finalHiddenCards = Array.from(updatedHiddenCards);
         const finalHiddenQuestions = Array.from(updatedHiddenQuestions);
     
-        if (
-          JSON.stringify(finalHiddenCards) !== JSON.stringify(hiddenCards) ||
-          JSON.stringify(finalHiddenQuestions) !== JSON.stringify(hiddenQuestions)
-        ) {
+        const hiddenDataChanged = 
+          JSON.stringify(finalHiddenCards) !== JSON.stringify(Array.from(hiddenCards)) ||
+          JSON.stringify(finalHiddenQuestions) !== JSON.stringify(Array.from(hiddenQuestions));
+        
+        const validationReqChanged = 
+          JSON.stringify(updatedValidationRequirements) !== JSON.stringify(validationRequirements);
+        
+        if (hiddenDataChanged) {
           dispatch(
             setHiddenData({
               hiddenCards: finalHiddenCards,
@@ -71,60 +100,79 @@ const QuestionInput = React.memo(
             })
           );
         }
+        
+        if (validationReqChanged) {
+          dispatch(setValidationRequirements(updatedValidationRequirements));
+        }
       });
     }, [storedResponse, question, dispatch]);
     
-
-
-
+    // Validate user input based on question validation rules
     const validateInput = (
       value: string,
       validateRequiredAndPattern: boolean
     ) => {
-      if (validateRequiredAndPattern) {
-        if (question.validation?.required && !value) {
-          return "This field is required";
-        }
-        if (
-          question.validation?.pattern &&
-          !question.validation.pattern.test(value)
-        ) {
-          return "Invalid format";
-        }
+      if (!value) return validateRequiredAndPattern && isRequired 
+        ? "This field is required" : null;
+      
+      if (validateRequiredAndPattern && 
+          question.validation?.pattern && 
+          !question.validation.pattern.test(value)) {
+        return "Invalid format";
       }
 
-      if (
-        question.validation?.minLength &&
-        value.length < question.validation.minLength
-      ) {
+      if (question.validation?.minLength && value.length < question.validation.minLength) {
         return `Minimum length is ${question.validation.minLength}`;
       }
-      if (
-        question.validation?.maxLength &&
-        value.length > question.validation.maxLength
-      ) {
+      
+      if (question.validation?.maxLength && value.length > question.validation.maxLength) {
         return `Maximum length is ${question.validation.maxLength}`;
       }
+      
       if (question.validation?.min && Number(value) < question.validation.min) {
         return `Minimum value is ${question.validation.min}`;
       }
+      
       if (question.validation?.max && Number(value) > question.validation.max) {
         return `Maximum value is ${question.validation.max}`;
       }
+      
       return null;
     };
 
+    // Handle response changes for all input types
     const handleResponseChange = (newAnswer: string | string[]) => {
       let answer = Array.isArray(newAnswer) ? newAnswer[0] : newAnswer;
 
-      if (question.validation?.type === "number" && isNaN(Number(answer))) {
+      // For number inputs, validate it's a number
+      if (question.validation?.type === "number" && answer && isNaN(Number(answer))) {
         return;
       }
 
+      // Unselect option if it's already selected (for CHOICES type)
+      if(question.type===questionTypes.CHOICES && question.options.find((item)=>item.text===answer.split("$$$")[0])?.other && !answer.split("$$$")[1] ){
+        setError("Please Specify")
+        const errorMessage="Please Specify"
+        onValidationError(!!errorMessage)
+        return;
+      }
+
+      // Validate "Other" option has a specified value
+      if (question.type === questionTypes.CHOICES && 
+          question.options.find((item) => 
+            item.text === answer.split("$$$")[0])?.other && 
+          !answer.split("$$$")[1]) {
+        setError("Please Specify");
+        onValidationError(true);
+        return;
+      }
+
+      // Validate the input
       const errorMessage = validateInput(answer, false);
       setError(errorMessage);
       onValidationError(!!errorMessage);
 
+      // If no validation errors, sync the response
       if (!errorMessage) {
         dispatch(
           syncResponses({
@@ -133,34 +181,33 @@ const QuestionInput = React.memo(
           })
         );
       }
-
-      if(question.type===questionTypes.CHOICES && question.options.find((item)=>item.text===answer.split("$$$")[0])?.other && !answer.split("$$$")[1] ){
-        setError("Please Specify")
-        const errorMessage="Please Specify"
-        onValidationError(!!errorMessage)
-        return;
-      }
-
     };
 
+    // Validate on blur with required check
     const handleBlur = (value: string) => {
       const errorMessage = validateInput(value, true);
       setError(errorMessage);
       onValidationError(!!errorMessage);
     };
 
+    // If question is hidden, don't render anything
     if (hiddenQuestions.includes(question.id)) {
       return null;
     }
 
+    // Render question title if available
+    const QuestionTitle = question.question && (
+      <Typography fontSize="18px" fontWeight="600">
+        {question.question}
+        {isRequired && <span style={{ color: "#fff" }}>*</span>}
+      </Typography>
+    );
+
+    // Render text input question
     if (question.type === questionTypes.TEXT_INPUT) {
       return (
         <Box>
-          {question.question && (
-            <Typography fontSize={"18px"} fontWeight={"600"}>
-              {question.question}
-            </Typography>
-          )}
+          {QuestionTitle}
           <Box position="relative">
             {question.unit && (
               <Typography
@@ -175,7 +222,7 @@ const QuestionInput = React.memo(
               </Typography>
             )}
             <TextField
-              value={storedResponse?.answer[0] || ""}
+              value={storedResponse?.answer?.[0] || ""}
               id="standard-basic"
               label={question.label}
               placeholder={question.placeholder}
@@ -185,10 +232,11 @@ const QuestionInput = React.memo(
               error={!!error}
               multiline={question.multiline}
               helperText={error}
+              required={isRequired}
               sx={{
                 width: "100%",
-                "& textarea":{
-                  color:"#fff !important"
+                "& textarea": {
+                  color: "#fff !important"
                 },
                 input: {
                   fontSize: "1rem !important",
@@ -203,43 +251,54 @@ const QuestionInput = React.memo(
           </Box>
         </Box>
       );
-    } else if (question.type === questionTypes.CHOICES) {
+    } 
+    
+    // Render choice question
+    else if (question.type === questionTypes.CHOICES) {
+      const currentValue = storedResponse?.answer?.[0] || "";
+      const selectedOption = currentValue.split("$$$")[0];
+      const otherValue = currentValue.split("$$$")[1] || "";
+      
       return (
         <Box>
-          {question.question && (
-            <Typography fontSize={"18px"} fontWeight={"600"}>
-              {question.question}
-            </Typography>
-          )}
+          {QuestionTitle}
+          {/* We don't use RadioGroup's built-in value handling since we need custom unselect behavior */}
           <RadioGroup
             aria-labelledby="demo-radio-buttons-group-label"
-            defaultValue="female"
             name="radio-buttons-group"
-            value={
-              storedResponse?.answer[0].split("$$$")[0] === "Other" ||
-              question?.textInput
-                ? storedResponse?.answer[0].split("$$$")[0]
-                : storedResponse?.answer[0] || ""
-            }
-            onChange={(e) =>
-              question?.textInput || e.target.value === "Other"
-                ? handleResponseChange(e.target.value + "$$$")
-                : handleResponseChange(e.target.value)
-            }
+            value={selectedOption || ""}
           >
             <Stack
               gap={question.options.length > 8 ? "5px" : "16px"}
-              marginTop={"24px"}
+              marginTop="24px"
             >
               {question.options.map((option, index) => (
                 <Stack
                   key={index}
-                  direction={"row"}
-                  alignItems={"center"}
-                  gap={"12px"}
+                  direction="row"
+                  alignItems="center"
+                  gap="12px"
                 >
                   <Radio
                     value={option.text}
+                    checked={selectedOption === option.text}
+                    onClick={() => {
+                      // Handle the click manually to support unselect
+                      if (selectedOption === option.text) {
+                        // If already selected, unselect it
+                        handleResponseChange("");
+                      } else {
+                        // Otherwise select this option
+                        const hasOtherField = option.other;
+                        const needsTextInput = question.textInput && option.text;
+                        
+                        if (hasOtherField || needsTextInput) {
+                          handleResponseChange(option.text + "$$$");
+                        } else {
+                          handleResponseChange(option.text);
+                        }
+                      }
+                    }}
                     sx={{
                       padding: "0",
                       color: "white",
@@ -248,10 +307,10 @@ const QuestionInput = React.memo(
                       },
                     }}
                   />
-                  <Stack flex={"1"}>
+                  <Stack flex="1">
                     <Typography>{option.text}</Typography>
                     {option.subtext && (
-                      <Typography fontSize={"10px"}>
+                      <Typography fontSize="10px">
                         {option.subtext}
                       </Typography>
                     )}
@@ -289,26 +348,15 @@ const QuestionInput = React.memo(
                   </Stack>
                 </Stack>
               ))}
-              {question.textInput && (
+              {question.textInput && selectedOption && (
                 <TextField
                   id="standard-basic"
                   placeholder={question.textInput.placeholder}
                   variant="standard"
-                  value={
-                    storedResponse?.answer[0].split("$$$")[
-                      storedResponse?.answer[0].split("$$$").length - 1
-                    ]
-                  }
+                  value={otherValue}
                   onChange={(e) =>
-                    handleResponseChange(
-                      storedResponse?.answer[0].split("$$$")[0] +
-                        "$$$" +
-                        e.target.value.split("$$$")[
-                          e.target.value.split("$$$").length - 1
-                        ]
-                    )
+                    handleResponseChange(selectedOption + "$$$" + e.target.value)
                   }
-                  // onBlur={(e) => handleBlur(e.target.value)}
                   error={!!error}
                   helperText={error}
                   sx={{
@@ -327,6 +375,7 @@ const QuestionInput = React.memo(
         </Box>
       );
     }
+
     return null;
   }
 );
