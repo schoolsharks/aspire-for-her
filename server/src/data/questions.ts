@@ -173,7 +173,6 @@ export const questions: Question[] = [
           "c_10",
           "c_11",
           "c_12",
-          "c_13",
         ],
         removeQuestions: ["q_13"],
       },
@@ -409,7 +408,7 @@ export const questions: Question[] = [
     ],
     condition: [
       {
-        if: ["United States", "UAE", "Not at this point"],
+        if: ["United States", "UAE","Both United States & UAE", "Not at this point"],
         removeQuestions: ["q_27"],
       },
     ],
