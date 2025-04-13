@@ -37,7 +37,7 @@ const Summary = () => {
           FAQs
         </OutlinedButton>
         <OutlinedButton
-          onClick={() => navigate("/onboarding/3")}
+          onClick={() => navigate("/onboarding/1#program-schedule")}
           sx={{
             color: theme.palette.tertiary.main,
             fontSize: "20px",

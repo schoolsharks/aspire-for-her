@@ -50,6 +50,7 @@ const KeySessions = () => {
   ];
   return (
     <Box
+      id="program-schedule"
       border={`1px solid ${theme.palette.tertiary.main}`}
       borderRadius={"10px"}
       padding={"20px"}

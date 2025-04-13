@@ -81,7 +81,7 @@ export const cardsData: Card[] = [
   },
   {
     id: "c_13",
-    title: "Select your preferred city for the workshop",
+    title: "Select your preferred city for the workshop*",
     questions: ["q_28"],
   },
   {

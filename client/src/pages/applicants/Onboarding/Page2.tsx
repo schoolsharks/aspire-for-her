@@ -70,7 +70,7 @@ const testimonialsData = [
 const Page2 = () => {
   const navigate = useNavigate();
   const handleNextPage = () => {
-    navigate("/onboarding/3");
+    navigate("/login");
   };
   return (
     <Stack color={"#fff"} padding={"24px"} gap={"46px"}>
