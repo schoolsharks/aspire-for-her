@@ -2,7 +2,7 @@ import { Box, Stack, Typography, useTheme } from "@mui/material";
 
 const WorkshopsSessions = () => {
   const theme = useTheme();
-  const currentActiveDot = 0;
+  const currentActiveDot = 1;
   const lineActive = 1;
 
   const workshopsSessions = [
@@ -35,7 +35,7 @@ const WorkshopsSessions = () => {
           <Stack key={index} direction={"row"} gap={"22px"} minHeight={"102px"}>
             <Box
               border={`4px solid ${
-                lineActive >= index ? theme.palette.tertiary.main : "#FFFFFF40"
+                lineActive === index ? theme.palette.tertiary.main :index<lineActive?"#ffffff5b": "#FFFFFF40"
               }`}
               borderRadius={"50%"}
               height={"max-content"}
@@ -59,9 +59,10 @@ const WorkshopsSessions = () => {
                   position={"absolute"}
                   sx={{
                     bgcolor:
-                      index < lineActive
-                        ? theme.palette.tertiary.main
-                        : "#FFFFFF40",
+                    index===lineActive ?theme.palette.tertiary.main:
+                      (index < lineActive
+                        ? "#ffffff5b"
+                        : "#FFFFFF40"),
                     borderRadius: "5px",
                     top: "140%",
                     left: "50%",
@@ -78,7 +79,7 @@ const WorkshopsSessions = () => {
                 color:
                   index === currentActiveDot
                     ? theme.palette.tertiary.main
-                    : "#fff",
+                    : index<currentActiveDot?"#ffffff5b":"#fff",
               }}
               width="max-content"
             >

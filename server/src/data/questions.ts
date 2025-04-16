@@ -95,7 +95,7 @@ export const questions: Question[] = [
   {
     id: "q_8",
     type: questionTypes.TEXT_INPUT,
-    label: "City of registeration",
+    label: "Primary city of operation",
     validation: { required: true },
   },
 
@@ -130,14 +130,10 @@ export const questions: Question[] = [
   // },
   {
     id: "q_11",
-    type: questionTypes.CHOICES,
-    options: [
-      {
-        text: "Not Applicable",
-      },
-    ],
+    type: questionTypes.TEXT_INPUT,
+    label:"Write NA if you dont have",
     condition: [
-      { if: ["Not Applicable"], notRequiredQuestions: ["q_9", "q_10"] },
+      { if: ["NA"], notRequiredQuestions: ["q_9", "q_10"] },
     ],
   },
 

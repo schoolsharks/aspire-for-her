@@ -10,6 +10,7 @@ const OnboardingMain = () => {
   const { page } = useParams();
   const location=useLocation()
   const navigate=useNavigate()
+  
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [page]);

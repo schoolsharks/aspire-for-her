@@ -51,6 +51,8 @@ const ApplicantsMain = () => {
     >
       <Routes location={location}>
         <Route path="/onboarding/:page" element={<OnboardingMain />} />
+
+        
         <Route path="/faqs" element={<FAQs />} />
         <Route
           path="/login"
