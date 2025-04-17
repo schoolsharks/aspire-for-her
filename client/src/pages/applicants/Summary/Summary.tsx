@@ -16,9 +16,9 @@ const Summary = () => {
         <b>Vibha</b>
         <br />
         (vibha.manohara@aspireforher.com) <br />
-        or <br />
+        {/* or <br />
         <b>Anuj</b>
-        <br /> (anuj.kanwar@aspireforher.com)
+        <br /> (anuj.kanwar@aspireforher.com) */}
         <br />
         <br />
         <br />

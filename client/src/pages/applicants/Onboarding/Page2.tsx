@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import theme from "../../../theme";
 import OutlinedButton from "../../../components/OutlinedButton";
 import AnimatedTestimonials from "./AnimatedTestimonials";
-import HamburgerMenu from "../../../components/HamburgerMenu";
+// import HamburgerMenu from "../../../components/HamburgerMenu";
 
 const numberData = [
   {
@@ -79,9 +79,9 @@ const Page2 = () => {
           <Typography fontSize={"30px"} fontWeight={"700"}>
             Season 1 at a glance
           </Typography>
-          <Box>
+          {/* <Box>
             <HamburgerMenu />
-          </Box>
+          </Box> */}
         </Stack>
 
         <Stack gap={"20px"} marginTop={"36px"}>

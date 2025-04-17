@@ -11,6 +11,12 @@ const WorkshopsSessions = () => {
     "May,\nAhmedabad",
     "May,\nChandigarh",
     "May,\nDelhi",
+    "June,\nBangalore",
+    "June,\nChennai",
+    "June,\nCoimbatore",
+    "June,\nKolkata",
+    "June,\nIndore",
+    "August,\nSurat",
   ];
   return (
     <Stack>
