@@ -152,7 +152,7 @@ const FAQs = () => {
             sx={{
               color: theme.palette.tertiary.main,
               fontSize: "20px",
-              borderColor: theme.palette.tertiary.main,
+              borderColor: theme.palette.primary.main,
             }}
             onClick={() => navigate("/login")}
           >

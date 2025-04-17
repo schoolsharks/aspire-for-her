@@ -194,9 +194,9 @@ const Login = () => {
               />
               <OutlinedButton
                 sx={{
-                  color: theme.palette.tertiary.main,
+                  color: theme.palette.primary.main,
                   fontSize: "20px",
-                  borderColor: theme.palette.tertiary.main,
+                  borderColor: theme.palette.primary.main,
                 }}
                 onClick={handleSubmit}
               >

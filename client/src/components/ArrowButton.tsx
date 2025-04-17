@@ -16,8 +16,8 @@ const ArrowButton = ({
     <IconButton onClick={onClick} sx={{padding:"0"}}>
       <ArrowForward
         sx={{
-          color: theme.palette.tertiary.main,
-          border: `2px solid ${theme.palette.tertiary.main}`,
+          color: theme.palette.primary.main,
+          border: `2px solid ${theme.palette.primary.main}`,
           borderRadius: "50%",
           fontSize: "36px",
           padding: "5px",
