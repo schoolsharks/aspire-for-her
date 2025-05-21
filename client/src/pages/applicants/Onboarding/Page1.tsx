@@ -1,7 +1,7 @@
 import { Box, IconButton, Stack, Typography, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import OutlinedButton from "../../../components/OutlinedButton";
-import WorkshopsSessions from "./InfoSections/WorkshopsSessions";
+// import WorkshopsSessions from "./InfoSections/WorkshopsSessions";
 import KeySessions from "./InfoSections/KeySessions";
 import WhySheExports from "./InfoSections/WhySheExports";
 import Partners from "./InfoSections/Partners";
@@ -106,9 +106,9 @@ const Page1 = () => {
        
       </Stack>
 
-      <Box marginTop={"80px"}>
+      {/* <Box marginTop={"80px"}>
         <WorkshopsSessions />
-      </Box>
+      </Box> */}
 
       <Box marginTop={"80px"}>
         <KeySessions />
